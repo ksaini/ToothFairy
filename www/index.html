@@ -131,6 +131,8 @@ var branch="";
 
 <script async defer type="text/javascript">
 //app.initialize();
+if(localStorage.did != null && localStorage.did.length>2)
+	window.location.href="dashboard.html";
 function verify(){
 	var uname = document.getElementById("uname").value;
 	var pwd = document.getElementById("pwd").value;
