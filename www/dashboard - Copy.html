@@ -242,7 +242,7 @@ a{
 	border: 1px solid #1DC7EA;
 }
 .rowsearch {
-margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:0px;
+margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:10px;
 }
 </style>
      
@@ -269,7 +269,7 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 						<button class="btn btn-default" style="background-color:#ccc;padding-top:10px;padding:bottom:10px;" type="button" onclick="searchclient();"><i class="fa fa-search"></i></button>
 						</span>
 					</div>
-					<div id="p11" style="text-align:center;padding:5px;"></div>
+					
 										   
                     </ul>
 					<ul id="p2" style="display: none;">
@@ -323,60 +323,24 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
    var did= localStorage.did;
    var gender = "f";
    document.getElementById("p2").style.display = "none";
-   //document.getElementById("p3").style.display = "none";   
-   function searchclient(){
-		document.getElementById("p11").innerHTML = '<i class="fa fa-spinner fa-spin" style="font-size:20px"></i>';
-		
-		var srch = document.getElementById("srchp").value;
-		var q = "did=" + did + "&srch=" + srch + "&start=0&end=4";
-		
-		getData(q,0,'searchP.php',showSearch,errSearch);
-	}	
+   document.getElementById("p3").style.display = "none";   
+   var srch = document.getElementById("srchp").value;
+   var q = "did=" + did + "&srch=" + srch + "&start=0&end=4";
+   getData(q,0,'searchP.php',resSuccess,resError);
    
 	function showSearch(data){
 	    try{
-		var now = new Date();
-		now.setHours(0,0,0,0);
-		
-		document.getElementById("p11").innerHTML = "";
 		var d = JSON.parse(data);
-		d = d["res"];
-		var txt = "";
-		if(d.length ==0){
-			document.getElementById("p21").innerHTML = "No such patient" ;
-			document.getElementById("p2").style.display = "block"; 
-			document.getElementById("p3").style.display = "none"; 
-		}
 		
+		var txt = "";
 		for(var i=0;i<d.length;i++){
-			txt += '<div class="row rowsearch" ><div class="col-xs-5 smallf3 regtext">'+d[i]["pname"]+'</div><div class="col-xs-4 smallf3 regtext">'+d[i]["cn1"]+'</div><div class="col-xs-3 smallf3 regtext">' + d[i]["age"] + ' Yrs </div>';
-			
-			var atxt ="";
-			if(d[i]["schedule"]!= null && d[i]["schedule"].length > 0){
-				var schedule = JSON.parse(d[i]["schedule"])[0];
-				var dt = schedule["dt"];
-				if(new Date(dt) >= now){
-					var slot = schedule["slot"];
-					atxt = "Next Visit <br><span style='color:red;'> " + formatDate(dt) + " " + slot.replace("s_","") + "Hr</span>";
-					txt += '<div class="col-xs-6 smallf4 regtext" ">'+atxt+'</div>';
-				} else {
-					atxt = "No Appointment";
-					txt += '<div class="col-xs-6 smallf4 regtext">'+atxt+'</div>';
-				}
-			} else {
-				atxt = "No Appointment";
-				txt += '<div class="col-xs-6 smallf4 regtext">'+atxt+'</div>';
-			}
-			
-			
+			txt += '<div class="row rowsearch" ><div class="col-xs-5 smallf4 regtext">'+d[i]["pname"]+'</div><div class="col-xs-5 smallf4 regtext">'+d[i]["cn1"]+'</div>';
+			txt += '<div class="col-xs-6 smallf4 regtext">1680 Sector 78, Mahagun project noida 78</div>';
 			txt += '<div class="col-xs-6 smallf4 regtext" style="display: flex;">';
 			txt += '<button class="btn1 " style="color:#aa8fd1;font-weight:600;font-size:12px;width:100%;margin-right:10px;padding:7px;" onclick="fetchPatientS('+d[i]['pid']+')"><i class="fa fa-calendar" style="font-size:20px"></i> </button>';
 			txt += '<button class="btn1 " style="color:#aa8fd1;font-weight:300;font-size:12px;width:100%;padding:7px;" onclick="fetchPatientH('+d[i]['pid']+');"><i class="fa fa-arrow-right" style="font-size:20px"></i></button>';
 			txt += '</div></div>';
 		}
-		if(i == d.length)
-			txt += '<button class="btn1 " style="color:#aa8fd1;font-weight:500;font-size:12px;width:100%;padding:10px;">Show more</button>';
-		
 		} catch (e){
 			var d="";
 			txt = "<div class='small3' style='margin-top:10px;font-size:12px;' >No search results.</div>"	
@@ -413,8 +377,7 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 		//window.location.href = "./patient/appointment.html?pid=" +p;
 	}
 	function createnew(){
-		var srch = document.getElementById("srchp").value;
-		window.location.href="./patient/add.html?srch="+srch;	
+		window.location.href="./patient/add.html";	
 	}
 	
 	function cancelsearch(){

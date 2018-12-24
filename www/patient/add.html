@@ -328,6 +328,13 @@ a{
    if(pid!=undefined){
 	  editProfile(pid);
    }
+   var srch = getParameterByName("srch");
+    if(srch!=undefined){
+		if(isNaN(srch))
+			document.getElementById("cname").value = srch;
+		else	
+			document.getElementById("mobile").value = srch;
+	}
    
    //document.getElementById("p3").style.display = "none";   
    function searchclient(){
