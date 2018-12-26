@@ -136,10 +136,10 @@ a{
 .toolbar2 {
 	font-family: 'open_sans','Open Sans',sans-serif;
 	font-size:10px;
-	height:40px;
+	height:50px;
 	Font-weight:bold;
     text-align: center;
-    padding-bottom:2px;padding-top:2px;
+    padding-bottom:2px;padding-top:9px;
 	padding-left:2px;padding-right:2px;
 	text-align:center;border-right:1px solid #E0E0E0;
 }
@@ -149,18 +149,18 @@ a{
 .smallf2 {
 	font-size:16px;
 	text-align:left;
-	font-weight: 100;
+	font-weight: 400;
 }
 .smallf3 {
 	font-size:11px;
 	text-align:left;
-	font-weight: 100;
+	font-weight: 400;
 	
 }
 .smallf4 {
 	font-size:10px;
 	text-align:left;
-	font-weight: 100;
+	font-weight: 400;
 	margin-bottom:5px;
 }
 .slots{
@@ -298,6 +298,8 @@ button:focus {
 	border: 1px solid #d3d3d3;
 	width:100%;
 }
+#tbor {background-color:#fff3cd;}
+
 </style>
      
    </head>
@@ -469,34 +471,44 @@ button:focus {
 				</ul>
 				
 				<!-------- tool bar 5------------->
-				<div id="toolbar5" class="row tb2" style="border: 1px solid #ccc;display:none;">
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" >
+				
+				
+				<div id="toolbar5" class="row tb2" style="border: 1px solid #ccc;display:none;height:52px;">
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tbor" >
 						<p class="valtext "  style="font-size:10px;font-weight:bold;color:#2c3e85;">Original</p>
-						<p id="price_o" style="padding-top:3px;"></p>
+						<p id="price_o" style="padding-top:3px;height: 25px;font-size: 14px;" contenteditable=true onkeyup="calcDiscount()"></p>
+						
 					</div>
 					
 					<div class="content col-md-3 col-xs-3 toolbar2" id="tb1" onclick="updateT('10 Day')" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext " style="font-size:10px;font-weight:bold;color:#2c3e85;">Dicsount%</p>
-						<input type="number" id="dis_per" min="0" max="100" value="0" style="width: 80%;text-align: center;" onkeyup="calcDiscountPer()">
+						<input type="number" id="dis_per" min="0" max="100" value="0" style="width: 80%;text-align: center;height:25px;" onkeyup="calcDiscountPer()">
 					</div>
 					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1"  style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext " style="font-size:10px;font-weight:bold;color:#2c3e85;">Dis(<i class="fa fa-rupee" style="font-size:10px;" aria-hidden="true"></i>)</p>
 						<p id="price_d" style="padding-top:3px;"></p>
 					</div>
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1"  style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1"  style="text-align:center;border-right:1px solid #E0E0E0;background-color:#fff3cd;">
 						<p class="valtext "  contenteditable=true style="font-size:10px;font-weight:bold;color:#2c3e85;">Final</p>
-						<p id="price_f" style="padding-top:3px;"></p>
+						<p id="price_f" style="padding-top:3px;font-size: 14px;"></p>
 					</div>
 					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick='tb5savediscount()' style="text-align:center;border-right:1px solid #E0E0E0;background-color:#5aaa78"><i class="fa fa-check" style="color:white;font-size:16px;padding-top:10px;" aria-hidden="true"></i>
 					</div>
-					<div class="content col-md-1 col-xs-1 toolbar2" id="tb1" onclick='tb1(1)' style="text-align:center;border-right:1px solid #E0E0E0;"><i class="fa fa-trash" style="color:red;font-size:16px;padding-top:10px;" aria-hidden="true"></i>
+					<div class="content col-md-1 col-xs-1 toolbar2" id="tb1" onclick='removeTMT(selectedPrice)' style="text-align:center;border-right:1px solid #E0E0E0;"><i class="fa fa-trash" style="color:red;font-size:16px;padding-top:10px;" aria-hidden="true"></i>
+					</div>
+					<div class="content col-md-12 col-xs-12 alert-warning" style="border: 1px solid #ccc;font-size: 12px;">
+						Tap on Original to change fee value. 
 					</div>
 				</div>	
+				
 				<ul class="chat" style="border-bottom:none;padding-top:30px;padding-left:5px;" >
 					<div id="xx" class="valtext" style="width:100%"></div>
 				</ul>
 				<ul class="total pull-right" onclick="edittotaldiscount();">
 					<div style="width: 100%;float: left;">Total (<i class="fa fa-rupee" style="font-size:16px;" aria-hidden="true"></i>)<div id="total"  style="width:60%;float: right;text-align: right;"></div></div>
+					<div class="content col-md-12 col-xs-12 alert-warning" style="border: 1px solid #ccc;font-size:10px;">
+						Tap on any Treatement to see more options. 
+					</div>
 				</ul>
 				</div>
 				
@@ -657,7 +669,7 @@ button:focus {
 	<div class="btn-group btn-group-justified" id="f3" style="display:none;">
 		
 		<a href="#" class="btn btn-nav" style="border-right:1px solid #aaa;" onclick="fn3()">Back</a>
-		<a href="#" class="btn btn-nav" onclick="examination(5)">Presceiption</a>
+		<a href="#" class="btn btn-nav" onclick="examination(5)">Prescription</a>
 	</div>
 	<div class="btn-group btn-group-justified" id="f4" style="display:none;">
 		
@@ -733,6 +745,8 @@ button:focus {
 	
 	    var casedetails = {};
 		var mid =1; //medicin id counter
+		
+		
 		var selectedMed =0; // var to point selected medicine row
 		var selectedPrice =0; // var to save treatement price
 		function tb1(n){
@@ -747,8 +761,9 @@ button:focus {
 			var t = document.getElementById("seltreat").value;
 			var t0 = t.split(":")[0];
 			var t1 = document.getElementById("seltreat").getAttribute("price");
-			//if(t.split(":")[1]!=undefined)
-				//t1 = t.split(":")[1];
+			// Default value if mid ==1, if revisit calculate mid from child c unt of element XX
+			mid = document.getElementById("xx").childElementCount +1;
+			
 				
 			if(t.trim().length > 0){
 				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + t0 + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ t1 +"</span></li>";
@@ -787,6 +802,8 @@ button:focus {
 		}	
         function showDiscountTB(m){
 			document.getElementById("toolbar5").style.display = "block";
+			document.getElementById("dis_per").value  = "0";
+			document.getElementById("price_d").innerHTML  = "0";
 			selectedPrice = m;
 			
 			document.getElementById("price_o").innerHTML = document.getElementById("prid_"+m).innerHTML;
@@ -805,6 +822,16 @@ button:focus {
 			document.getElementById("price_f").innerHTML = finalval;
 			
 			document.getElementById("price_d").innerHTML = parseInt(document.getElementById("price_o").innerHTML) - finalval;
+		}
+		function calcDiscount(){
+			var o = document.getElementById("price_o").innerHTML;
+			document.getElementById("price_f").innerHTML = o;
+		}
+		function removeTMT(m){
+				var o =document.getElementById("prid_"+m);
+				o.parentNode.parentNode.removeChild(o.parentNode);
+				total = parseInt(document.getElementById("total").innerHTML) - parseInt(o.innerHTML);
+				document.getElementById("total").innerHTML = total;
 		}
 		function tb5savediscount(){   
 		    var o =  document.getElementById("prid_"+selectedPrice);
@@ -921,7 +948,7 @@ button:focus {
 			for (i = 0; i < casedetails["tmt"].length; i++) {
 			    var t0 = casedetails["tmt"][i][0];
 				var t1 = casedetails["tmt"][i][1];
-				txt += "<li style='color: darkslateblue;' onclick='showDiscountTB("+(i+1)+");'><span name='tname'>" + t0 + "</span><span id='prid_"+(i+1)+"' contenteditable=true style='width:50px' class='pull-right'>"+ t1 +"</span></li>";
+				txt += "<li style='color: darkslateblue;' onclick='showDiscountTB("+(i+1)+");'><span name='tname'>" + t0 + "</span><span id='prid_"+(i+1)+"' style='width:50px' class='pull-right'>"+ t1 +"</span></li>";
 			}
 		}
 		
