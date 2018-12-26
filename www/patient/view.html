@@ -66,9 +66,9 @@ body {
 
 .valtext {
 	font-family: 'open_sans','Open Sans',sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-	color: #636972;
+    font-size: 14px;
+    font-weight: 500;
+	color: #4F545B;
 	contenteditable = true;
 	box-shadow: none;
 	border-bottom: 0px;
@@ -158,7 +158,7 @@ a{
 	
 }
 .smallf4 {
-	font-size:10px;
+	font-size:12px;
 	text-align:left;
 	font-weight: 400;
 	margin-bottom:5px;
@@ -506,7 +506,7 @@ button:focus {
 				</ul>
 				<ul class="total pull-right" onclick="edittotaldiscount();">
 					<div style="width: 100%;float: left;">Total (<i class="fa fa-rupee" style="font-size:16px;" aria-hidden="true"></i>)<div id="total"  style="width:60%;float: right;text-align: right;"></div></div>
-					<div class="content col-md-12 col-xs-12 alert-warning" style="border: 1px solid #ccc;font-size:10px;">
+					<div class="content col-md-12 col-xs-12 alert-warning" style="border: 1px solid #ccc;font-size:10px;margin-top:10px;">
 						Tap on any Treatement to see more options. 
 					</div>
 				</ul>
@@ -588,7 +588,7 @@ button:focus {
 						<p class="valtext " style="font-size:10px;padding-top:4px;font-weight:bold;color:#2c3e85;">Empty Stomatch</p>
 					</div>
 					
-					<div class="content col-md-3 col-xs-3 toolbar2" id="tb1" onclick='tb1(1)' style="text-align:center;border-right:1px solid #E0E0E0;"><i class="fa fa-trash" style="color:red;font-size:16px;padding-top:10px;" aria-hidden="true"></i>
+					<div class="content col-md-3 col-xs-3 toolbar2" id="tb1" onclick='removeMed(selectedMed)' style="text-align:center;border-right:1px solid #E0E0E0;"><i class="fa fa-trash" style="color:red;font-size:16px;padding-top:10px;" aria-hidden="true"></i>
 						
 					</div>
 					
@@ -761,7 +761,7 @@ button:focus {
 			var t = document.getElementById("seltreat").value;
 			var t0 = t.split(":")[0];
 			var t1 = document.getElementById("seltreat").getAttribute("price");
-			// Default value if mid ==1, if revisit calculate mid from child c unt of element XX
+			// Default value if mid ==1, if revisit calculate mid from child  of element XX
 			mid = document.getElementById("xx").childElementCount +1;
 			
 				
@@ -774,6 +774,9 @@ button:focus {
 			}
 		}
 		function addmed(){
+			// if case is a revisit set mid from current list of medecine
+			mid = document.getElementById("yy").childElementCount +1;
+		
 			document.getElementById("toolbar2").style.display = "none";
 			var t = document.getElementById("selmed").value;
 			document.getElementById("yy").innerHTML += "<div class='row'  style='height:30px;'><div class='col-xs-6 med' id='med_"+mid+"' onclick='selectMed("+mid+");' contenteditable=true>" + t + "</div><div class='col-xs-3'  onclick='selectFrequency("+mid+");' style='height:100%;'><p class='valtext' id='fid_"+mid+"'  style='font-size:10px;font-style: italic;'>Frequency</p></div><div class='col-xs-3' onclick='selectTenure("+mid+");'><p class='valtext' style='font-size:10px;font-style: italic;' id='tid_"+mid+"' >Tenure</p></div>" +"</li>";
@@ -832,6 +835,11 @@ button:focus {
 				o.parentNode.parentNode.removeChild(o.parentNode);
 				total = parseInt(document.getElementById("total").innerHTML) - parseInt(o.innerHTML);
 				document.getElementById("total").innerHTML = total;
+		}
+		function removeMed(m){
+				var o =document.getElementById("med_"+m);
+				o.parentNode.parentNode.removeChild(o.parentNode);
+				
 		}
 		function tb5savediscount(){   
 		    var o =  document.getElementById("prid_"+selectedPrice);
