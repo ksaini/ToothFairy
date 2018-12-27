@@ -122,10 +122,10 @@ function autocomplete(inp, arr,splt) {
 }
 
 /*An array containing all the treatement names in the world:*/
-var treatements = ["Advance Surgical Procedure:350","Consultation:200","Crown Cementation:200","Crown MLS:220","Crown Sirconia::290","Crown Zirconia:300","Crowns:590","Dental Implant:1900","Dentures:1200","Fillings:600","Fluoride Treatment:700","Bridge:330"];
+//var treatements = ["Advance Surgical Procedure:350","Consultation:200","Crown Cementation:200","Crown MLS:220","Crown Sirconia::290","Crown Zirconia:300","Crowns:590","Dental Implant:1900","Dentures:1200","Fillings:600","Fluoride Treatment:700","Bridge:330"];
 
-var medicines = ["Cappol 350mg","Cappol 250mg","Dolo 500mg","Dolo -S 500mg","Dolo 600mg","Glycodine 100ug - S","Medicine x1 200","Acypser 300 DX","Acypser 300 SX"];
+//var medicines = ["Cappol 350mg","Cappol 250mg","Dolo 500mg","Dolo -S 500mg","Dolo 600mg","Glycodine 100ug - S","Medicine x1 200","Acypser 300 DX","Acypser 300 SX"];
 
 /*initiate the autocomplete function on the "myInput" element, and pass along the treatements array as possible autocomplete values:*/
-autocomplete(document.getElementById("seltreat"), treatements,1);
-autocomplete(document.getElementById("selmed"), medicines,0);
+//autocomplete(document.getElementById("seltreat"), treatements,1);
+//autocomplete(document.getElementById("selmed"), medicines,0);

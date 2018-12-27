@@ -299,7 +299,10 @@ function setSelectedIndex(s, v) {
 }
 function editprofile1(){
 	var pid = getParameterByName("pid");
-	window.location.href = 'add.html?pid='+pid;
+	if(localStorage.isDirty ==1)
+		document.getElementById("forsave").style.display = "block";
+	else
+		window.location.href = 'add.html?pid='+pid;
 }	
 
 function editProfile(pid){
@@ -379,7 +382,10 @@ function showTrans(data){
 }
 function viewcases(){
 	   var pid = getParameterByName("pid");
-		window.location.href = 'history.html?pid='+pid;
+	   if(localStorage.isDirty ==1)
+			document.getElementById("forsave").style.display = "block";
+		else
+			window.location.href = 'history.html?pid='+pid;
 	}
 function gotoschedule(){
 	var pid = getParameterByName("pid");
@@ -425,4 +431,14 @@ function getM(m){
  else if(m==12)
     return "Dec";     
 
+}
+function loadJS(file) {
+    // DOM: Create the script element
+    var jsElm = document.createElement("script");
+    // set the type attribute
+    jsElm.type = "application/javascript";
+    // make the script element load file
+    jsElm.src = file;
+    // finally insert the element to the body element in order to load the script
+    document.body.appendChild(jsElm);
 }

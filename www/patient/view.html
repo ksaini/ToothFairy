@@ -369,7 +369,13 @@ button:focus {
 						<p class="valtext ">Edit Profile</p>
 					</div>
 					
-					
+				</div>
+				<div id="forsave" class="row alert-warning" style="border-bottom: 1px solid #ccc;text-align:center;display:none;">
+						<div class="content col-md-12 col-xs-12 " style="margin-bottom:10px;">
+							<p>There are unsaved changes. Would you like to save?</p>
+							<button class="btn btn-sm btn-success" style="font-weight:500;font-size:12px;width:30%;margin-right:30px;" onclick="savecase(cid)">Save</button>
+							<button class="btn btn-sm" onclick="nosave()">Don't Save</button>
+						</div>
 				</div>
 				</div>
 				<div id="part1" style="display:none;">
@@ -578,10 +584,10 @@ button:focus {
 					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1"  style="">
 						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;"></p>
 					</div>
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateT('1 Day')" style="">
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="moveUp(selectedMed)" style="">
 						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;"><i class="fa fa-arrow-up" aria-hidden="true"></i></p>
 					</div>
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateT('3 Day')" style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="moveDown(selectedMed 	)" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;"><i class="fa fa-arrow-down" aria-hidden="true"></i></p>
 					</div>
 					<div class="content col-md-3 col-xs-3 toolbar2" id="tb1" onclick="updateT('5 Day')" style="text-align:center;border-right:1px solid #E0E0E0;">
@@ -647,7 +653,7 @@ button:focus {
 						<div class="content desc col-md-6 col-xs-6" id='r61'>
 							<p  style="color:black" onclick="window.history.back()">Back</p>
 						</div>
-						<div class="content valtext col-md-6 col-xs-6" id='r62' style="background-color: #9fc18c;color:white;margin-top: -10px;margin-bottom: -15px;">
+						<div class="content valtext col-md-6 col-xs-6" id='r62' style="background-color: #5cb85c;color:white;margin-top: -10px;margin-bottom: -15px;">
 							<p style="padding-top: 10px;" onclick='fn2()'><b>Edit</b></p>
 						</div>
 					</div>
@@ -693,11 +699,16 @@ button:focus {
    <script type="text/javascript" src="../js/examination.json"></script>
    <script type="text/javascript" src="../js/treatement.js"></script>
    <script type="text/javascript" src="../js/dataTbl.js"></script>
+  
    <script type="text/javascript" src="../js/person.js"></script>
 	
    <script>
         ////////////////////////////Init //////////////
 		
+		var fn = base_url + "/json/" + localStorage.did + ".js";
+		setTimeout(function(){
+			loadJS(fn);
+			}, 1000);
 		var cid =0;
 		var did= localStorage.did;
 		var myJSON;
@@ -754,8 +765,13 @@ button:focus {
 			document.getElementById("tb2").classList.remove("tbselected");
 			document.getElementById("tb3").classList.remove("tbselected");
 			document.getElementById("tb"+n).classList.add("tbselected");
-			if(n==2)
-				window.location = "payments.html?pid="+getParameterByName("pid");
+			if(n==2){
+			    if(localStorage.isDirty ==1)
+					document.getElementById("forsave").style.display = "block";
+				else
+					window.location = "payments.html?pid="+getParameterByName("pid");
+				
+				}
 		}
 		function addtreatement(){
 			var t = document.getElementById("seltreat").value;
@@ -779,7 +795,7 @@ button:focus {
 		
 			document.getElementById("toolbar2").style.display = "none";
 			var t = document.getElementById("selmed").value;
-			document.getElementById("yy").innerHTML += "<div class='row'  style='height:30px;'><div class='col-xs-6 med' id='med_"+mid+"' onclick='selectMed("+mid+");' contenteditable=true>" + t + "</div><div class='col-xs-3'  onclick='selectFrequency("+mid+");' style='height:100%;'><p class='valtext' id='fid_"+mid+"'  style='font-size:10px;font-style: italic;'>Frequency</p></div><div class='col-xs-3' onclick='selectTenure("+mid+");'><p class='valtext' style='font-size:10px;font-style: italic;' id='tid_"+mid+"' >Tenure</p></div>" +"</li>";
+			document.getElementById("yy").innerHTML += "<div class='row'  style='height:30px;'><div class='col-xs-6 med' id='med_"+mid+"' onclick='selectMed("+mid+");' >" + t + "</div><div class='col-xs-3'  onclick='selectFrequency("+mid+");' style='height:100%;'><p class='valtext' id='fid_"+mid+"'  style='font-size:10px;font-style: italic;'>Frequency</p></div><div class='col-xs-3' onclick='selectTenure("+mid+");'><p class='valtext' style='font-size:10px;font-style: italic;' id='tid_"+mid+"' >Tenure</p></div>" +"</li>";
 			
 			mid++;
 			document.getElementById("selmed").value = "";
@@ -970,10 +986,15 @@ button:focus {
 	}
 	function onSuccessP(){
 		var pid = getParameterByName("pid");
+		localStorage.isDirty = 0;
 		window.location.href = "history.html?pid=" + pid;
 	}
 	function onErrorP(){}
 	function fn2(){
+		localStorage.isDirty=1;
+		// Fill medecines/treatement info
+		autocomplete(document.getElementById("seltreat"), treatements,1);
+		autocomplete(document.getElementById("selmed"), medicines,0);
 		document.getElementById("part5").style.display = "none";
 		document.getElementById("part1").style.display = "block";
 		document.getElementById("f1").style.display = "block";
@@ -995,5 +1016,26 @@ button:focus {
 		document.getElementById("part4").style.display = "block";
 		document.getElementById("f5").style.display = "none";
 		document.getElementById("f4").style.display = "block";
+	}
+	function moveUp(m){
+		
+		var e = document.getElementById("med_" + m);
+		var p = e.parentNode;
+
+		if(p.previousElementSibling)
+			p.parentNode.insertBefore(p, p.previousElementSibling);
+	}
+	function moveDown(m){
+		
+		var e = document.getElementById("med_" + m);
+		var p = e.parentNode;
+
+		if(p.nextElementSibling)
+			p.parentNode.insertBefore(p.nextElementSibling, p);
+	}
+	function nosave(){
+		localStorage.isDirty = 0;
+		document.getElementById("forsave").style.display='none'
+	
 	}
 	</script>
