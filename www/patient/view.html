@@ -665,7 +665,7 @@ button:focus {
 	<div class="panel-footer stickyfooter" style="width:100%;margin-left: -15px;">
 	<div class="btn-group btn-group-justified" id="f1">
 		<a href="#" class="btn btn-nav" style="border-right:1px solid #aaa;" onclick="window.history.back()">Cancel</a>
-		<a href="#" class="btn btn-nav" onclick="examination(1)">Examination</a>
+		<a href="#" class="btn btn-nav" onclick="examination(1);fetchJson();">Examination</a>
 	</div>
 	<div class="btn-group btn-group-justified" id="f2" style="display:none;">
 		
@@ -675,7 +675,7 @@ button:focus {
 	<div class="btn-group btn-group-justified" id="f3" style="display:none;">
 		
 		<a href="#" class="btn btn-nav" style="border-right:1px solid #aaa;" onclick="fn3()">Back</a>
-		<a href="#" class="btn btn-nav" onclick="examination(5)">Prescription</a>
+		<a href="#" class="btn btn-nav" onclick="examination(5);">Prescription</a>
 	</div>
 	<div class="btn-group btn-group-justified" id="f4" style="display:none;">
 		
@@ -992,9 +992,7 @@ button:focus {
 	function onErrorP(){}
 	function fn2(){
 		localStorage.isDirty=1;
-		// Fill medecines/treatement info
-		autocomplete(document.getElementById("seltreat"), treatements,1);
-		autocomplete(document.getElementById("selmed"), medicines,0);
+		//fetchJson();
 		document.getElementById("part5").style.display = "none";
 		document.getElementById("part1").style.display = "block";
 		document.getElementById("f1").style.display = "block";
@@ -1016,6 +1014,11 @@ button:focus {
 		document.getElementById("part4").style.display = "block";
 		document.getElementById("f5").style.display = "none";
 		document.getElementById("f4").style.display = "block";
+	}
+	function fetchJson(){
+		// Fill medecines/treatement info
+		autocomplete(document.getElementById("seltreat"), treatements,1);
+		autocomplete(document.getElementById("selmed"), medicines,0);
 	}
 	function moveUp(m){
 		
