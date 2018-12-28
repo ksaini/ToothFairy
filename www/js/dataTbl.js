@@ -201,7 +201,7 @@ function successLCH(data){
 	
 	// Fetch Treatement details
 	
-	var tmt = {"tmt":"[]"};
+	var tmt = {"tmt":"[]","udate":""};
 	var med = {"med": "[]"};
 	try {
 		if(d["tmt"][0])	
@@ -209,7 +209,7 @@ function successLCH(data){
 		t = JSON.parse(tmt["tmt"]);
 	
 		fillTMT(t);
-	    
+	   
 		// Fetch Med details
 		if(d["med"][0])
 			med = d["med"][0];
@@ -263,7 +263,7 @@ function viewSummary(f){
 	}
 }
 function fillTMT(t){
-	var mid = 1;
+
 	//var total =0 ;
 	for(var i=0; i < t.length; i++){
 		var d = t[i];
@@ -279,8 +279,10 @@ function fillTMT(t){
 		mid++;
 	
 	}
-	document.getElementById("total").innerHTML = t[t.length-1][1];
-	total = t[t.length-1][1];
+	if(t.length >0){ // if treatement is empty
+		document.getElementById("total").innerHTML = t[t.length-1][1];
+		total = t[t.length-1][1];
+	}
 }
 function fillMED(t){
 	var mid = 1;
@@ -383,8 +385,10 @@ function showTrans(data){
 		
 	document.getElementById("rcvd").innerHTML = "Received: " + rcvd;
 	document.getElementById("bal").innerHTML = "Balance: " + (total - rcvd - waiver);
-	document.getElementById("topay").value = (total - rcvd - waiver);
-	document.getElementById("topay_h").value = (total - rcvd - waiver);
+	if( (total - rcvd - waiver)>= 0){
+		document.getElementById("topay").value = (total - rcvd - waiver);
+		document.getElementById("topay_h").value = (total - rcvd - waiver);
+	}	
 	
 }
 function viewcases(){
