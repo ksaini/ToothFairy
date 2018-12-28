@@ -495,7 +495,7 @@ button:focus {
 						<p id="price_d" style="padding-top:3px;"></p>
 					</div>
 					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1"  style="text-align:center;border-right:1px solid #E0E0E0;background-color:#fff3cd;">
-						<p class="valtext "  contenteditable=true style="font-size:10px;font-weight:bold;color:#2c3e85;">Final</p>
+						<p class="valtext "  style="font-size:10px;font-weight:bold;color:#2c3e85;">Final</p>
 						<p id="price_f" style="padding-top:3px;font-size: 14px;"></p>
 					</div>
 					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick='tb5savediscount()' style="text-align:center;border-right:1px solid #E0E0E0;background-color:#5aaa78"><i class="fa fa-check" style="color:white;font-size:16px;padding-top:10px;" aria-hidden="true"></i>
@@ -795,10 +795,12 @@ button:focus {
 		
 			document.getElementById("toolbar2").style.display = "none";
 			var t = document.getElementById("selmed").value;
-			document.getElementById("yy").innerHTML += "<div class='row'  style='height:30px;'><div class='col-xs-6 med' id='med_"+mid+"' onclick='selectMed("+mid+");' >" + t + "</div><div class='col-xs-3'  onclick='selectFrequency("+mid+");' style='height:100%;'><p class='valtext' id='fid_"+mid+"'  style='font-size:10px;font-style: italic;'>Frequency</p></div><div class='col-xs-3' onclick='selectTenure("+mid+");'><p class='valtext' style='font-size:10px;font-style: italic;' id='tid_"+mid+"' >Tenure</p></div>" +"</li>";
+			if(t.trim().length > 0){
+				document.getElementById("yy").innerHTML += "<div class='row'  style='height:30px;'><div class='col-xs-6 med' id='med_"+mid+"' onclick='selectMed("+mid+");' >" + t + "</div><div class='col-xs-3'  onclick='selectFrequency("+mid+");' style='height:100%;'><p class='valtext' id='fid_"+mid+"'  style='font-size:10px;font-style: italic;'>Frequency</p></div><div class='col-xs-3' onclick='selectTenure("+mid+");'><p class='valtext' style='font-size:10px;font-style: italic;' id='tid_"+mid+"' >Tenure</p></div>" +"</li>";
 			
-			mid++;
-			document.getElementById("selmed").value = "";
+				mid++;
+				document.getElementById("selmed").value = "";
+			}	
 		}
 		function selectFrequency(m){
 			document.getElementById("toolbar4").style.display = "none";
