@@ -185,10 +185,10 @@ button:focus {
 				Personal Details <span class="pull-right goto" onclick='viewprofile(this.parentNode)'> +</span>
 			</ul>
 			<ul class="chat desc prolist">
-				Procedure & Cost <span class="pull-right goto"  onclick="manageTMT(this.parentNode)"> +</span><span id='s1' onclick='saveProc()' data-toggle="modal" data-target="#myModal"><i class="fa fa-save pull-right goto " style="font-size:18px;padding-top:7px;"></i></span>
+				Procedure & Cost <span class="pull-right goto"  onclick="manageTMT(this.parentNode)"> +</span><span id='s1' style="display:none;" onclick='saveProc()' data-toggle="modal" data-target="#myModal"><i class="fa fa-save pull-right goto " style="font-size:18px;padding-top:7px;"></i></span>
 			</ul>
 			<ul class="chat desc medilist" >
-				Medecines & Brands <span class="pull-right goto" onclick="manageMed(this.parentNode)"> +</span><span id='s2' onclick='saveMed()'><i class="fa fa-save pull-right goto " style="font-size:18px;padding-top:7px;"></i></span>
+				Medecines & Brands <span class="pull-right goto" onclick="manageMed(this.parentNode)"> +</span><span id='s2' style="display:none;" onclick='saveMed()'><i class="fa fa-save pull-right goto " style="font-size:18px;padding-top:7px;"></i></span>
 			</ul>
 			<ul class="chat desc" >
 				Examination Types <span class="pull-right goto" onclick="manageExm(this.parentNode)"> +</span>
@@ -229,6 +229,9 @@ button:focus {
 	var fn = base_url + "/json/" + did + ".js";
 	
 	loadJS(fn);
+	
+	
+		
 	function manageExm(t){
 		$('ul > li').hide();
 	if(exam==0){	
@@ -251,8 +254,27 @@ button:focus {
 	}
 	function manageTMT(t){
 		$('ul > li').hide();
-	if(tmt ==0 ){
-		$('span:first', t).html("-");
+		if(tmt ==0 ){ // add for the first time
+			addTMT(t);
+		}
+		// If + then expand
+		
+		if($('span:first', t).text().includes("+")){
+			$('span:first', t).html("-");
+			$('.prolist > li').show();
+			$("#s1").show();
+			$("#s2").hide();
+		}
+		else if($('span:first', t).text().includes("-")){
+			$('span:first', t).html("+");
+			$('.prolist > li').hide();
+			$("#s1").hide();
+			$("#s2").hide();
+		}
+			
+		
+	}
+	function addTMT(t){
 		var txt = "<li></li>";
 		for(var i=0;i < treatements.length;i++){
 		    var t0 =  treatements[i].split(":")[0];
@@ -261,26 +283,41 @@ button:focus {
 		}
 		t.innerHTML += txt;
 		tmt = 1;
-	}else{
-		tmt=0;
-		$('span:first', t).html("+");
-		}
 	}
+	
 	function manageMed(t){
 		$('ul > li').hide();
-	if(med==0){	
-		$('span:first', t).html("-");
+		if(med ==0 ){ // add for the first time
+			addMed(t);
+		}
+		// If + then expand
+		
+		if($('span:first', t).text().includes("+")){
+			$('span:first', t).html("-");
+			$('.medilist > li').show();
+			$("#s2").show();
+			$("#s1").hide();
+		}
+		else if($('span:first', t).text().includes("-")){
+			$('span:first', t).html("+");
+			$("#s1").hide();
+			$("#s2").hide();
+			$x = $(".prolist");
+			$('span:first', x).html("+");
+			$('.medilist > li').hide();
+			
+		}
+	
+	}
+	function addMed(t){
 		var txt = "<li></li>";
 		for(var i=0;i < medicines.length;i++){
 			txt += "<li class='editmed' contenteditable=true>" + medicines[i]  + "</li>";
 		}
 		t.innerHTML += txt;
 		med = 1;
-	}else{
-		med=0;
-		$('span:first', t).html("+");
-		}
 	}
+	
 	function viewprofile(t){
 		$('ul > li').hide();
 	if(profile==0){	
@@ -304,6 +341,7 @@ button:focus {
 				array.push(txt);
 		});
 		var q = "0&did=" + localStorage.did + "&data=" + JSON.stringify(array);
+		
 		getData(q,1,"saveProc.php",s1,e1);
 	}
 	function saveMed(n){
@@ -315,6 +353,7 @@ button:focus {
 				array1.push(txt);
 		});
 		var q = "1&did=" + localStorage.did + "&data=" + JSON.stringify(array1);
+		
 		getData(q,1,"saveProc.php",s1,e1);
 	}
 	function e1(){
