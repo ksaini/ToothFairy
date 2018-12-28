@@ -373,7 +373,7 @@ button:focus {
 				<div id="forsave" class="row alert-warning" style="border-bottom: 1px solid #ccc;text-align:center;display:none;">
 						<div class="content col-md-12 col-xs-12 " style="margin-bottom:10px;">
 							<p>There are unsaved changes. Would you like to save?</p>
-							<button class="btn btn-sm btn-success" style="font-weight:500;font-size:12px;width:30%;margin-right:30px;" onclick="savecase(cid)">Save</button>
+							<button class="btn btn-sm btn-success" style="font-weight:500;font-size:12px;width:30%;margin-right:30px;" onclick="savecase1(cid)">Save</button>
 							<button class="btn btn-sm" onclick="nosave()">Don't Save</button>
 						</div>
 				</div>
@@ -784,6 +784,8 @@ button:focus {
 			if(t.trim().length > 0){
 				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + t0 + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ t1 +"</span></li>";
 				document.getElementById("seltreat").value = "";
+				if(isNaN(parseInt(total)))
+					total =0;
 				total = parseInt(total) + parseInt(t1);
 				document.getElementById("total").innerHTML = total;
 				mid++;
@@ -850,8 +852,11 @@ button:focus {
 		}
 		function removeTMT(m){
 				var o =document.getElementById("prid_"+m);
-				o.parentNode.parentNode.removeChild(o.parentNode);
 				total = parseInt(document.getElementById("total").innerHTML) - parseInt(o.innerHTML);
+				//o.parentNode.parentNode.removeChild(o.parentNode);
+				o.innerHTML = "";
+				o.previousSibling.innerHTML="";
+				o.parentNode.style.display = "none";
 				document.getElementById("total").innerHTML = total;
 		}
 		function removeMed(m){
@@ -983,6 +988,11 @@ button:focus {
 		
 	}
 	function savecase(){
+	  if(getParameterByName("pid") != null)
+		getData(JSON.stringify(casedetails),1,"saveCase.php",onSuccessP,onErrorP);
+	}
+	function savecase1(){
+	  reviewcase(cid);	
 	  if(getParameterByName("pid") != null)
 		getData(JSON.stringify(casedetails),1,"saveCase.php",onSuccessP,onErrorP);
 	}

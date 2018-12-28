@@ -201,16 +201,19 @@ function successLCH(data){
 	
 	// Fetch Treatement details
 	
-	var tmt = {};
+	var tmt = {"tmt":"[]"};
+	var med = {"med": "[]"};
 	try {
 		if(d["tmt"][0])	
 			tmt = d["tmt"][0];
 		t = JSON.parse(tmt["tmt"]);
 	
 		fillTMT(t);
-	
+	    
 		// Fetch Med details
-		var med = d["med"][0];
+		if(d["med"][0])
+			med = d["med"][0];
+			
 		t = JSON.parse(med["med"]);
 		fillMED(t);
 	
@@ -265,7 +268,10 @@ function fillTMT(t){
 	for(var i=0; i < t.length; i++){
 		var d = t[i];
 		if(d[0] != "Total"){
-		document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + d[0] + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ d[1] +"</span></li>";
+			if(d[0].trim().length>0)
+				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + d[0] + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ d[1] +"</span></li>";
+			else // for deleted treatements make display=none
+				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;display:none;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + d[0] + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ d[1] +"</span></li>";
 		document.getElementById("seltreat").value = "";
 	
 		}
