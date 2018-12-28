@@ -889,7 +889,7 @@ button:focus {
 		}
 		function reviewcase(cid){
 			var e1 = {};
-			
+			localStorage.isDirty=1;
 			// Teeth
 			e1["teeth"] = teeth.sort();
 			// Examination
@@ -1016,6 +1016,7 @@ button:focus {
 		document.getElementById("f4").style.display = "block";
 	}
 	function fetchJson(){
+		localStorage.isDirty=1;
 		// Fill medecines/treatement info
 		autocomplete(document.getElementById("seltreat"), treatements,1);
 		autocomplete(document.getElementById("selmed"), medicines,0);

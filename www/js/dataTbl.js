@@ -56,7 +56,8 @@ function displayBasicInfo(){
 	document.getElementById("address").innerHTML = details["addr"];	
 }
 
-function examination(n){			
+function examination(n){
+		localStorage.isDirty=1;
 			if(n==1){
 				document.getElementById("part1").style.display = "none";
 				document.getElementById("part2").style.display="block";

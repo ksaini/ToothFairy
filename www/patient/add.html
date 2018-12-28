@@ -303,7 +303,7 @@ a{
 					<br>
 					<ul class="chat" id="chat">
 						<button class="btn " style="color:#8159bb;font-weight:600;font-size:14px;width:100%;margin-right:30px;" onclick="save();">Save </button>
-						<button class="btn " style="color:#8159bb;font-weight:600;font-size:14px;width:100%" onclick="scheduleapt();">Save & Create Case</button>
+						<button class="btn " style="color:#8159bb;font-weight:600;font-size:14px;width:100%" onclick="createcase=1;save();">Save & Create Case</button>
                     </ul>
 					<ul class="chat" id="chat">
 						<button class="btn " style="color:#8159bb;font-weight:600;font-size:14px;width:100%" onclick="window.history.back()">Back</button>
@@ -322,7 +322,7 @@ a{
     <script type="text/javascript" src="../js/person.js"></script>
 	 <script type="text/javascript" src="../js/dataTbl.js"></script>
    <script>
-  
+   var createcase = 0;
   // document.getElementById("p2").style.display = "none";
    var pid = getParameterByName("pid");
    if(pid!=undefined){
@@ -385,10 +385,13 @@ a{
 	}
 	function onSuccessP(n){
 		if(n.indexOf("Error") !== -1)	
-			document.getElementById("saveerrr").innerHTML = "Error while Save.";
-		else	
-			window.location = "history.html?pid="+n;
-			
+			document.getElementById("saveerrr").innerHTML = "Error while Saving.";
+		else{
+			if(createcase==0)
+				window.location = "history.html?pid="+n;
+			else
+				window.location = "view.html?pid="+n + "cid=0";
+		}		
 	}
 	
 	function verifyMobile() {

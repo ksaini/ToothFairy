@@ -103,7 +103,7 @@ body {
 .panel-body
 {
     overflow-y: scroll;
-	min-height: 660px;
+	min-height: 730px;
     height: 100%;
 	padding-top: 45px;
 }
@@ -146,6 +146,14 @@ button:focus {
 	padding-left:15px;
 	font-size:24px;
 }
+.editmed {
+	padding-right:10px;
+}
+.editmed:focus {
+	color:darkslateblue;
+	font-size:16px;
+	font-weight:600;
+}
 </style>
      
    </head>
@@ -173,22 +181,41 @@ button:focus {
                 </div>
 				
 			</div>
-			<ul class="chat desc" onclick='viewprofile(this)'>
-				Personal Details <span class="pull-right goto"> +</span>
+			<ul class="chat desc" >
+				Personal Details <span class="pull-right goto" onclick='viewprofile(this.parentNode)'> +</span>
 			</ul>
-			<ul class="chat desc" onclick="manageTMT(this)">
-				Procedure & Cost <span class="pull-right goto" > +</span>
+			<ul class="chat desc prolist">
+				Procedure & Cost <span class="pull-right goto"  onclick="manageTMT(this.parentNode)"> +</span><span id='s1' onclick='saveProc()' data-toggle="modal" data-target="#myModal"><i class="fa fa-save pull-right goto " style="font-size:18px;padding-top:7px;"></i></span>
 			</ul>
-			<ul class="chat desc" onclick="manageMed(this)">
-				Medecines & Brands <span class="pull-right goto"> +</span>
+			<ul class="chat desc medilist" >
+				Medecines & Brands <span class="pull-right goto" onclick="manageMed(this.parentNode)"> +</span><span id='s2' onclick='saveMed()'><i class="fa fa-save pull-right goto " style="font-size:18px;padding-top:7px;"></i></span>
 			</ul>
-			<ul class="chat desc" onclick="manageExm(this)">
-				Examination Types <span class="pull-right goto"> +</span>
+			<ul class="chat desc" >
+				Examination Types <span class="pull-right goto" onclick="manageExm(this.parentNode)"> +</span>
 			</ul>
 			</div>
 		</div>	
+		
 	</div>
 </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+       
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p>Saving...</p>
+      </div>
+      
+    </div>
+
+  </div>
 </div>
  <script type="text/javascript" src="../js/dataTbl.js"></script>
   <script type="text/javascript" src="../js/examination.json"></script>
@@ -230,7 +257,7 @@ button:focus {
 		for(var i=0;i < treatements.length;i++){
 		    var t0 =  treatements[i].split(":")[0];
 			var t1 =  treatements[i].split(":")[1];
-			txt += "<li>" + t0 + "<span class='pull-right' style='padding-right:10px;'>" + t1 + "</span></li>";
+			txt += "<li class='editmed' contenteditable=true>" + t0 + "<span class='pull-right editmed' contenteditable=true >" + t1 + "</span></li>";
 		}
 		t.innerHTML += txt;
 		tmt = 1;
@@ -245,7 +272,7 @@ button:focus {
 		$('span:first', t).html("-");
 		var txt = "<li></li>";
 		for(var i=0;i < medicines.length;i++){
-			txt += "<li>" + medicines[i]  + "</li>";
+			txt += "<li class='editmed' contenteditable=true>" + medicines[i]  + "</li>";
 		}
 		t.innerHTML += txt;
 		med = 1;
@@ -267,6 +294,37 @@ button:focus {
 		$('span:first', t).html("+");
 		}
 	}
-	
-
+	function saveProc(n){
+		var array = [];
+		var ele = '.prolist li';
+		
+		$(ele).each(function(i, li) {
+			var txt = $(li).clone().children().remove().end().text() + ":" + $('span:first', $(li)).text();
+			if(txt.length > 3)
+				array.push(txt);
+		});
+		var q = "0&did=" + localStorage.did + "&data=" + JSON.stringify(array);
+		getData(q,1,"saveProc.php",s1,e1);
+	}
+	function saveMed(n){
+		var array1 = [];
+		var ele = '.medilist li';
+		$(ele).each(function(i, li) {
+			var txt = $(li).text();
+			if(txt.length > 3)
+				array1.push(txt);
+		});
+		var q = "1&did=" + localStorage.did + "&data=" + JSON.stringify(array1);
+		getData(q,1,"saveProc.php",s1,e1);
+	}
+	function e1(){
+		$("#myModal").modal('toggle');
+		location.reload();
+	}
+	function s1(data){
+		$("#myModal").modal('toggle');
+		location.reload();
+	}
+//var treatements = ["Advance Surgical Procedure:300","Consultation:250","Crown Cementation:200","Crown MLS:220","Crown Sirconia:290","Crown Zirconia:300","Crowns:600","Dental Implant:2000","Dentures:1200","Fillings:600","Fluoride Treatment:700","Bridge:330"];
+//var medicines = ["Cappol 350mg","Cappol 250mg","Dolo 500mg","Dolo -S 500mg","Dolo 600mg","Glycodine 100ug - S","Medicine x1 200","Acypser 300 DX","Acypser 300 SX"];
 </script>	
