@@ -67,7 +67,7 @@ body {
 
 .valtext {
 	font-family: 'open_sans','Open Sans',sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
 	color: #4F545B;
 	contenteditable = true;
@@ -134,7 +134,7 @@ button:focus {
     outline: none;
 }
 .desc {
-	font-size:18px;
+	font-size:14px;
 	font-family: 'open_sans','Open Sans',sans-serif;
 	letter-spacing: 2px;
 	color: #4F545B;
@@ -148,11 +148,25 @@ button:focus {
 }
 .editmed {
 	padding-right:10px;
+	font-size:12px;
 }
 .editmed:focus {
 	color:darkslateblue;
 	font-size:16px;
 	font-weight:600;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.newproc {
+	padding-left: 30px;
+    padding-right: 15px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+.optn {
+	font-size:10px;
+	margin-left:5px;
+	margin-right:5px;
 }
 </style>
      
@@ -178,6 +192,7 @@ button:focus {
 						<div class="content col-xs-12" >
 							<h3 style="text-align:center;">Settings<h3>
 						</div>
+						<div id='wrnmsg' style="font-size:12px;background-color: #fcf8e3;color:red;text-align:center;"></div>
                 </div>
 				
 			</div>
@@ -185,10 +200,18 @@ button:focus {
 				Personal Details <span class="pull-right goto" onclick='viewprofile(this.parentNode)'> +</span>
 			</ul>
 			<ul class="chat desc prolist">
-				Procedure & Cost <span class="pull-right goto"  onclick="manageTMT(this.parentNode)"> +</span><span id='s1' style="display:none;" onclick='saveProc()' data-toggle="modal" data-target="#myModal"><i class="fa fa-save pull-right goto " style="font-size:18px;padding-top:7px;"></i></span>
+				Procedure/Cost 
+				<span class="pull-right goto"  onclick="manageTMT(this.parentNode)"> +</span>
+				<span id='s1' style="display:none;" onclick='saveProc()' data-toggle="modal" data-target="#myModal"><i class="fa fa-save pull-right goto " style="font-size:12px;padding-top:7px;"></i></span>
+				<span id='s11' class="pull-right btn-sm" style="font-size:12px;display:none;" onclick='addNewProc(this.parentNode)'>Add</span>
+				<span id='s13' style="display:none;" onclick='delthis(1)'><i class="fa fa-trash pull-right goto " style="font-size:12px;padding-top:7px;color:red"></i></span>
 			</ul>
 			<ul class="chat desc medilist" >
-				Medecines & Brands <span class="pull-right goto" onclick="manageMed(this.parentNode)"> +</span><span id='s2' style="display:none;" onclick='saveMed()'><i class="fa fa-save pull-right goto " style="font-size:18px;padding-top:7px;"></i></span>
+				Medecines 
+				<span class="pull-right goto" onclick="manageMed(this.parentNode)"> +</span>
+				<span id='s2' style="display:none;" onclick='saveMed()'><i class="fa fa-save pull-right goto " style="font-size:12px;padding-top:7px;"></i></span>
+				<span id='s22' class="pull-right btn-sm" style="font-size:12px;display:none;" onclick='addNewMed(this.parentNode)'>Add</span>
+				<span id='s23' style="display:none;" onclick='delthis(0)'><i class="fa fa-trash pull-right goto " style="font-size:12px;padding-top:7px;color:red"></i></span>
 			</ul>
 			<ul class="chat desc" >
 				Examination Types <span class="pull-right goto" onclick="manageExm(this.parentNode)"> +</span>
@@ -227,6 +250,7 @@ button:focus {
 	var exam =0;
 	var profile=0;
 	var fn = base_url + "/json/" + did + ".js";
+	var delElement = ""; // element to be deleted
 	
 	loadJS(fn);
 	
@@ -254,6 +278,8 @@ button:focus {
 	}
 	function manageTMT(t){
 		$('ul > li').hide();
+		$("#s13").hide();
+		$("#s23").hide();
 		if(tmt ==0 ){ // add for the first time
 			addTMT(t);
 		}
@@ -263,13 +289,18 @@ button:focus {
 			$('span:first', t).html("-");
 			$('.prolist > li').show();
 			$("#s1").show();
+			$("#s11").show();
 			$("#s2").hide();
+			$("#s22").hide();
 		}
 		else if($('span:first', t).text().includes("-")){
 			$('span:first', t).html("+");
 			$('.prolist > li').hide();
 			$("#s1").hide();
+			$("#s11").hide();
 			$("#s2").hide();
+			$("#s22").hide();
+			
 		}
 			
 		
@@ -279,7 +310,7 @@ button:focus {
 		for(var i=0;i < treatements.length;i++){
 		    var t0 =  treatements[i].split(":")[0];
 			var t1 =  treatements[i].split(":")[1];
-			txt += "<li class='editmed' contenteditable=true>" + t0 + "<span class='pull-right editmed' contenteditable=true >" + t1 + "</span></li>";
+			txt += "<li><span class='editmed'  contenteditable=true onclick='delProc(this)'>" + t0 + "</span><span class='pull-right editmed' contenteditable=true >" + t1 + "</span></li>";
 		}
 		t.innerHTML += txt;
 		tmt = 1;
@@ -287,6 +318,8 @@ button:focus {
 	
 	function manageMed(t){
 		$('ul > li').hide();
+		$("#s13").hide();
+		$("#s23").hide();
 		if(med ==0 ){ // add for the first time
 			addMed(t);
 		}
@@ -296,12 +329,17 @@ button:focus {
 			$('span:first', t).html("-");
 			$('.medilist > li').show();
 			$("#s2").show();
+			$("#s22").show();
 			$("#s1").hide();
+			$("#s11").hide();
+			
 		}
 		else if($('span:first', t).text().includes("-")){
 			$('span:first', t).html("+");
 			$("#s1").hide();
+			$("#s11").hide();
 			$("#s2").hide();
+			$("#s22").hide();
 			$x = $(".prolist");
 			$('span:first', x).html("+");
 			$('.medilist > li').hide();
@@ -312,7 +350,7 @@ button:focus {
 	function addMed(t){
 		var txt = "<li></li>";
 		for(var i=0;i < medicines.length;i++){
-			txt += "<li class='editmed' contenteditable=true>" + medicines[i]  + "</li>";
+			txt += "<li class='editmed' contenteditable=true onclick='delMed(this)'>" + medicines[i]  + "</li>";
 		}
 		t.innerHTML += txt;
 		med = 1;
@@ -336,7 +374,8 @@ button:focus {
 		var ele = '.prolist li';
 		
 		$(ele).each(function(i, li) {
-			var txt = $(li).clone().children().remove().end().text() + ":" + $('span:first', $(li)).text();
+			//var txt = $(li).clone().children().remove().end().text() + ":" + $('span:first', $(li)).text();
+			var txt = $('span:first', $(li)).text() + ":" + $('span:first', $(li)).next().text();
 			if(txt.length > 3)
 				array.push(txt);
 		});
@@ -363,6 +402,40 @@ button:focus {
 	function s1(data){
 		$("#myModal").modal('toggle');
 		location.reload();
+	}
+	function addNewProc(t){
+		$('li:first', t).next().before("<li style='background-color: #fcf8e3;'><span id='xy' class='editmed' contenteditable='true' onclick='delProc(this)' >NewProc</span><span class='pull-right editmed newproc' contenteditable='true'>0</span></li>");
+		$('#xy').focus();
+	}
+	function addNewMed(t){
+		$('li:first', t).next().before("<li style='background-color: #fcf8e3;' class='editmed' contenteditable='true' onclick='delMed(this)'>Med</li>");
+		$('#xy').focus();
+	}
+	function delMed(t){
+		$("#s23").show();
+		delElement = t;
+	}
+	function delProc(t){
+		$("#s13").show();
+		delElement = t;
+	}
+	function delthis(n){
+	    window.scrollTo(0,0);
+		if(n==1){
+			ele = $(delElement).parent();
+			$(ele).remove();
+			$("#wrnmsg").html("You have marked <i>" + $(delElement).text() + "</i> for deletion. Use SAVE icon to save after you are done with editing.<br>Tap <span class='btn-sm btn-warning' onclick='hide1()'>HERE</span> to revert unsaved changes.<br>");
+			}else {
+			$(delElement).remove();
+			$("#wrnmsg").html("You have marked <i>" + $(delElement).text() + "</i> for deletion. Use SAVE icon to save after you are done with editing.<br>Tap <span class='btn-sm btn-warning' onclick='hide1()'>HERE</span> to revert unsaved changes.<br>");
+		}
+	}
+	function ccl(){
+		$("#wrnmsg").html("");
+		delElement = '';
+	}
+	function hide1(){
+	 location.reload();
 	}
 //var treatements = ["Advance Surgical Procedure:300","Consultation:250","Crown Cementation:200","Crown MLS:220","Crown Sirconia:290","Crown Zirconia:300","Crowns:600","Dental Implant:2000","Dentures:1200","Fillings:600","Fluoride Treatment:700","Bridge:330"];
 //var medicines = ["Cappol 350mg","Cappol 250mg","Dolo 500mg","Dolo -S 500mg","Dolo 600mg","Glycodine 100ug - S","Medicine x1 200","Acypser 300 DX","Acypser 300 SX"];

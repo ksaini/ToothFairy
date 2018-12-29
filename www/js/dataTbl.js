@@ -176,8 +176,11 @@ function loadCaseHistory(q){
 function successLCH(data){
 	try {	
 		var d = JSON.parse(data);
-	
-		var exm = d["exm"][0];
+	    var exm = {"exm" : "","udate" : ""};
+		
+		//if(d["exm"][0])
+		exm = d["exm"][0];
+		
 		var t = JSON.parse(exm["exm"]);
 		var ta = t["teeth"];//array of teeth :)
 	
@@ -206,6 +209,7 @@ function successLCH(data){
 	try {
 		if(d["tmt"][0])	
 			tmt = d["tmt"][0];
+		
 		t = JSON.parse(tmt["tmt"]);
 	
 		fillTMT(t);
