@@ -348,7 +348,7 @@ function showBilling(data){
 		txt += "<div class='valtext'>" + details[i][0] + "</div>";
 	}
 	document.getElementById("billing").innerHTML += txt;
-	document.getElementById("btotal").innerHTML = details[details.length-1][0] + " : " + details[details.length-1][1];
+	document.getElementById("btotal").innerHTML = details[details.length-1][0] + " : " + details[details.length-1][1] ;
 	
 	document.getElementById("bdefault").style.display="none";
 	document.getElementById("bdetails").style.display="block";
@@ -389,6 +389,7 @@ function showTrans(data){
 		
 	document.getElementById("rcvd").innerHTML = "Received: " + rcvd;
 	document.getElementById("bal").innerHTML = "Balance: " + (total - rcvd - waiver);
+	document.getElementById("bwaiver").innerHTML = "Waiver: " + waiver;
 	if( (total - rcvd - waiver)>= 0){
 		document.getElementById("topay").value = (total - rcvd - waiver);
 		document.getElementById("topay_h").value = (total - rcvd - waiver);
