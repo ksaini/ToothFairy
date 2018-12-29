@@ -359,9 +359,14 @@ function showBilling(data){
 		details = JSON.parse(d[i]["tmt"]);
 		
 		try{
-			total = parseInt(total) + parseInt(details[details.length-1][1]);
+			// there could be empty billing
+			var b = parseInt(details[details.length-1][1]);
+			if(isNaN(b))
+				b =0;
+			total = parseInt(total) + b;
 			}
 		catch(err) {}
+		
 	}
 		
 	getTrans(pid,did);	
@@ -371,7 +376,12 @@ function getTrans(pid,did){
 	getData("q=SELECT udate, amount,rem,flg FROM d_account_tbl where pid='"+pid+"' and did='"+did+"' group by id  order by udate desc ;",0,"dataTbl.php",showTrans,errBill);
 }
 function showTrans(data){
-	var d = JSON.parse(data);
+	// for no transactions handle excelption
+	var d = [];
+	try{
+		d =JSON.parse(data);
+	}catch (e){}
+	
 	var txt = "";
 	var rcvd = 0;
 	var waiver =0;
@@ -390,6 +400,7 @@ function showTrans(data){
 	document.getElementById("rcvd").innerHTML = "Received: " + rcvd;
 	document.getElementById("bal").innerHTML = "Balance: " + (total - rcvd - waiver);
 	document.getElementById("bwaiver").innerHTML = "Waiver: " + waiver;
+	
 	if( (total - rcvd - waiver)>= 0){
 		document.getElementById("topay").value = (total - rcvd - waiver);
 		document.getElementById("topay_h").value = (total - rcvd - waiver);
