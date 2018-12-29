@@ -524,6 +524,7 @@ button:focus {
 				
 				<ul class="chat"  >
 				<div class="row valtext"><p style="padding-top:10px;font-weight:bold;">Prescription</p></div>
+				<div id="debug" style="font-size:10px;color:red;"></div>
 				</ul>
 				
 				<ul class="chat" style="padding-top:0px;padding-bottom:0px;padding-left:-5px;padding-right:-5px;">
@@ -895,17 +896,21 @@ button:focus {
 			selectedPrice = 0;
 		}
 		function reviewcase(cid){
+			document.getElementById("debug").innerHTML += "Start..<br>";
 			var e1 = {};
 			localStorage.isDirty=1;
 			// Teeth
 			e1["teeth"] = teeth.sort();
 			// Examination
+			document.getElementById("debug").innerHTML += "Step1..<br>";
 			
 			var e = document.getElementById("examination");
 			var details = e.options[e.selectedIndex].text;
 			var enote = document.getElementById("enote").value;
 			e1["details"] = details;
 			e1["note"] = enote;
+			
+			document.getElementById("debug").innerHTML += "Step2..<br>";
 			// Treatement
 			var t = [];
 			var ul = document.getElementById("xx");
@@ -915,7 +920,7 @@ button:focus {
 				t.push(tmp);
 			}
 			t.push(["Total",document.getElementById("total").innerHTML]);
-			
+			document.getElementById("debug").innerHTML += "Step3..<br>";
 			// Medecines
 			var m = [];
 			ul = document.getElementById("yy");
@@ -924,9 +929,9 @@ button:focus {
 			  try{
 					var tmp = [list[i].childNodes[0].innerHTML,list[i].childNodes[1].childNodes[0].innerHTML,list[i].childNodes[2].childNodes[0].innerHTML];
 					m.push(tmp);
-				} catch(err) {}
+				} catch(err) {document.getElementById("debug").innerHTML += "Step3.1..<br>";}
 			}
-
+			document.getElementById("debug").innerHTML += "Step4..<br>";
 			// add to casedetails
 			casedetails["exm"] = e1;
 			casedetails["tmt"] = t;
@@ -938,8 +943,9 @@ button:focus {
 			casedetails["flag_t"] = intelliSave(t,"tmt");
 			casedetails["flag_m"] = intelliSave(m,"med"); // flags to update exm,tmt and med
 			examination(6);
-			
+			document.getElementById("debug").innerHTML += "Step5..<br>";
 			fillSummary();
+			document.getElementById("debug").innerHTML += "Step6..<br>";
 			
 	}
 	function intelliSave(v,s){
