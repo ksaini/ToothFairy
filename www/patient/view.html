@@ -988,6 +988,7 @@ button:focus {
 		
 	}
 	function savecase(){
+	  reviewcase(cid);	
 	  if(getParameterByName("pid") != null)
 		getData(JSON.stringify(casedetails),1,"saveCase.php",onSuccessP,onErrorP);
 	}
