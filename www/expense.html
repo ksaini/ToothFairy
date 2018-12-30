@@ -8,16 +8,15 @@
       <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
       <!---<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />---->
       
-	  <link href="../assets/css/font-awesome.min.css" rel="stylesheet">
-      <link rel="stylesheet" type="text/css" href="../css/index.css" />
-      <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-	  <link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+	  <link href="./assets/css/font-awesome.min.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="./css/index.css" />
+      <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+	  <link href="./css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 	  
-	  <script src="../js/moment.min.js"></script>   
+	  <script src="./js/moment.min.js"></script>   
 <script src="../js/jquery-1.10.2.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-<script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
-	  <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+
       <title>GreyBox Admin</title>
 	  <style>
 body {
@@ -290,6 +289,16 @@ button:focus {
 	border-bottom: 1px solid #B3A9A9;
 	color:#8159bb;
 }
+.dt1 {
+	font-size:16px;
+	line-height: 1.6;
+	padding-top:2px;
+	letter-spacing: 3px;
+	text-align:center;
+	font-family:'Roboto','Arial','Helvetica',sans-serif!important;
+	font-weight: 500;
+	color: #4F545B;
+}
 
 </style>
      
@@ -299,7 +308,7 @@ button:focus {
 <nav class="navbar navbar-custom navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" style="width:100%;text-align:center;" href="../dashboard.html"><i style="position: absolute;left:5px;;" class="fa fa-home" aria-hidden="true"></i> <span style="font-size:14px;">Payments</span></a>
+      <a class="navbar-brand" style="width:100%;text-align:center;" href="./dashboard.html"><i style="position: absolute;left:5px;;" class="fa fa-home" aria-hidden="true"></i> <span style="font-size:14px;">Manage Expenses</span></a>
     </div>
    
   </div>
@@ -309,74 +318,35 @@ button:focus {
         <div class="col-sm-5" style="padding-right:0px;padding-left:0px;">
             <div class="panel panel-primary">
                 <div class="panel-body" id="p0"> 
-				<div class="sticky">
-					<div class="row slots"><br>
-						<div class="content col-md-2 col-xs-2" >
-							<p class="smallf4">Name: </p>
-						</div>
-						<div class="content col-md-8 col-xs-8" >
-							<p class="valtext" id="name"></p>
-						</div>
-						<div class="content col-md-2 col-xs-2" >
-							<p id="gender"></p>
-						</div>
-						
-                </div>
-				<div class="row slots" >
-					<div class="content col-md-2 col-xs-2" >
-						<p class="smallf3">Age: </p>
-					</div>
-					<div class="content col-md-2 col-xs-2" >
-						<p class="valtext" id="age"></p>
-					</div>	
-					<div class="content col-md-2 col-xs-2" >
-						<p class="smallf3">Mobile: </p>
-					</div>
-					<div class="content col-md-4 col-xs-4" >
-						<p class="valtext" id="mobile"></p>
-					</div>
-				</div>
-				<div class="row slots" style="border-bottom: 1px solid #E0E0E0;">
-					<div class="content col-md-2 col-xs-2" >
-						<p class="smallf3">Address: </p>
-					</div>
-					<div class="content col-md-10 col-xs-10" >
-						<p class="valtext" style="letter-spacing: 1px;font-size:12px;" id="address"></p>
-					</div>
-					
 				
-				</div>
-				<div id="toolbar1" class="row slots" style="border-bottom: 1px solid #ccc;">
-					<div class="content col-md-4 col-xs-4 toolbar " id="tb1" onclick='viewcases()' style="text-align:center;border-right:1px solid #E0E0E0;">
-						<p class="valtext "><i class="fa fa-list " ></i></p>
-						<p class="valtext " >View Cases</p>
+				<div id="toolbar1" class="row slots sticky" style="border-bottom: 1px solid #ccc;padding-top:15px">
+					<div class="content col-md-4 col-xs-4 toolbar selected" id="tb1" onclick='viewcases()' style="text-align:center;border-right:1px solid #E0E0E0;">
+						<p class="valtext " >Daily</p>
 					</div>
 					<div class="content col-md-4 col-xs-4 toolbar" id="tb2" onclick='' style="text-align:center;border-right:1px solid #E0E0E0;">
-						<p class="valtext " ><i class="fa fa-rupee " ></i></p>
-						<p class="valtext " >Payments</p>
+						<p class="valtext " >Weekly</p>
 					</div>
 					<div class="content col-md-4 col-xs-4 toolbar" id="tb3" onclick='editprofile1()' style="text-align:center">
-						<p class="valtext " ><i class="fa fa-edit "></i></p>
-						<p class="valtext " >Edit Profile</p>
+						<p class="valtext " >Monthly</p>
 					</div>
-					
-					
 				</div>
+				<div class="row" id="toolbar0" style="border-bottom: 1px solid #ccc;;padding-top:5px;padding-bottom:5px;">
+				<div class="col-xs-3 valtext" style="font-size:20px;line-height: 1.6;text-align:center;" onclick='shiftdate(-1)'> &lt; </div>
+				<div class="col-xs-6 dt1" id='c_dt' > Today </div>
+				<div class="col-xs-3 valtext" style="font-size:20px;line-height: 1.6;text-align:center;" onclick='shiftdate(1)'> &gt; </div>
+			</div>
+			
 				<div>
-				<div class="row trbody" id="pmtbtn" onclick="makepayment();" style="height:60px;border: 1px solid #8159bb;padding-top:20px;text-align:center;margin-top:15px;margin-left:20px;margin-right:20px;margin-bottom:10px;color:#8159bb;border-radius: 4px;">MAKE PAYMENTS</div>
+				<div class="row trbody" id="pmtbtn" onclick="makepayment();" style="height:60px;border: 1px solid #8159bb;padding-top:20px;text-align:center;margin-top:15px;margin-left:20px;margin-right:20px;margin-bottom:10px;color:#8159bb;border-radius: 4px;">ADD AN EXPENSE</div>
 				
 				<ul class="chat" id='pmtip' style="display:none;margin-top:20px;padding-left:20px;padding-right:20px;border-bottom: none">
 				<div class="row trbody" style="height:100%" id="pmt">
 					<ul class="chat" id="chat" style="display: flex;">
-						<p style="padding-top:7px;width:70px;">Pay Now </p>
+						<p style="padding-top:7px;width:70px;">Amount </p>
 						<input type="text" class="form-control pmt" id='topay' style="width:70%" onkeyup='calcdiff()' placeholder="0"></input>
 						<input type="hidden" id='topay_h'></input>
                     </ul>
-					<ul class="chat" id="chat" style="display: flex;">
-						<p style="padding-top:7px;width:70px;">Remaining </p>
-						<input type="text" class="form-control pmt" id='rem' style="width:60%" placeholder="0" disabled></input>
-						<label style="font-size:9px;font-weight:200;padding-left:3px;"><input type="checkbox" id="wo" value="" >Write Off</label>
-                    </ul>
+					
 					<ul class="chat" id="chat" style="display: flex;">
 						<p style="padding-top:7px;width:70px;">Mode </p>
 						<select class="form-control pmt" data-error="please select mode" style="width:70%;font-size:14px;letter-spacing:1px;padding-right:0px;padding-left:1px;" id="pmymode"   >
@@ -388,6 +358,11 @@ button:focus {
 						<option value="card">Card</option>
 						<option value="online">Online</option>
 						</select>
+                    </ul>
+					<ul class="chat" id="chat" style="display: flex;">
+						<p style="padding-top:7px;width:70px;">Vendor </p>
+						<input type="text" class="form-control pmt" id='rem' style="width:60%" placeholder="0" disabled></input>
+						<label style="font-size:9px;font-weight:200;padding-left:3px;"><input type="checkbox" id="wo" value="" >Write Off</label>
                     </ul>
 					<ul class="chat" id="chat" style="display: flex;">
 						<button class="btn " style="font-size:14px;width:100%;margin-right:30px" onclick="pmtcancel();">Cancel</button>
@@ -402,7 +377,7 @@ button:focus {
 				
 				<ul class="chat"  id="parent_ul" >
 					
-					<div class="row trhead">Billing <span style="font-size:11px;font-weight:300"><i>( For last case)</i></span></div>
+					<div class="row trhead">Billing</div>
 					<div class="row  valtext" id="bdefault" style="text-align:center;padding-top:20px;" >No billing details available</div>
 					<div style="display:none;" id="bdetails">
 					<div class="row trbody"><span id="rcvd">Received: 0</span><span id='bal' class="pull-right" style="padding-right:15px;">Balance: 0</span></div>
@@ -414,100 +389,17 @@ button:focus {
 				</ul>
 				<br>
 				
-				<ul class="chat valtext" style="font-size:14px;font-weight:300;">Transactions <span style="font-size:11px;font-weight:300"><i>( Till Date)</i></span></ul>
-				<div class="row  valtext" id="tdefault" style="text-align:center;padding-top:1px;">No transactions available.</div>
-				<div style="display:none;" id="tdetails">
-					<!---<div class="row trbody"><span class='trans'>2 Nov 2018</span><span class="pull-right" style="padding-right:15px;"><i class="fa fa-rupee " ></i> 250</span></div>
-					<div class="row trbody"><span class='trans'>23 Oct 2018<span class='advance'> ( <i class="fa fa-rupee " ></i> 100 as Advance)</span></span><span class="pull-right" style="padding-right:15px;"><i class="fa fa-rupee " ></i> 700</span></div>---->
-				</div>
+			
 				</div>
 				</div>
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="../js/dataTbl.js"></script>
+<script type="text/javascript" src="./js/dataTbl.js"></script>
 <script>
-var myJSON = localStorage.basicInfo;
-var pid = getParameterByName("pid");
-
-displayBasicInfo();
-tb1(2);
-
-// Get Billing for last case.
-getData("q=SELECT max(cid) as cid FROM d_exm_tbl where pid='"+pid+"' and did='"+localStorage.did+"' ;",0,"dataTbl.php",calcBilling,errBill);
-function calcBilling(data){
-	var cid = 1;
-	try{
-		cid = JSON.parse(data)[0]["cid"];
-	} catch (e){}	
-	getBilling(pid,localStorage.did,cid);
-}
-
-
-function tb1(n){
-	document.getElementById("tb1").classList.remove("tbselected");
-	document.getElementById("tb2").classList.remove("tbselected");
-	document.getElementById("tb3").classList.remove("tbselected");
-	document.getElementById("tb"+n).classList.add("tbselected");
-}
-function showTransactions(){
-	
-}
-function makepayment(){
-	document.getElementById("pmtbtn").style.display ="none";
-	document.getElementById("pmtip").style.display ="block";
-}
-function pmtcancel(){
-	document.getElementById("pmtip").style.display ="none";
-	document.getElementById("pmtbtn").style.display ="block";
-}
-function pmtpay(){
-	var tot = document.getElementById("topay_h").value;
-	var actual = document.getElementById("topay").value;
-	var rem =  parseInt(document.getElementById("rem").value) || 0;
-	var wo = document.getElementById("wo").checked;
-	var e = document.getElementById("pmymode");
-	var mode = e.options[e.selectedIndex].value;
-	var pay={};
-	pay["total"] = tot;
-	pay["actual"] = actual;
-	pay["rem"] = rem;
-	if(wo)
-		pay["wo"] = 1;
-	else
-		pay["wo"]=0;
-	pay["mode"] = mode;
-	pay["pid"]= getParameterByName("pid");
-	pay["did"] = localStorage.did;
-	if(!tmpcid)
-		tmpcid=1;
-		
-	pay["cid"] = tmpcid;	
-	getData(JSON.stringify(pay),1,"savePay.php",postPay,errPay);
-	
-	
-}
-function postPay(data){
-	if(data==1){
-	document.getElementById("pmtip").style.display ="none";
-	document.getElementById("pmtbtn").style.display ="block";
-	location.reload();
-	}
-
-}
-function errPay(){}
-function calcdiff(){
-	//var t1 = parseInt(document.getElementById("topay_h").value);
-	//var t2 = parseInt(document.getElementById("topay").value);
-	var btotal = document.getElementById("bal").innerHTML;
-	var t2 = parseInt(document.getElementById("topay").value);
-	btotal = btotal.split(":")[1];
-	btotal = btotal.trim();
-	if(!btotal)
-		btotal =0;
-	
-	document.getElementById("rem").value = btotal - t2;
-}
+ function makepayment(){
+	document.getElementById("pmtip").style.display = "block";
+ }
 </script>
 </body>
 </html>	

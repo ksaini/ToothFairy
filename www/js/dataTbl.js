@@ -175,13 +175,13 @@ function loadCaseHistory(q){
 }
 function successLCH(data){
 	try {	
-		var d = JSON.parse(data);
+		var d = JSON.parse(jsonEscape(data));
 	    var exm = {"exm" : "","udate" : ""};
 		
 		//if(d["exm"][0])
 		exm = d["exm"][0];
 		
-		var t = JSON.parse(exm["exm"]);
+		var t = JSON.parse(jsonEscape(exm["exm"]));
 		var ta = t["teeth"];//array of teeth :)
 	
 		// Deep copy of ta--> teeth
@@ -223,7 +223,7 @@ function successLCH(data){
 	
 		// create a JSON, it will be compared to casedetails
 		var fetchDetails = {};
-		fetchDetails["exm"] = exm["exm"];
+		fetchDetails["exm"] = jsonEscape(exm["exm"]); // Handel multiline with jsonEscape
 		fetchDetails["tmt"] = tmt["tmt"];
 		fetchDetails["med"] = med["med"];
 		localStorage.fetchDetails = JSON.stringify(fetchDetails);
@@ -239,7 +239,7 @@ function viewSummary(f){
 	try{
 		document.getElementById("f1").style.display= "none";
 		document.getElementById("part5").style.display= "block";
-		var e = JSON.parse(f["exm"]);
+		var e = JSON.parse(jsonEscape(f["exm"])); // jsonEscape to handel new line
 		var t = JSON.parse(f["tmt"]);
 		var m = JSON.parse(f["med"]);
 		
@@ -319,7 +319,7 @@ function editprofile1(){
 }	
 
 function editProfile(pid){
-	getData("q=SELECT * from d_patient_tbl where pid="+pid,0,"dataTbl.php",fillProfile,errLCH);
+	getData("q=SELECT * from d_patient_tbl where did='"+localStorage.did+"' and pid='"+pid + "' ;",0,"dataTbl.php",fillProfile,errLCH);
 }
 function fillProfile(data){
 	var d = JSON.parse(data);
@@ -331,10 +331,10 @@ function fillProfile(data){
 	else
 		selectF();
 }
-
-function getBilling(pid,did){
-	
-	getData("q=SELECT tmt,udate,pid,did FROM d_tmt_tbl where pid='"+pid+"' and did='"+did+"'  order by udate desc ;",0,"dataTbl.php",showBilling,errBill);
+var tmpcid=0 // store cid tem for billing
+function getBilling(pid,did,cid){
+	tmpcid = cid;
+	getData("q=SELECT tmt,udate,pid,did FROM d_tmt_tbl where pid='"+pid+"' and did='"+did+"' and cid="+cid+" order by cid desc,udate desc ;",0,"dataTbl.php",showBilling,errBill);
 	
 }
 var total = 0;
@@ -373,7 +373,7 @@ function showBilling(data){
 }
 function errBill(){}
 function getTrans(pid,did){
-	getData("q=SELECT udate, amount,rem,flg FROM d_account_tbl where pid='"+pid+"' and did='"+did+"' group by id  order by udate desc ;",0,"dataTbl.php",showTrans,errBill);
+	getData("q=SELECT cid,udate, amount,rem,flg FROM d_account_tbl where pid='"+pid+"' and did='"+did+"' group by id  order by udate desc ;",0,"dataTbl.php",showTrans,errBill);
 }
 function showTrans(data){
 	// for no transactions handle excelption
@@ -390,20 +390,32 @@ function showTrans(data){
 			waiver = parseInt(waiver) + parseInt(d[i]["rem"]);
 		
 		txt += '<div class="row trbody"><span class="trans">' + formatDate(d[i]["udate"]) + '</span><span class="pull-right" style="padding-right:15px;"><i class="fa fa-rupee " ></i>' + d[i]["amount"] + "</span></div>";
-		rcvd =  parseInt(rcvd) + parseInt(d[i]["amount"]);
+		
+		if(d[i]["cid"] == tmpcid)
+		{ // calculate received only if it is in given/last case
+			rcvd =  parseInt(rcvd) + parseInt(d[i]["amount"]);
+			
+		}	
 	}
 	document.getElementById("tdetails").innerHTML = txt;
 	document.getElementById("tdefault").style.display="none";
 	document.getElementById("tdetails").style.display="block";
 	
-		
+	var ctotal = document.getElementById("btotal").innerHTML; //total due for last case
+	ctotal = ctotal.split(":")[1];
+	ctotal = ctotal.trim();
+	if(ctotal)
+		ctotal = parseInt(ctotal);
+	else
+		ctotal = 0;
+	
 	document.getElementById("rcvd").innerHTML = "Received: " + rcvd;
-	document.getElementById("bal").innerHTML = "Balance: " + (total - rcvd - waiver);
+	document.getElementById("bal").innerHTML = "Balance: " + (ctotal - rcvd - waiver);
 	document.getElementById("bwaiver").innerHTML = "Waiver: " + waiver;
 	
-	if( (total - rcvd - waiver)>= 0){
-		document.getElementById("topay").value = (total - rcvd - waiver);
-		document.getElementById("topay_h").value = (total - rcvd - waiver);
+	if( (ctotal - rcvd - waiver)>= 0){
+		document.getElementById("topay").value = (ctotal - rcvd - waiver);
+		document.getElementById("topay_h").value = (ctotal - rcvd - waiver);
 	}	
 	
 }
@@ -468,4 +480,9 @@ function loadJS(file) {
     jsElm.src = file;
     // finally insert the element to the body element in order to load the script
     document.body.appendChild(jsElm);
+}
+function jsonEscape(str)  {
+    var str=str.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
+	return str;
+
 }

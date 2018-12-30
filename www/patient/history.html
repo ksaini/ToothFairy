@@ -250,16 +250,18 @@ button:focus {
 			myJSON = localStorage.basicInfo;
 			
 		displayBasicInfo();
-		getData("q=SELECT DISTINCT cid,udate,exm from d_exm_tbl where pid='" + pid + "' and did='"+did+"' order by udate desc ;",0,"dataTbl.php",showHistory,errHistory);
+		getData("q=SELECT DISTINCT cid,udate,exm from d_exm_tbl where pid='" + pid + "' and did='"+did+"' order by cid desc,udate desc ;",0,"dataTbl.php",showHistory,errHistory);
 		function showHistory(data){
-			var d = JSON.parse(data);
+		try{
+			var d = JSON.parse(jsonEscape(data));  //jsonEscape to handel new line
 			var txt = "";
 			var tmp =0;
 			for (i = 0; i < d.length; i++) {
-				var details = JSON.parse(d[i]["exm"])["details"];
-				var note = JSON.parse(d[i]["exm"])["note"];
+				var details = JSON.parse(jsonEscape(d[i]["exm"]))["details"];
+				var note = JSON.parse(jsonEscape(d[i]["exm"]))["note"];
 				var pid = getParameterByName("pid");
 				var cid = d[i]["cid"];
+				
 				if(tmp!=cid){
 				txt += "<li class='chat' style='margin-left:-30px;height:75px;' onclick=location.href='view.html?pid="+pid+"&cid="+cid+"'>";
 				txt += "<div class='col-xs-3' style='padding-right:0px'>Case : " + d[i]["cid"]   +"</div>";
@@ -272,6 +274,7 @@ button:focus {
 			}
 			
 			document.getElementById("chist").innerHTML = txt;
+			} catch(e) { console.log("Exception::-"+e.toString());}
 		}
 		function errHistory(){}
 		function gotoaddcase(){
