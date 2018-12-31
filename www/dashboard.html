@@ -336,6 +336,10 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
    <script type="text/javascript" src="./js/dataTbl.js"></script>
 	
    <script>
+   // Log out if  not logged index
+   if(localStorage.did == null || localStorage.did.length <=2)
+		window.location.href="index.html";
+		
    document.getElementById("drname").innerHTML = "Dr. " + localStorage.dname;
    var did= localStorage.did;
    var gender = "f";
@@ -371,7 +375,7 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 			
 			var atxt ="";
 			if(d[i]["schedule"]!= null && d[i]["schedule"].length > 0){
-				var schedule = JSON.parse(d[i]["schedule"])[0];
+				var schedule = JSON.parse(d[i]["schedule"]);
 				var dt = schedule["dt"];
 				if(new Date(dt) >= now){
 					var slot = schedule["slot"];
@@ -470,6 +474,6 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 		var year = dateObj.getFullYear();
 
 		var dt =  day + "/" + month + "/" + year;
-		window.location.href = "./appointment/view.html?dt="+dt;
+		window.location.href = "./appointment/view1.html?dt="+dt;
 	}
 	</script></div></body></html>

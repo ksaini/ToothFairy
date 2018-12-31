@@ -286,20 +286,20 @@ $(function () {
 				var schedule = JSON.parse(d[i]["schedule"]);
 				var pid = getParameterByName("pid");
 				var cid = d[i]["cid"];
-				var s = schedule[0]["slot"].split("_")[1];
+				var s = schedule["slot"].split("_")[1];
 				var hr = parseInt(s/100);
 				s = parseInt((s%100)/25)*15;
-				if(tmp!=cid && (new Date(schedule[0]["dt"]) >= now)){
+				if(tmp!=cid && (new Date(schedule["dt"]) >= now)){
 				
-				dt1 = schedule[0]["dt"];
+				dt1 = schedule["dt"];
 				
 				txt += "<li class='chat bg-warning' style='margin-left:-30px;margin-right:-30px;height:50px;text-align:center;margin-top:-10px;padding-top:10px;' >Following appointment is booked for the patient:</li>"
 				txt += "<li class='chat' style='margin-left:-30px;height:50px;padding-top:10px' >";
 				txt += "<div class='col-xs-2' style='padding-right:0px'>Date </div>";
-				txt += "<div class='col-xs-3' ><div class='row valtext' >" + formatDate(schedule[0]["dt"]) + "</div></div>";
+				txt += "<div class='col-xs-3' ><div class='row valtext' >" + formatDate(schedule["dt"]) + "</div></div>";
 				txt += "<div class='col-xs-2' style='padding-right:0px'>Time </div>";
 				txt += "<div class='col-xs-2' ><div class='row valtext'>" +  hr + ":" + s + "</div></div>";
-				txt += "<div class='col-xs-3' style='color: darkslateblue;font-size:12px;'>ETA :" + parseInt(schedule[0]["duration"])*15 +" min</div>";
+				txt += "<div class='col-xs-3' style='color: darkslateblue;font-size:12px;'>ETA :" + parseInt(schedule["duration"])*15 +" min</div>";
 				//txt += "</div>";
 				txt += "</li>";
 				

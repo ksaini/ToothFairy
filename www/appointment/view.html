@@ -228,7 +228,7 @@ h2 {
 			</div>
 			
 			<ul class="chat" id="chat" style="border-bottom: 1px dotted #8159bb;">
-				<div id="toolbar5" class="row tb2" style="border: 1px solid #ccc;display:none;">
+				<div id="toolbar5" class="row tb2" style="border: 1px solid #ccc;">
 					<div class="content col-md-1 col-xs-1 toolbar2" id="" >
 						<p class="valtext "  ></p>
 					</div>
@@ -277,8 +277,7 @@ h2 {
    <script>
    var did = localStorage.did;
    var pid = getParameterByName("pid");
-   if(pid!= null)
-		document.getElementById("toolbar5").style.display="block";
+   
    var dx = 1; //duration i.e 15 min,30 min
    var dy = '';// id of element
    var data = '[]';
@@ -290,7 +289,7 @@ h2 {
 		}
 	else	{
 		document.getElementById("c_dt").innerHTML = formatDate(new Date());
-		document.getElementById("toolbar5").style.display = "none";
+		
 		}
 		
 	placeSlots();
@@ -406,6 +405,6 @@ function shiftdate(n){
    var day = d.getDate();
    var year = d.getFullYear();
    var newdate =  day + "/" + month + "/" + year;
-   window.location = "view.html?dt=" + newdate;	
+   window.location = "view.html?dt=" + newdate + "&pid=" + pid;	
 }
 	</script>
