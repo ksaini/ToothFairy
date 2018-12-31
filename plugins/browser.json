@@ -69,11 +69,10 @@
         },
         "cordova-plugin-gallery-refresh": {
             "PACKAGE_NAME": "org.myapp.sample"
-        }
-    },
-    "dependent_plugins": {
+        },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "org.myapp.sample"
         }
-    }
+    },
+    "dependent_plugins": {}
 }

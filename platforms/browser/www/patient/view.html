@@ -702,6 +702,7 @@ button:focus {
 </div>
   
    <script type="text/javascript" src="cordova.js"></script>
+   
    <script type="text/javascript" src="../js/index.js"></script>
    <script type="text/javascript" src="../js/examination.json"></script>
    <script type="text/javascript" src="../js/treatement.js"></script>
@@ -712,7 +713,7 @@ button:focus {
    <script>
         ////////////////////////////Init //////////////
 		document.addEventListener("deviceready", onDeviceReady, false);
-		function onDeviceReady(){}
+		function onDeviceReady(){alert("here");}
 		
 		var fn = base_url + "/json/" + localStorage.did + ".js";
 		setTimeout(function(){
@@ -1067,10 +1068,12 @@ button:focus {
 		document.getElementById("forsave").style.display='none'
 	
 	}
+	var fileContent = '<html>Phonegap Print Plugin</html>';
 	function prnt(){
-		var page = location.href;
-
-		cordova.plugins.printer.print(page, 'Document.html');
+	window.open('http://www.kidzout.com', '_system'); return false;
+//cordova.plugins.printer.print(page, 'Document.html');
+		
+//window.PrintPlugin.print(fileContent,function(){console.log('success')},function(){console.log('fail')},"",type,title);
 	}
 	</script>
 
