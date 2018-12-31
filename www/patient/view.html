@@ -700,7 +700,7 @@ button:focus {
 	</div>
    </div>
 </div>
-   </body>
+  
    <script type="text/javascript" src="cordova.js"></script>
    <script type="text/javascript" src="../js/index.js"></script>
    <script type="text/javascript" src="../js/examination.json"></script>
@@ -708,11 +708,11 @@ button:focus {
    <script type="text/javascript" src="../js/dataTbl.js"></script>
   
    <script type="text/javascript" src="../js/person.js"></script>
-	
+	 </body>
    <script>
         ////////////////////////////Init //////////////
 		document.addEventListener("deviceready", onDeviceReady, false);
-		function onDeviceReady(){alert("here")}
+		function onDeviceReady(){}
 		
 		var fn = base_url + "/json/" + localStorage.did + ".js";
 		setTimeout(function(){
@@ -1073,3 +1073,5 @@ button:focus {
 		cordova.plugins.printer.print(page, 'Document.html');
 	}
 	</script>
+
+</html> 
