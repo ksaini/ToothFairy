@@ -36,9 +36,9 @@ function loadExamination(){
 	var txt = "";
 	for (var key in obj){
 		if(obj[key]==1)
-			txt += "<option style='font-weight: bold;'><b>"+ key +"</b></option>";
+			txt += "<option style='font-weight: bold;'>"+ key +"</option>";
 		else
-			txt += "<option style='marging-left:10px;'>&nbsp;&nbsp;"+ key +"</option>";
+			txt += "<option style='marging-left:10px;'>"+ key +"</option>";
 		}
 	document.getElementById("examination").innerHTML = txt;  
 }
