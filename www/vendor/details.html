@@ -356,7 +356,7 @@ text-align:center;
 				</ul>
 				<ul class="chat"  id='chist2' style="margin-top:10px;text-align:center;display:none;">
 					<button class="btn danger" onclick="nosave()">Discard Bill</button>
-					<button class="btn info" style="font-weight:500;font-size:12px;width:30%;margin-right:30px;" onclick="savecase1(cid)">Save</button>
+					<button class="btn info" style="font-weight:500;font-size:12px;width:30%;margin-right:30px;" onclick="saveBill()">Save</button>
 				</ul>		
 				</div>
 			</div>
@@ -432,7 +432,7 @@ $(function () {
 			var val = $("#seltreat").val();
 			$("#seltreat").val("");
 			if(val.trim().length > 1){
-				txt += "<li style='color: darkslateblue;' ><span name='tname'>" + val + "</span><span class='pull-right z3' style='width:40px;'><i class='fa fa-trash-o' style='font-size:18px;color:red'></i></span><span class='pull-right z2 ttl' contenteditable=true onkeyup='calcTotal()'  >0</span><span  class='pull-right z2' contenteditable=true >1</span></li>";
+				txt += "<li style='color: darkslateblue;' ><span class='x1' >" + val + "</span><span class='pull-right z3' style='width:40px;' onclick='removeItem(this)'><i class='fa fa-trash-o' style='font-size:18px;color:red'></i></span><span class='pull-right z2 ttl' contenteditable=true onkeyup='calcTotal()'  >0</span><span  class='pull-right z2 x2' contenteditable=true >1</span></li>";
 				document.getElementById("chist").innerHTML += txt;
 				
 				// make tbl header and total visible
@@ -442,6 +442,7 @@ $(function () {
 			}	
 			
 		}
+		
 		function calcTotal(){
 			// calculate total of all totals
 			var sum = 0;
@@ -450,5 +451,53 @@ $(function () {
 			});
 			$("#total").html(sum);
 		}
+		function saveBill(){
+			// Store items
+			var item = [];
+			$('.x1').each(function(){
+				item.push($(this).text());
+			});
+			//Store Qty
+			var qty = [];
+			$('.x2').each(function(){
+				qty.push($(this).text());
+			});
+			// Store ttl
+			var ttl = [];
+			$('.ttl').each(function(){
+				ttl.push($(this).text());
+			});
+			
+			// create aJSON now.
+			var json = [];
+			var txt="";
+			for (var i = 0; i < item.length; i++) {
+				txt = '{"item":"'+item[i]+'","qty":"'+qty[i]+'", "total" : "'+ttl[i]+'"}';
+				json.push(txt);
+			}
+			var total = $("#total").text();
+			var apt_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
+			var q = "1&did="+ localStorage.did + "&vid=" + getParameterByName("vid") + "&total="+total + "&apt_dt=" + apt_dt + "&bill=" + JSON.stringify(json);
+			
+			getData(q,1,"saveBill.php",function(){},function(){});
+		}
+		function formateDt(dt){
+   var date = new Date(dt);
+	var day = date.getDate();
+  var monthIndex = date.getMonth() + 1;
+  var year = date.getFullYear();
+  
+  if(monthIndex < 10)
+	monthIndex = "0" + monthIndex;
+  if(day < 10)
+	day = "0" + day;		
+  
+  return year+"-"+monthIndex+"-"+day;
+}
+
+function removeItem(o){
+	o.parentNode.parentNode.removeChild(o.parentNode);
+	calcTotal();
+}
 		
 </script>	
