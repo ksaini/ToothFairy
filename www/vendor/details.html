@@ -47,7 +47,12 @@ body {
 	border-bottom:1px solid #E0E0E0;
 	
 }
-
+.blist {
+	font-family: 'open_sans','Open Sans',sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+	padding-left:50px;	
+}
 .chat li
 {
     margin-bottom: 2px;
@@ -255,6 +260,7 @@ width:70px;
 height:27px;
 text-align:center;
 }
+
 </style>
      
    </head>
@@ -359,6 +365,14 @@ text-align:center;
 					<button class="btn info" style="font-weight:500;font-size:12px;width:30%;margin-right:30px;" onclick="saveBill()">Save</button>
 				</ul>		
 				</div>
+				
+				<div  class="row trbody" style="height:100%;border-top:1px solid #E0E0E0;margin-top:220px;" >
+					<ul class='chat' style="letter-spacing:2px;"><b> Recent Billings</b></ul>
+					<ul class="chat" id="part3" >
+					
+					</ul>
+					
+				</div>
 			</div>
 		</div>	
 	</div>
@@ -399,6 +413,41 @@ $(function () {
 			} catch(e) { console.log("Exception::-"+e.toString());}
 		}
 		
+	getData("q=SELECT bdate , bill from d_bill_tbl where vid='" + vid + "' and did='"+did+"' order by id desc ;",0,"dataTbl.php",showBDetails,function(){});	
+		function showBDetails(data){
+		var txt = "";
+		try{
+			var d = JSON.parse(data);  
+			for (var i = 0; i < d.length; i++) {
+			    txt += "<li style='margin-right:20px;height:100%'>";
+				var bdate = formatDate(d[i]["bdate"]);
+				txt += "<span>Billing on:</span><span class='pull-right ' onclick='showItem(this)'>" + bdate + "<span style='padding-left:10px;' >  &gt; </span></span>";
+				var bill = d[i]["bill"];
+				
+				var itm = "";
+				try{
+					// remove "" around [] and {} from bill
+					bill = bill.replace(/"\[/g, '[');
+					bill = bill.replace(/\]"/g, ']');
+					bill = bill.replace(/"\{/g, '{');
+					bill = bill.replace(/\}"/g, '}');
+					bill = JSON.parse(bill);
+					for(var j=0;j<bill.length;j++){
+						itm += "<div class='blist' style='margin-right:20px;color:darkblue;display:none;'><span>" + bill[j]["item"] + " x (" +bill[j]["qty"] + ")</span>"+"<span class='pull-right'>" +bill[j]["total"] +"</span></div>";
+					}
+				} catch (e1) {}
+				txt += itm;
+				txt +="</li>";
+			}
+			
+			} catch(e) { 
+				txt +="</li>";
+				console.log("Exception::-"+e.toString());}
+			document.getElementById("part3").innerHTML += txt;
+		}
+
+
+	
 		function addBill(){
 		$("#part2").css("display", "block");
 		$("#toolbar1").css("display", "none");
@@ -498,6 +547,9 @@ $(function () {
 function removeItem(o){
 	o.parentNode.parentNode.removeChild(o.parentNode);
 	calcTotal();
+}
+function showItem(e){
+	 $(e.parentNode).find(".blist").css("display", "block");
 }
 		
 </script>	
