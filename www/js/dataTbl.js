@@ -30,6 +30,51 @@ function getData(q,type,f,dSuccess,dError) {
 		req.send(sql);
 	}
 }
+function getDropDownData(ddId,q) {
+	var sql = "q=" + q;
+	var req = new XMLHttpRequest();
+	req.onreadystatechange = function() {
+		if (req.readyState == 4 && req.status == 200) {
+			try {
+				//alert(req.responseText);
+				var dataArray=JSON.parse(req.responseText);
+				updateDD(dataArray,ddId);
+				
+			} catch (e) {
+				console.log("Exception::-"+e.toString());
+			}
+		}
+	};
+	
+		
+	req.open("GET", base_url + "/dataTbl.php?" + sql, true);
+	req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	req.send();
+	
+}
+function updateDD(data,ddId){
+	//Do DOM updates here
+	
+	
+	var ddElement=document.getElementById(ddId);
+	var ddData="";
+	var flag =0;
+	// This query requires atleaset 2 params, if 3 params are there store it in dummy attribute.
+	// Thsi third param may be used later.
+		if(data[0][Object.keys(data[0])[2]]!=null)
+			flag=1;
+			
+	for (var i = 0; i < data.length; i++) {
+		//alert(data[i][Object.keys(data[i])[1]]);
+		if(flag)
+			ddData +="<option id='"+data[i][Object.keys(data[i])[0]]+"' value='"+data[i][Object.keys(data[i])[0]]+"' due='"+data[i][Object.keys(data[i])[2]]+"' rcvd='"+data[i][Object.keys(data[i])[3]]+"'>" + data[i][Object.keys(data[i])[1]] + "</option>";
+		else		
+			ddData +="<option id='"+data[i][Object.keys(data[i])[0]]+"' value='"+data[i][Object.keys(data[i])[0]]+"'>" + data[i][Object.keys(data[i])[1]] + "</option>";
+	}
+	
+	ddElement.innerHTML=ddData;
+	_ddCallBack();
+}
 
 function loadExamination(){
 	var obj = JSON.parse(exm);
