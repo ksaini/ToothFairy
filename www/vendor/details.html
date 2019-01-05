@@ -528,7 +528,7 @@ $(function () {
 			var apt_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
 			var q = "1&did="+ localStorage.did + "&vid=" + getParameterByName("vid") + "&total="+total + "&apt_dt=" + apt_dt + "&bill=" + JSON.stringify(json);
 			
-			getData(q,1,"saveBill.php",function(){},function(){});
+			getData(q,1,"saveBill.php",function(){location.reload();},function(){});
 		}
 		function formateDt(dt){
    var date = new Date(dt);
