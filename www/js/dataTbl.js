@@ -65,7 +65,7 @@ function updateDD(data,ddId){
 			flag=1;
 			
 	for (var i = 0; i < data.length; i++) {
-		//alert(data[i][Object.keys(data[i])[1]]);
+		//alert(data[i][Object.keys(data[i])[0]]);
 		if(flag)
 			ddData +="<option id='"+data[i][Object.keys(data[i])[0]]+"' value='"+data[i][Object.keys(data[i])[0]]+"' due='"+data[i][Object.keys(data[i])[2]]+"' rcvd='"+data[i][Object.keys(data[i])[3]]+"'>" + data[i][Object.keys(data[i])[1]] + "</option>";
 		else		
