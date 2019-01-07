@@ -350,6 +350,7 @@ button:focus {
 					<ul class="chat" id="chat" style="display: flex;padding-top:3px;padding-bottom:3px;">
 						<p style="padding-top:7px;width:70px;">Vendor </p>
 						<select class="form-control pmt" data-error="please select mode" style="width:70%;font-size:14px;letter-spacing:1px;padding-right:0px;padding-left:1px;" id="vendor" onchange='showDues();'   >
+						<option> Loading...</option>
 						</select>
 						
                     </ul>
@@ -372,11 +373,16 @@ button:focus {
 						</select>
                     </ul>
 					
-					<ul class="chat" id="chat" style="display: flex;padding-top:3px;padding-bottom:3px;">
+					<ul class="chat" id="x1" style="display: flex;padding-top:3px;padding-bottom:3px;">
 						<button class="btn " style="font-size:14px;width:100%;margin-right:30px" onclick="pmtcancel();">Cancel</button>
 						<button class="btn btn-success" style="font-weight:600;font-size:14px;width:100%" onclick="pmtpay();">Pay</button>
                     </ul>
-					
+					<ul class="chat" id="x2" style="display: none;padding-top:3px;padding-bottom:3px;text-align:center;">
+						<p class="alert alert-warning"><strong>Warning!</strong> Are you about to mark payment.
+						<br><br><a style="color:#8a6d3b;margin-right:25px;" onclick='pmtcancel1();'><u>Cancel</u></a><a style="color:#8a6d3b;margin-left:15px;" onclick='pmtpay1()'><u>Yes Pay</u></a>
+						</p>
+						
+                    </ul>
 					
 				</div>
 				</ul>
@@ -393,8 +399,8 @@ button:focus {
 				</div>
 				
 				<div id="parent_tr"  class="row trbody" style="display:none;height:100%;border-top:1px solid #E0E0E0;margin-top:40px" >
-					<ul class='chat' style="letter-spacing:2px;"><b>Prevoius Expenses</b></ul>
-					<div id="trans"></div>
+					<ul class='chat' style="letter-spacing:2px;"><b>Prevoius Expenses</b> (last 5)</ul>
+					<div id="trans"><i class="fa fa-spinner fa-spin" style="font-size:16px;color:black;"></i></div>
 					
 				</div>
 				</div>
@@ -432,7 +438,9 @@ $(function () {
  function showTDetails(data){
 	try{
 		txt = "";
+		document.getElementById("trans").innerHTML = "";
 		var d = JSON.parse(jsonEscape(data));  //jsonEscape to handel new line
+		
 		for (var i = 0; i < d.length; i++) {
 			txt += "<li style='margin-right:20px;height:100%'>";
 			var bdate = formatDate(d[i]["dt"]);
@@ -454,12 +462,15 @@ $(function () {
 	
 	var topay= parseInt($("#btotal").text()) - parseInt($("#rcvd").text());
 	$("#rdue").html(topay);
-	document.getElementById("topay").value = topay;
+	if(topay > 0)
+		document.getElementById("topay").value = topay;
 	
 	// Fill transactions. Clear space and fill
-	document.getElementById("trans").innerHTML = "";
+	// show spinner
+	
+	document.getElementById("trans").innerHTML = '<i class="fa fa-spinner fa-spin" style="font-size:16px;color:black;"></i> Loading...';
 	var vid = $("#vendor").children(":selected").attr("id");
-	getData("q=SELECT topay,dt,mode from d_exp_tbl where vid='" + vid + "' and did='"+did+"'  ;",0,"dataTbl.php",showTDetails,function(){});
+	getData("q=SELECT topay,dt,mode from d_exp_tbl where vid='" + vid + "' and did='"+did+"' LIMIT 5  ;",0,"dataTbl.php",showTDetails,function(){});
  }
  function pmtcancel(){
 	document.getElementById("pmtip").style.display ="none";
@@ -467,11 +478,22 @@ $(function () {
 	document.getElementById("parent_tr").style.display ="none";
 	document.getElementById("welcome_msg").style.display ="block";
 }
+function pmtcancel1(){
+	document.getElementById("x1").style.display ="flex";
+	document.getElementById("x2").style.display ="none";
+}
  function pmtpay() {
+	document.getElementById("x1").style.display ="none";
+	document.getElementById("x2").style.display ="flex";
+	
+ }
+ function pmtpay1() {
 	var dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
 	var vid = $("#vendor").children(":selected").attr("id");
 	var topay = $("#topay").val();
 	var mode = $("#pmymode option:selected").text();
+	document.getElementById("x1").style.display ="flex";
+	document.getElementById("x2").style.display ="none";
 	
 	var q = "dt="+dt+"&vid="+vid+"&topay="+topay+"&mode="+mode+ "&did=" + localStorage.did;
 	getData(q,0,"saveExp.php",function(){location.reload();},function(){});
