@@ -386,10 +386,10 @@ text-align:center;
 				</ul>		
 				</div>
 				
-				<div  class="row trbody" style="height:100%;border-top:1px solid #E0E0E0;margin-top:200px;" >
+				<div  class="row trbody" style="height:100%;border-top:1px solid #E0E0E0;margin-top:160px;" >
 					<ul class='chat' style="letter-spacing:2px;"><b> Recent Billings</b> ()</ul>
 					<ul class="chat" id="part3" >
-					
+						'<i class="fa fa-spinner fa-spin" style="font-size:16px;color:black;"></i> Loading...
 					</ul>
 					
 				</div>
@@ -442,6 +442,7 @@ $(function () {
 		function showBDetails(data){
 		var txt = "";
 		try{
+			document.getElementById("part3").innerHTML = "";
 			var d = JSON.parse(data);  
 			for (var i = 0; i < d.length; i++) {
 			    txt += "<li style='margin-right:20px;height:100%'>";
