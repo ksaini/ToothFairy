@@ -260,6 +260,26 @@ width:70px;
 height:27px;
 text-align:center;
 }
+@keyframes placeHolderShimmer{
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}
+
+.animated-background {
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 800px 104px;
+    position: relative;
+}
 
 </style>
      
@@ -285,7 +305,7 @@ text-align:center;
 							<p class="smallf4">Name: </p>
 						</div>
 						<div class="content col-md-8 col-xs-8" >
-							<p class="valtext" id="name"></p>
+							<p class="valtext animated-background" id="name">&nbsp;</p>
 						</div>
 						<div class="content col-md-2 col-xs-2" >
 							<p id=""></p>
@@ -297,7 +317,7 @@ text-align:center;
 							<p class="smallf4">Contact: </p>
 						</div>
 						<div class="content col-md-8 col-xs-8" >
-							<p class="valtext" id="contact"></p>
+							<p class="valtext animated-background" id="contact">&nbsp;</p>
 						</div>
 				</div>
 				<div class="row " >	
@@ -366,8 +386,8 @@ text-align:center;
 				</ul>		
 				</div>
 				
-				<div  class="row trbody" style="height:100%;border-top:1px solid #E0E0E0;margin-top:220px;" >
-					<ul class='chat' style="letter-spacing:2px;"><b> Recent Billings</b></ul>
+				<div  class="row trbody" style="height:100%;border-top:1px solid #E0E0E0;margin-top:200px;" >
+					<ul class='chat' style="letter-spacing:2px;"><b> Recent Billings</b> ()</ul>
 					<ul class="chat" id="part3" >
 					
 					</ul>
@@ -380,6 +400,7 @@ text-align:center;
 </div>
  <script type="text/javascript" src="../js/dataTbl.js"></script>
  <script type="text/javascript" src="../js/treatement.js"></script>
+ <script type="text/javascript" src="../js/billitem.js"></script>
  <script>
 $(function () {
 					var dateNow = new Date();
@@ -398,13 +419,17 @@ $(function () {
 <script>
 	var did = localStorage.did;
 	var vid = getParameterByName("vid");
-	var item = ["Cappol 350mg","Cappol 250mg","Dolo 500mg","Dolo -S 500mg","Dolo 600mg","Glycodine 100ug - S","Medicine x1 200","Acypser 300 DX","Acypser 300 SX"];
+	//var item = ["Cappol 350mg","Cappol 250mg","Dolo 500mg","Dolo -S 500mg","Dolo 600mg","Glycodine 100ug - S","Medicine x1 200","Acypser 300 DX","Acypser 300 SX"];
 	autocomplete(document.getElementById("seltreat"), item,0);	
 	getData("q=SELECT name,contact,cn,addr from d_vendor_tbl where vid='" + vid + "' and did='"+did+"' order by vid desc ;",0,"dataTbl.php",showVDetails,function(){});
 		function showVDetails(data){
 		try{
 			var d = JSON.parse(jsonEscape(data));  //jsonEscape to handel new line
 			d = d[0];
+			// remove class showing loading
+			$("#name").removeClass("animated-background");
+			$("#contact").removeClass("animated-background");
+			
 			$("#name").html(d["name"]);
 			$("#contact").html(d["contact"]);
 			$("#mobile").html(d["cn"]);
@@ -413,7 +438,7 @@ $(function () {
 			} catch(e) { console.log("Exception::-"+e.toString());}
 		}
 		
-	getData("q=SELECT bdate , bill from d_bill_tbl where vid='" + vid + "' and did='"+did+"' order by id desc ;",0,"dataTbl.php",showBDetails,function(){});	
+	getData("q=SELECT bdate , bill from d_bill_tbl where vid='" + vid + "' and did='"+did+"' order by id desc LIMIT 5 ;",0,"dataTbl.php",showBDetails,function(){});	
 		function showBDetails(data){
 		var txt = "";
 		try{
@@ -457,6 +482,14 @@ $(function () {
 		}
 		function bcancel(){
 		$("#bill").css("display", "none");
+		}
+		function nosave(){
+			$("#toolbar1").css("display", "block");
+			$("#part2").css("display", "none");
+			$("#chist").css("display", "none");
+			$("#chist1").css("display", "none");
+			$("#chist2").css("display", "none");
+			document.getElementById("chist").innerHTML = "";
 		}
 		
 		function badd(){
@@ -530,7 +563,8 @@ $(function () {
 			var apt_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
 			var q = "1&did="+ localStorage.did + "&vid=" + getParameterByName("vid") + "&total="+total + "&apt_dt=" + apt_dt + "&bill=" + JSON.stringify(json);
 			
-			getData(q,1,"saveBill.php",function(){location.reload();},function(){});
+			if(JSON.stringify(json).length >2 )
+				getData(q,1,"saveBill.php",function(){location.reload();},function(){});
 		}
 		function formateDt(dt){
    var date = new Date(dt);

@@ -232,7 +232,7 @@ button:focus {
 				<div id="toolbar1" class="row " style="border-bottom: 1px solid #ccc;padding-top:10px;padding-bottom:5px;">
 					<div class="content col-md-12 col-xs-12 toolbar" id="tb1" onclick="addVendor()" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext "><i class="fa fa-plus " ></i> Add Vendor</p>
-					
+					    <p class="valtext " style="font-size:10px;font-weight:300">(Tap on vendor to add bill)</p>
 					</div>
 				</div>
 				<div class="row trbody" style="height:100%;padding-top:15px;border-bottom:1px solid #E0E0E0;display:none;" id="vndr">
@@ -320,7 +320,7 @@ function showVendor(data){
 		var contact = d[i]["contact"];
 		var cn = d[i]["cn"];
 				
-		txt += "<li class='chat' style='margin-left:-30px;height:55px;' onclick=vendorDetail("+d[i]["vid"]+") >";
+		txt += "<li class='chat' style='margin-left:-30px;margin-right: -30px;height:55px;' onclick=vendorDetail("+d[i]["vid"]+") >";
 		txt += "<div class='row desc'>";
 		txt += "<div class='col-xs-12' style='padding-right:0px;letter-spacing:2px'>" + name   +"</div>";
 		txt += "</div><div class='row desc'>"
