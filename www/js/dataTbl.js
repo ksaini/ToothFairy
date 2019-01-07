@@ -531,3 +531,6 @@ function jsonEscape(str)  {
 	return str;
 
 }
+function callapp(n){
+	document.location.href = 'tel:+91'+ $(n).text();
+}

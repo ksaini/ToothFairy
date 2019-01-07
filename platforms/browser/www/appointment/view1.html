@@ -250,10 +250,10 @@ function createSlot(data){
         var hr = sortarray[i][0];
 		hr = (hr%12 == 0)? 12 : hr%12;
 		hr = (hr < 10) ? "0"+hr : hr;
-		txt += "<li style='border-bottom: 1px dotted #8159bb;'><div class='row valtext' style='padding-left:15px;'>";
-		txt += "<div class='col-xs-3' style='color:green;font-size:16px;fontweight:600;letter-spacing:0' >" + hr + ":" + sortarray[i][1] + " " + sortarray[i][2] + "</div>";
-		txt += "<div class='col-xs-4' >" + sortarray[i][3] + "</div>";
-		txt += "<div class='col-xs-3' >" + sortarray[i][4]*15 + " min</div>";
+		txt += "<li style='border-bottom: 1px dotted #8159bb;'><div class='row valtext' style='padding-left:10px;'>";
+		txt += "<div class='col-xs-3' style='color:green;font-size:14px;fontweight:600;letter-spacing:0' >" + hr + ":" + sortarray[i][1] + " " + sortarray[i][2] + "</div>";
+		txt += "<div class='col-xs-5' >" + sortarray[i][3] + "</div>";
+		txt += "<div class='col-xs-2' >" + sortarray[i][4]*15 + "m</div>";
 		txt += "<div class='col-xs-2 valtext' onclick='viewd("+sortarray[i][5]+")' ><i class='fa fa-list '></i></div>";
 		txt += "</div></li>";
 	}

@@ -217,7 +217,8 @@ button:focus {
 				Examination Types <span class="pull-right goto" onclick="manageExm(this.parentNode)"> +</span>
 			</ul>
 			<ul class="chat desc" >
-				<span >SMS </span><span class="pull-right goto" style="padding-left:35px;" onclick="manageSMS(this,this.parentNode)">+</span>
+				<span >SMS </span><span class="pull-right goto" style="padding-left:35px;" id="1x" onclick="manageSMS(this,this.parentNode)">+</span>
+				<div id="p1" style="text-align:center;padding-top:10px;"></div>
 				<div id="sss" style="display:none;">
 				<!----<div class="row " style="padding-top:30px;">
 					<div class="col-xs-10 valtext">Enable SMS</div>
@@ -225,20 +226,24 @@ button:focus {
 				</div>---->
 				<div class="row " style="padding-top:30px;">
 					<div class="col-xs-9 valtext">SMS Balance</div>
-					<div class="col-xs-3">23/100</div>
+					<div class="col-xs-3" id='smscount'></div>
 				</div>
 				<div class="row " style="padding-top:10px;">
 					<div class="col-xs-10 valtext">Send SMS for new Reg.</div>
-					<div class="col-xs-2"><input type="checkbox" value="" checked></label></div>
+					<div class="col-xs-2"><input type="checkbox" id="sms_new" value="" checked></label></div>
 				</div>
 				<div class="row " style="padding-top:10px;">
 					<div class="col-xs-10 valtext">Send SMS on Reschedule</div>
-					<div class="col-xs-2"><input type="checkbox" value="" checked></label></div>
+					<div class="col-xs-2"><input type="checkbox" id="sms_re" value="" checked></label></div>
 				</div>
 				<div class="row " style="padding-top:10px;">
 					<div class="col-xs-10 valtext">Send SMS on Save Case</div>
-					<div class="col-xs-2"><input type="checkbox" value="" checked></label></div>
+					<div class="col-xs-2"><input type="checkbox" id="sms_savecase" value="" checked></label></div>
 				</div>
+				<div class="row " style="padding-top:10px;">
+					<p class="btn-sm" style="border: 1px dotted #B3A9A9;width:25%;text-align:center" onclick="savesms()"> Save </p>
+				</div>
+				
 				</div>
 				
 			</ul>
@@ -468,13 +473,42 @@ button:focus {
 		$('ul > li').hide();
 		if($(t).text() == "+"){
 			$(t).html("-");
-			document.getElementById("sss").style.display = "block";	
+			document.getElementById("p1").innerHTML = '<i class="fa fa-spinner fa-spin" style="font-size:20px"></i>';
+			getData("q=SELECT sms, smsused,smsmeta from d_dr_tbl where did='"+localStorage.did+"' ;",0 ,"dataTbl.php",fetchSMSMeta, errSMSMeta);
+			//getData("q=SELECT max(cid) as cid FROM d_exm_tbl where pid='"+pid+"' and did='"+localStorage.did+"' ;",0,"dataTbl.php",calcBilling,errBill);
+			//document.getElementById("sss").style.display = "block";	
 		}
 		else{
 			$(t).html("+");
 			document.getElementById("sss").style.display = "none";
 			}
 	}
-//var treatements = ["Advance Surgical Procedure:300","Consultation:250","Crown Cementation:200","Crown MLS:220","Crown Sirconia:290","Crown Zirconia:300","Crowns:600","Dental Implant:2000","Dentures:1200","Fillings:600","Fluoride Treatment:700","Bridge:330"];
-//var medicines = ["Cappol 350mg","Cappol 250mg","Dolo 500mg","Dolo -S 500mg","Dolo 600mg","Glycodine 100ug - S","Medicine x1 200","Acypser 300 DX","Acypser 300 SX"];
+	
+	function fetchSMSMeta(data){
+		document.getElementById("p1").innerHTML = "";
+		var d = JSON.parse(data);
+		d = d[0];
+		document.getElementById("sss").style.display = "block";
+		$("#smscount").html(d["smsused"]+ "/" + d["sms"])
+		
+		if(d["smsmeta"]!=null){
+			var x = JSON.parse(d["smsmeta"]);
+		    $('#sms_new').prop('checked', x["sms_new"]==1? true:false);
+			$('#sms_re').prop('checked', x["sms_re"]==1? true:false);
+			$('#sms_savecase').prop('checked', x["sms_savecase"]==1? true:false);	 
+		}
+		//alert(d["sms"]);
+	}
+	function errSMSMeta(){document.getElementById("p1").innerHTML = "";}
+	
+	function savesms(){
+		var sms_new = $("#sms_new").is(":checked")? 1:0;
+		var sms_re = $("#sms_re").is(":checked")? 1:0;
+		var sms_savecase = $("#sms_savecase").is(":checked")? 1:0;
+		var q= "sms_new="+sms_new + "&sms_re="+sms_re + "&sms_savecase="+sms_savecase;
+		document.getElementById("sss").style.display = "none";
+		$("#1x").html("+");
+		getData(q,0,'saveSMSMeta.php',function(){},function(){});		
+	}
+	
 </script>	
