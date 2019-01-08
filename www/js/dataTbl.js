@@ -19,6 +19,9 @@ function getData(q,type,f,dSuccess,dError) {
 				console.log("Exception::-"+e.toString());
 			}
 		}
+		if (req.readyState == 4 && req.status == 404) {
+			dError(req.responseText);
+		}
 	};
 	if(type==0){
 		req.open("GET", base_url + "/"+f+"?" +  q, true);
@@ -533,4 +536,36 @@ function jsonEscape(str)  {
 }
 function callapp(n){
 	document.location.href = 'tel:+91'+ $(n).text();
+}
+function smsSummary(){
+	var did = localStorage.did;
+	var pid = getParameterByName("pid");
+	var cid = getParameterByName("cid");
+	var q = "did=" + did + "&pid=" + pid + "&cid=" +cid + "&code=1"; //code=1 for summary
+	
+	// disable div before sending
+	$("#summary_action").addClass("disabledbutton");
+	$("#sms1").html("Intiated SMS...")
+	document.getElementById("sms1").style.display = "block";
+	getData(q,0,"sendSMS.php",onsmsS,onsmsE);
+}
+function onsmsS(data){
+	$("#summary_action").removeClass("disabledbutton");
+	if(data ==1){
+		document.getElementById("sms1").style.display = "block";
+		document.getElementById("sms2").style.display = "none";
+		$("#sms1").html("SMS Sent...");
+	}
+	else{
+		document.getElementById("sms2").style.display = "block";
+		document.getElementById("sms1").style.display = "none";
+		$("#sms2").html("Unable to send sms. Please check SMS count.");
+	}
+		
+}
+function onsmsE(){
+	$("#summary_action").removeClass("disabledbutton");
+	document.getElementById("sms2").style.display = "block";
+	document.getElementById("sms1").style.display = "none";
+	$("#sms2").html("Unable to send sms. Please check network and try later.");
 }
