@@ -346,7 +346,7 @@ button:focus {
 						<p class="smallf3">Mobile: </p>
 					</div>
 					<div class="content col-md-4 col-xs-4" >
-						<p class="valtext" id="mobile"></p>
+						<span style="display:flex;"><p class="valtext" id="mobile" ></p>  <i class="fa fa-phone" style="font-size:18px;color:green;padding-left:10px;padding-right:10px;" onclick="callapp('mobile')"></i></span>
 					</div>
 				</div>
 				<div class="row " style="border-bottom: 1px solid #E0E0E0;">
@@ -671,12 +671,7 @@ button:focus {
 						
 					</div>
 					
-					<!----<div class="row" style="width:100%;text-align:center;margin-bottom: -10px;" >
-						<div class="content valtext col-md-6 col-xs-6" id='r62' style="margin-top: -10px;margin-bottom: -15px;">
-							<p style="padding-top: 10px;padding-left:10px;height:100%" ><b>Print</b></p>
-						</div>
-					</div>----->
-					
+										
 				</ul>
 				<div class="alert-success" id="sms1" style="display:none;text-align:center;font-size:12px;margin-top:5px;">Message sent</div>
 				<div class="alert-warning" id="sms2" style="display:none;text-align:center;font-size:12px;margin-top:5px;">Unable to send message</div>
@@ -1016,8 +1011,12 @@ button:focus {
 	}
 	function savecase(){
 	  reviewcase(cid);	
+	  // show spinner
+	  $("#part5").append('<i id="spnr" class="fa fa-spinner fa-spin" style="font-size:16px;color:black;margin-top:20px;margin-left:80px;"></i> Saving...');
 	  if(getParameterByName("pid") != null)
-		getData(JSON.stringify(casedetails),1,"saveCase.php",onSuccessP,onErrorP);
+	 	getData(JSON.stringify(casedetails),1,"saveCase.php",onSuccessP,onErrorP);
+		
+	   $("#spnr").hide();	
 	}
 	function savecase1(){
 	  reviewcase(cid);	
@@ -1029,7 +1028,7 @@ button:focus {
 		localStorage.isDirty = 0;
 		window.location.href = "history.html?pid=" + pid;
 	}
-	function onErrorP(){}
+	function onErrorP(){$("#spnr").hide();}
 	function fn2(){
 		localStorage.isDirty=1;
 		//fetchJson();

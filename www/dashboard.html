@@ -345,6 +345,17 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
    <script type="text/javascript" src="./js/dataTbl.js"></script>
 	
    <script>
+   // Wait for device API libraries to load
+   document.addEventListener("deviceready", onDeviceReady, false);
+   function onDeviceReady() {
+        // Register the event listener
+        document.addEventListener("backbutton", onBackKeyDown, false);
+    }
+	function onBackKeyDown() {
+		// Do not do any thing when back button is pressed. Override back button behaive
+		//When a user presses back button deom dashboard it should not go to logged out page.
+    }
+   
    // Log out if  not logged index
    if(localStorage.did == null || localStorage.did.length <=2)
 		window.location.href="index.html";
