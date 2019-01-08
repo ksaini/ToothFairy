@@ -535,7 +535,8 @@ function jsonEscape(str)  {
 
 }
 function callapp(n){
-	document.location.href = 'tel:+91'+ $(n).text();
+	//alert($("#"+n).text());
+	document.location.href = 'tel:+91'+ $("#"+n).text();
 }
 function smsSummary(){
 	var did = localStorage.did;
