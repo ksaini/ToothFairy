@@ -246,6 +246,8 @@ function createSlot(data){
 	}
 		
 	sortarray.sort(sortFunction);	
+	if(sortarray.length==0)
+		txt = "<li style='text-align:center;border-bottom: 1px dotted #8159bb;'> No appointments available.</li>";
 	for (var i = 0; i < sortarray.length; i++){
         var hr = sortarray[i][0];
 		hr = (hr%12 == 0)? 12 : hr%12;
