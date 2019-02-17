@@ -249,6 +249,10 @@ h2 {
 					</div>
 					
 				</div>	
+				<div class="row">
+					<div class="alert-success" id="sms1" style="display:none;text-align:center;font-size:12px;margin-top:5px;">Message sent</div>
+					<div class="alert-warning" id="sms2" style="display:none;text-align:center;font-size:12px;margin-top:5px;">Unable to send message</div>
+				</div>
 				
 			</ul>
 			
@@ -391,9 +395,18 @@ function setTenure(n){
 function savecalendar(){
 	var p = "did=" + did +"&pid=" +pid + "&dt=" + dt + "&dx=" + dx + "&dy=" + dy;
 	getData(p,0,"saveCalendar.php",successCal,errCal);
+	
 }
 function successCal(){
-	window.location.href  = "../patient/appointment.html?pid=" + pid;
+    var dt = getParameterByName("dt");
+	var dateParts = dt.split("/");
+	var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
+	var d = dateObject.toDateString();
+	
+	smsSchedule(pid,dy.replace("s_",""),d);
+	
+	// wait for 3 sec and then move
+	setTimeout(function () {window.location.href  = "../patient/appointment.html?pid=" + pid},3000);
 }
 function errCal(){}
 function shiftdate(n){

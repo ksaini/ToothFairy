@@ -505,7 +505,7 @@ button:focus {
 		var sms_new = $("#sms_new").is(":checked")? 1:0;
 		var sms_re = $("#sms_re").is(":checked")? 1:0;
 		var sms_savecase = $("#sms_savecase").is(":checked")? 1:0;
-		var q= "sms_new="+sms_new + "&sms_re="+sms_re + "&sms_savecase="+sms_savecase;
+		var q= "sms_new="+sms_new + "&sms_re="+sms_re + "&sms_savecase="+sms_savecase+"&did="+localStorage.did;
 		document.getElementById("sss").style.display = "none";
 		$("#1x").html("+");
 		getData(q,0,'saveSMSMeta.php',function(){},function(){});		

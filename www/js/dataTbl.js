@@ -550,6 +550,28 @@ function smsSummary(){
 	document.getElementById("sms1").style.display = "block";
 	getData(q,0,"sendSMS.php",onsmsS,onsmsE);
 }
+function smsNew(p){
+	var did = localStorage.did;
+	var pid = p;
+	var cid = 0;
+	var q = "did=" + did + "&pid=" + pid + "&cid=" +cid + "&code=2"; //code=2 for new patient
+	getData(q,0,"sendSMS.php",onsmsS,onsmsE);
+}
+function smsSchedule(p,dy,dt){
+	var did = localStorage.did;
+	var pid = p;
+	var cid = 0;
+	var q = "did=" + did + "&pid=" + pid + "&cid=" +cid + "&code=3&appoint="+dt+"&dy="+dy; //code=3 for Appointment
+	getData(q,0,"sendSMS.php",onsmsS,onsmsE);
+	
+}
+function smsPayment(p,amt){
+	var did = localStorage.did;
+	var pid = p;
+	var cid = 0;
+	var q = "did=" + did + "&pid=" + pid + "&cid=" +cid + "&code=4&amt="+amt; //code=4 for patient payment
+	getData(q,0,"sendSMS.php",onsmsS,onsmsE);
+}
 function onsmsS(data){
 	$("#summary_action").removeClass("disabledbutton");
 	if(data ==1){

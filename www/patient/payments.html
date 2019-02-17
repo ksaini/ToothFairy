@@ -477,6 +477,7 @@ function pmtcancel1(){
 function pmtpay() {
 	document.getElementById("x2").style.display ="flex";
  }
+ var tmppay=0;
 function pmtpay1(){
 	var tot = document.getElementById("topay_h").value;
 	var actual = document.getElementById("topay").value;
@@ -487,6 +488,7 @@ function pmtpay1(){
 	var pay={};
 	pay["total"] = tot;
 	pay["actual"] = actual;
+	tmppay = actual;
 	pay["rem"] = rem;
 	if(wo)
 		pay["wo"] = 1;
@@ -508,6 +510,7 @@ function postPay(data){
 	if(data==1){
 	document.getElementById("pmtip").style.display ="none";
 	document.getElementById("pmtbtn").style.display ="block";
+	smsPayment(getParameterByName("pid"),tmppay);
 	location.reload();
 	}
 
