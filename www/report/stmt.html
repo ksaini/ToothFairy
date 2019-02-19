@@ -448,35 +448,68 @@ $(function () {
  }
  
  function showStmt(data){
+ var open = 0;
+ var close = 0;
  var s_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
  var e_dt =formateDt($('#datetimepicker2').data('DateTimePicker').date());
  var txt = "<div class='row stmtr r1' style='background-color: rgb(252, 248, 225);text-align:center'>";
- //txt += "<div class='col-xs-4 bdr brd1 ' ></div>";
- txt += "<div class='col-xs-12 bdr brd1 ' style='font-size:10px;font-weight:400' ><i>("+s_dt + " - " + e_dt +")</i></div>";
- //txt += "<div class='col-xs-4 bdr brd1 ' ></div>";
+ txt += "<div class='col-xs-4 bdr brd1 ' id='open' style='border-right:none;font-size:12px;' ></div>";
+ txt += "<div class='col-xs-4 bdr brd1 ' style='font-size:10px;font-weight:400' ><i>("+s_dt + " - " + e_dt +")</i></div>";
+ txt += "<div class='col-xs-4 bdr brd1 ' id='close' style='border-left:none;font-size:12px;' ></div>";
  txt +="</div>";
  
- txt += "<div class='row stmtr r1'><div class='col-xs-4 bdr brd1 '>Date</div><div class='col-xs-4 bdr'>Description</div><div class='col-xs-2 bdr'>Deposit</div><div class='col-xs-2 bdr'>Receipt</div></div>";
-
+ txt += "<div class='row stmtr r1' style='font-size:12px;'><div class='col-xs-4 bdr brd1 '>Date</div><div class='col-xs-4 bdr'>Description</div><div class='col-xs-2 bdr'>Deposit</div><div class='col-xs-2 bdr'>Receipt</div></div>";
+ var deposit = 0;
+ var rcpt = 0;
 	try{
 			var d = JSON.parse(data);
+			open= d["open"];
+			close = d["close"];
+			d= d["data"];
 			for (var i = 0; i < d.length; i++){
 				txt += "<div class='row stmtr'>";
 				txt += "<div class='col-xs-4 bdr brd1'>"+formatDate(d[i][0])+"</div>";
-				txt += "<div class='col-xs-4 bdr'>"+d[i][2]+"</div>";
+				txt += "<div class='col-xs-4 bdr'>"+showDscr(d[i][2])+"</div>";
 				if(d[i][3]=="debt"){
 					txt += "<div class='col-xs-2 bdr' style='text-align:center'>-</div>";
-					txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i][1]+"</div>";
+					txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+parseInt(d[i][1])+"</div>";
+					rcpt = parseInt(rcpt)+parseInt(d[i][1]);
 				}
 				else{
-					txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i][1]+"</div>";
+					txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+parseInt(d[i][1])+"</div>";
 					txt += "<div class='col-xs-2 bdr' style='text-align:center'>-</div>";
+					deposit = parseInt(deposit)+parseInt(d[i][1]);
 				}
 				txt += "</div>";
 			}
+			// sum
+			txt += "<div class='row stmtr' style='border-top: 1px solid #ddd;font-weight:600'><div class='col-xs-4 bdr brd1'></div><div class='col-xs-4 bdr'></div>";
+			txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+deposit+"</div>";
+			txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+rcpt+"</div>";
+			
 		} catch (e){$("#stmt").html(txt);}
     $("#stmt").html(txt);
+	$("#open").html("Opening bal.<br>"+ open);
+	$("#close").html("Closing bal.<br>"+ close);
  }
+ 
+ function showDscr(data){
+	try{
+		var d = JSON.parse('[' + data + ']');
+		var txt="Vendor Bill";
+		var trail = "";
+		var maxl = d.length;
+		if(maxl>3){
+			maxl =3;
+			trail = "<p style='font-size:10px;margin:0px;color:#609'>......</p>";
+			}
+		for (var i = 0; i < maxl; i++){
+			txt+= "<p style='font-size:8px;margin:0px;color:#609'>" +d[i]["item"]+ " x " + d[i]["qty"]+"</p>"; 
+		}
+		return txt+trail;
+	}catch (e){ return data;}
+ }
+ 
  function _ddCallBack(){}
  function formateDt(dt){
    var date = new Date(dt);
