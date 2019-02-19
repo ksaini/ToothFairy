@@ -245,7 +245,7 @@ function createSlot(data){
 		txt += "<li style='border-bottom: 1px dotted #8159bb;'>"+formatDate(dt)+"</li>";
 		fillSlot(dt,d[i]["meta"],txt);	
 	}	
-	} catch (e){alert(e);
+	} catch (e){
 		txt = "<li style='text-align:center;border-bottom: 1px dotted #8159bb;'> No appointments available.</li>";
 		document.getElementById("chat").innerHTML += txt;	
 	}
@@ -277,7 +277,7 @@ if(d)
 		hr = (hr < 10) ? "0"+hr : hr;
 		
 		txt += "<li style='border-bottom: 1px dotted #8159bb;'><div class='row valtext' style='padding-left:10px;'>";
-		txt += "<div class='col-xs-3' style='color:green;font-size:14px;fontweight:600;letter-spacing:0' >" + hr + ":" + sortarray[i][1] + " " + sortarray[i][2] + "</div>";
+		txt += "<div class='col-xs-3' style='color:green;font-size:14px;fontweight:600;letter-spacing:0;padding-left:5px;padding-right:5px;' >" + hr + ":" + sortarray[i][1] + " " + sortarray[i][2] + "</div>";
 		txt += "<div class='col-xs-5' >" + sortarray[i][3] + "</div>";
 		txt += "<div class='col-xs-2' >" + sortarray[i][4]*15 + "m</div>";
 		txt += "<div class='col-xs-2 valtext' onclick='viewd("+sortarray[i][5]+")' ><i class='fa fa-list '></i></div>";

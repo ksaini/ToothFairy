@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="msapplication-tap-highlight" content="no" />
+      <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+      <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+      <!---<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />---->
+       <link href="../assets/css/font-awesome.min.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="../css/index.css" />
+      <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+	  
+	  <link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+	  <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+	 	  
+	  
+	  <script src="../js/moment.min.js"></script>   
+<script src="../js/jquery-1.10.2.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+
+      <title>GreyBox Admin</title>
+	  <style>
+body {
+	#background-image:url(img/s71.png);
+	background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    height: auto !important;
+    min-height:100%;
+	text-transform:inherit;
+	height: 100%;
+	
+}	
+.chat
+{
+    list-style: none;
+    margin: 0;
+    padding-top: 5px;
+	padding-bottom: 10px;
+	padding-left:5px;
+	padding-right:5px;
+	<!---border-bottom:1px solid #E0E0E0;--->
+	
+}
+
+.chat li
+{
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+	padding-right:10px;
+	padding-top:10px;
+	width:100%;
+	color:#B3A9A9;
+    border-bottom: 1px dotted #B3A9A9;
+	min-height:40px;
+	vertical-align:middle;
+}
+
+.chat li.left .chat-body
+{
+    margin-left: 60px;
+}
+
+.chat li.right .chat-body
+{
+    margin-right: 60px;
+	
+}
+
+.valtext {
+	font-family: 'open_sans','Open Sans',sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+	color: #4F545B;
+	contenteditable = true;
+	box-shadow: none;
+	border-bottom: 0px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	margin-bottom:0px;
+	letter-spacing: 1px;
+}
+.exmdetails {
+	display: block;
+	font-size:10px;
+	font-family: 'open_sans','Open Sans',sans-serif;	
+	letter-spacing: 1px;
+	font-weight: 300;
+	color: #636972;
+}
+
+.chat li .chat-body p
+{
+    margin: 0;
+	width:100%;
+    color: #F5F5F5;
+}
+
+.panel .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
+}
+
+.sticky {
+  
+}
+
+.stickyfooter {
+  position: fixed;
+  bottom:0;
+}
+.panel-body
+{
+    overflow-y: scroll;
+	min-height: 760px;
+    height: 100%;
+	padding-top: 45px;
+}
+.panel-footer{
+	padding: 1px 5px;
+}
+
+::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.navbar-custom{
+	background-color: #8159bb;
+}
+a{
+	color:white
+}
+
+.toolbar {
+	font-family: 'open_sans','Open Sans',sans-serif;
+    text-align: center;
+    padding-bottom:7px;padding-top:7px;
+}
+
+.smallf {
+	font-size:18px;
+}
+.smallf2 {
+	font-size:16px;
+	text-align:left;
+	font-weight: 400;
+}
+.smallf3 {
+	font-size:11px;
+	text-align:left;
+	font-weight: 400;
+	
+}
+.smallf4 {
+	font-size:12px;
+	text-align:left;
+	font-weight: 400;
+	margin-bottom:5px;
+}
+
+
+.tbselected{
+	border:1 px solid #8159bb;
+	background-color:#DCDCDC;
+}
+
+.selectedF {
+	border: 1px solid #F7A7C8;
+}
+.dchart {
+	width:37px;
+}
+.hide {
+	display:none;
+}
+.show {
+	display:block;
+}
+.btn-nav {
+	height:50px;
+	font-family: 'open_sans','Open Sans',sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+	color: #636972;
+	letter-spacing:1px;
+	background-color:#eee;	
+}
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+  width:100%;
+}
+
+.autocomplete-items {
+  
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  width:80%;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff; 
+  border-bottom: 1px solid #d4d4d4; 
+}
+
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9; 
+}
+
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important; 
+  color: #ffffff; 
+}
+
+input:focus,
+select:focus,
+button:focus {
+    outline: none;
+}
+
+.desc {
+	font-size:12px;
+	padding-left:0px;
+}
+.trbody{
+	font-family: 'open_sans','Open Sans',sans-serif;	
+	letter-spacing: 1px;
+	font-size:12px;
+	height:30px;
+	
+	padding-left: 15px;
+    padding-top: 5px;
+	border: 1px solid #d3d3d3;
+	border-bottom:none;
+	padding-bottom:10px;
+}
+.trhead {
+	background: #aa8fd1;<!---#4285f4;--->
+	font-family: 'open_sans','Open Sans',sans-serif;	
+	letter-spacing: 1px;
+	color:white;
+	font-size:14px;
+	height:30px;
+	font-weight:bold;
+	padding-left: 15px;
+    padding-top: 5px;
+	border: 1px solid #d3d3d3;
+}
+.trans {
+	font-family:'Roboto','Arial','Helvetica',sans-serif!important;
+	font-weight:300;
+}
+.advance{
+	font-size:7px;
+	font-style: italic;
+}
+.pmt {
+	font-family: 'open_sans','Open Sans',sans-serif;
+    text-align: center;
+    
+    font-size: 18px;
+    font-weight: 300;
+	color: #636972;
+	contenteditable = true;
+	box-shadow: none;
+	border-bottom: 1px solid #B3A9A9;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	margin-bottom:0px;
+	letter-spacing: 3px;
+}
+.pmt:focus {
+	border:0;
+	box-shadow: none;
+	border-bottom: 1px solid #B3A9A9;
+	color:#8159bb;
+}
+.dt1 {
+	font-size:16px;
+	line-height: 1.6;
+	padding-top:2px;
+	letter-spacing: 3px;
+	text-align:center;
+	font-family:'Roboto','Arial','Helvetica',sans-serif!important;
+	font-weight: 500;
+	color: #4F545B;
+}
+.bdr {
+border-right: 1px solid #ddd;
+    padding: 5px;
+}
+.brd1{
+	padding-left:15px;
+	padding-right:15px;
+	border-left: 1px solid #ddd;
+}
+.stmtr{
+margin-right: 0px;
+    margin-left: 0px;
+}
+.r1{
+border-bottom: 1px solid #ddd;
+font-weight:600;
+}
+</style>
+     
+   </head>
+   <body >
+     
+<nav class="navbar navbar-custom navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" style="width:100%;text-align:center;" href="../dashboard.html"><i style="position: absolute;left:5px;;" class="fa fa-home" aria-hidden="true"></i> <span style="font-size:14px;">View Statement</span></a>
+    </div>
+   
+  </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-5" style="padding-right:0px;padding-left:0px;">
+            <div class="panel panel-primary">
+                <div class="panel-body" id="p0"> 
+				
+				<div class="row" id="toolbar0" style=";padding-top:5px;padding-bottom:5px;">
+				
+			</div>
+			
+				<div>
+				
+				<ul class="chat" id='pmtip' style="margin-top:10px;padding-left:20px;padding-right:20px;border-bottom: none">
+				<div class="row trbody" style="height:100%;border-bottom: 1px solid #d3d3d3;" id="pmt">
+					<ul class="chat" id="chat" style="display: flex;padding-top:3px;padding-bottom:3px;">
+						<p style="padding-top:17px;width:70px;">From Date </p>
+						<div class='input-group date' style="width:60%;margin-top:10px;" id='datetimepicker1'>
+						<input type='text' class="form-control" id='frm_dt' style="font-size:12px;font-weight: 400" ></input>
+						<span class="input-group-addon">
+								<i id='users' class="fa fa-x fa-calendar"></i>
+						</span>
+						
+						</div>
+					</ul>
+					<ul class="chat" id="chat" style="display: flex;padding-top:3px;padding-bottom:3px;">
+						<p style="padding-top:17px;width:70px;">To Date </p>
+						<div class='input-group date' style="width:60%;margin-top:10px;" id='datetimepicker2'>
+						<input type='text' class="form-control" id='to_dt' style="font-size:12px;font-weight: 400" ></input>
+						<span class="input-group-addon">
+								<i id='users' class="fa fa-x fa-calendar"></i>
+						</span>
+						
+						</div>
+					</ul>
+					<ul class="chat" id="chat2" style="display: flex;padding-top:3px;padding-bottom:3px;">
+						<p style="padding-top:7px;width:70px;">Vendor </p>
+						<select class="form-control pmt" data-error="please select mode" style="width:70%;font-size:14px;letter-spacing:1px;padding-right:0px;padding-left:1px;" id="vendor" onchange='showDues();'   >
+						<option> Loading...</option>
+						</select>
+						
+                    </ul>
+					
+					<ul class="chat" id="x1" style="display: flex;padding-top:3px;padding-bottom:3px;">
+						<button class="btn " style="font-size:14px;width:100%;margin-right:30px" onclick="pmtcancel();">Cancel</button>
+						<button class="btn btn-success" style="font-weight:600;font-size:14px;width:100%" onclick="getStmt();">Statement</button>
+                    </ul>
+										
+				</div>
+				</ul>
+				<ul class='chat' style="letter-spacing:2px;"><b>Statement</b></ul>
+				<div id="stmt" class="" style="height:100%;border-top:1px solid #E0E0E0;border-bottom: 1px solid #ddd;"></div>
+			
+				
+				
+				<div id="parent_tr"  class="row trbody" style="display:none;height:100%;border-top:1px solid #E0E0E0;margin-top:40px" >
+					<ul class='chat' style="letter-spacing:2px;"><b>Prevoius Expenses</b> (last 5)</ul>
+					<div id="trans"><i class="fa fa-spinner fa-spin" style="font-size:16px;color:black;"></i></div>
+					
+				</div>
+				</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="../js/dataTbl.js"></script>
+ <script>
+$(function () {
+					var dateNow = new Date();
+					$('#datetimepicker1').datetimepicker({
+						locale: 'en',
+						format: 'DD/MM/YYYY',
+						defaultDate:dateNow,
+						widgetPositioning: {
+						vertical: 'bottom',
+						horizontal: 'left'
+						}
+					});
+					$('#datetimepicker2').datetimepicker({
+						locale: 'en',
+						format: 'DD/MM/YYYY',
+						defaultDate:dateNow,
+						widgetPositioning: {
+						vertical: 'bottom',
+						horizontal: 'left'
+						}
+					});
+					
+				});
+</script>
+<script>
+ var did = localStorage.did;
+ var q = "SELECT vid,name,due,rcvd from d_vendor_tbl where  did='"+did+"' order by vid desc ;";
+ getDropDownData('vendor',q); 
+ 
+  
+ function getStmt(){
+	
+	var s_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
+	var e_dt =formateDt($('#datetimepicker2').data('DateTimePicker').date());
+	var vid = $("#vendor").children(":selected").attr("id");
+	var q = "s_dt="+s_dt+"&vid="+vid+"&e_dt="+e_dt+"&did=" + localStorage.did;
+	getData(q,0,"getStmt.php",showStmt,function(){});			
+		
+ }
+ 
+ function showStmt(data){
+ var s_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
+ var e_dt =formateDt($('#datetimepicker2').data('DateTimePicker').date());
+ var txt = "<div class='row stmtr r1' style='background-color: rgb(252, 248, 225);text-align:center'>";
+ //txt += "<div class='col-xs-4 bdr brd1 ' ></div>";
+ txt += "<div class='col-xs-12 bdr brd1 ' style='font-size:10px;font-weight:400' ><i>("+s_dt + " - " + e_dt +")</i></div>";
+ //txt += "<div class='col-xs-4 bdr brd1 ' ></div>";
+ txt +="</div>";
+ 
+ txt += "<div class='row stmtr r1'><div class='col-xs-4 bdr brd1 '>Date</div><div class='col-xs-4 bdr'>Description</div><div class='col-xs-2 bdr'>Deposit</div><div class='col-xs-2 bdr'>Receipt</div></div>";
+
+	try{
+			var d = JSON.parse(data);
+			for (var i = 0; i < d.length; i++){
+				txt += "<div class='row stmtr'>";
+				txt += "<div class='col-xs-4 bdr brd1'>"+formatDate(d[i][0])+"</div>";
+				txt += "<div class='col-xs-4 bdr'>"+d[i][2]+"</div>";
+				if(d[i][3]=="debt"){
+					txt += "<div class='col-xs-2 bdr' style='text-align:center'>-</div>";
+					txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i][1]+"</div>";
+				}
+				else{
+					txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i][1]+"</div>";
+					txt += "<div class='col-xs-2 bdr' style='text-align:center'>-</div>";
+				}
+				txt += "</div>";
+			}
+		} catch (e){$("#stmt").html(txt);}
+    $("#stmt").html(txt);
+ }
+ function _ddCallBack(){}
+ function formateDt(dt){
+   var date = new Date(dt);
+	var day = date.getDate();
+  var monthIndex = date.getMonth() + 1;
+  var year = date.getFullYear();
+  
+  if(monthIndex < 10)
+	monthIndex = "0" + monthIndex;
+  if(day < 10)
+	day = "0" + day;		
+  
+  return year+"-"+monthIndex+"-"+day;
+}
+</script>
+</body>
+</html>	
