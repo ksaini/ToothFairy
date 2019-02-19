@@ -172,13 +172,13 @@ h2 {
 	<div class="panel panel-primary">
 		<div class="panel-body" >
 			<div class="row" style="">
-				<div class="col-xs-6 sel" style="text-align:center;border-right:1px solid #E0E0E0;padding-top:5px;padding-bottom:5px;">Daily</div>
-				<div class="col-xs-6" style="text-align:center;padding-top:5px;padding-bottom:5px;" onclick="showWeek()">Weekly</div>
+				<div class="col-xs-6 " style="text-align:center;border-right:1px solid #E0E0E0;padding-top:5px;padding-bottom:5px;" onclick="showDaily()">Daily</div>
+				<div class="col-xs-6 sel" style="text-align:center;padding-top:5px;padding-bottom:5px;" >Weekly</div>
 			</div>
 			<div class="row" id="toolbar0" style="background-color: #DCDCDC;padding-top:5px;padding-bottom:5px;">
-				<div class="col-xs-3 valtext" style="font-size:20px;line-height: 1.6;text-align:center;" onclick='shiftdate(-1)'> &lt; </div>
+				<div class="col-xs-3 valtext" style="font-size:20px;line-height: 1.6;text-align:center;" onclick='shiftdate(-7)'> &lt; </div>
 				<div class="col-xs-6" id='c_dt' style="font-size:16px;line-height: 1.6;padding-top:2px;letter-spacing: 1px;text-align:center"> </div>
-				<div class="col-xs-3 valtext" style="font-size:20px;line-height: 1.6;text-align:center;" onclick='shiftdate(1)'> &gt; </div>
+				<div class="col-xs-3 valtext" style="font-size:20px;line-height: 1.6;text-align:center;" onclick='shiftdate(7)'> &gt; </div>
 			</div>
 			
 			<ul class="chat" id="chat" style="margin-bottom:10px;">
@@ -214,29 +214,48 @@ h2 {
    var did = localStorage.did;
    var data = '[]';
    var dt = getParameterByName("dt");
+   var first,last;
    if(dt != null){
 		var tmpdt = dt.split("/");
-		document.getElementById("c_dt").innerHTML = formatDate(new Date(tmpdt[2],tmpdt[1]-1,tmpdt[0]));
+		var first = getMonday(new Date(tmpdt[2],tmpdt[1]-1,tmpdt[0]));
+		var last = lastDayOfWeek(first);
+		document.getElementById("c_dt").innerHTML = first + "  -  " + last;
 	}
 	else
 	   document.getElementById("c_dt").innerHTML = formatDate(new Date());
 			
    // fetch data
-   var f_dt = dt.split("/");
-   f_dt = f_dt[2]+ "-" + f_dt[1] + "-" + f_dt[0];
+   var f_dt = new Date(first);
+   f_dt = f_dt.getFullYear()+ "-" + (f_dt.getMonth()+1) + "-" + f_dt.getDate();
+   var l_dt = new Date(last);
+   l_dt = l_dt.getFullYear()+ "-" + (l_dt.getMonth()+1) + "-" + l_dt.getDate();
    
-   
-   getData("q=SELECT meta from d_cal_tbl where dt='"+ f_dt + "' and did='" + did + "' " ,0,"dataTbl.php",createSlot,errLCH);   
+   getData("q=SELECT meta,dt from d_cal_tbl where dt>='"+ f_dt + "' and dt<='"+l_dt+"' and did='" + did + "' " ,0,"dataTbl.php",createSlot,errLCH);   
   
 var sortarray = [];
 function createSlot(data){
 	try{
 	var d = JSON.parse(data);
-	d = d[0]["meta"]; 
-	if(d)
+	var txt = "";
+	for (var i = 0; i < d.length; i++){
+		sortarray = [];
+		txt = "";
+		var dt = d[i]["dt"];
+		 
+		txt += "<li style='border-bottom: 1px dotted #8159bb;'>"+formatDate(dt)+"</li>";
+		fillSlot(dt,d[i]["meta"],txt);	
+	}	
+	} catch (e){alert(e);
+		txt = "<li style='text-align:center;border-bottom: 1px dotted #8159bb;'> No appointments available.</li>";
+		document.getElementById("chat").innerHTML += txt;	
+	}
+}
+function fillSlot(dt,d,txt){
+
+if(d)
 		d = JSON.parse(d);
 	
-	var txt = "";
+	
 	var hr = 0;
 	
     for (var i = 0; i < d.length; i++){
@@ -256,6 +275,7 @@ function createSlot(data){
         var hr = sortarray[i][0];
 		hr = (hr%12 == 0)? 12 : hr%12;
 		hr = (hr < 10) ? "0"+hr : hr;
+		
 		txt += "<li style='border-bottom: 1px dotted #8159bb;'><div class='row valtext' style='padding-left:10px;'>";
 		txt += "<div class='col-xs-3' style='color:green;font-size:14px;fontweight:600;letter-spacing:0' >" + hr + ":" + sortarray[i][1] + " " + sortarray[i][2] + "</div>";
 		txt += "<div class='col-xs-5' >" + sortarray[i][3] + "</div>";
@@ -263,13 +283,8 @@ function createSlot(data){
 		txt += "<div class='col-xs-2 valtext' onclick='viewd("+sortarray[i][5]+")' ><i class='fa fa-list '></i></div>";
 		txt += "</div></li>";
 	}
-	document.getElementById("chat").innerHTML += txt;		
-	} catch (e){
-		txt = "<li style='text-align:center;border-bottom: 1px dotted #8159bb;'> No appointments available.</li>";
-		document.getElementById("chat").innerHTML += txt;	
-	}
-}
-	
+	document.getElementById("chat").innerHTML += txt;	
+}	
 
 function errCal(){}
 function shiftdate(n){
@@ -281,7 +296,7 @@ function shiftdate(n){
    var day = d.getDate();
    var year = d.getFullYear();
    var newdate =  day + "/" + month + "/" + year;
-   window.location = "view1.html?dt=" + newdate;	
+   window.location = "view2.html?dt=" + newdate;	
 }
 function sortFunction(a, b) {
     if (a[0] === b[0]) {
@@ -305,7 +320,19 @@ function errSearch(){}
 		
 		window.location.href  = "../patient/history.html?pid=" + d["pid"];
 	}
-function showWeek(){
-	window.location.href='./view2.html?dt='+getParameterByName("dt");
+function showDaily(){
+	window.location.href='./view1.html?dt='+getParameterByName("dt");
 }	
+function getMonday(d) {
+  d = new Date(d);
+  var day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+  return new Date(d.setDate(diff)).toDateString();
+}
+function lastDayOfWeek(d){
+	var d = new Date(d);
+	var last = d.getDate()+6;
+	var lastday = new Date(d.setDate(last)).toDateString();
+	return lastday;
+}
 	</script>
