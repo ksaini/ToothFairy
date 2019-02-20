@@ -441,18 +441,20 @@ $(function () {
  
  function makepayment(n){
 	document.getElementById("pmtip").style.display = "block";
-	if(n==0){
+	if(n==0){//vendor exp
 		document.getElementById("chat3").style.display = "none";
 		document.getElementById("chat2").style.display = "flex";
 		document.getElementById("parent_ul").style.display = "block";
-		modeflg = 0;	
+		modeflg = 0;
+        showDues();		
 		}
-	else{
+	else{//general exp
 		document.getElementById("chat2").style.display = "none";
 		document.getElementById("chat3").style.display = "flex";
 		document.getElementById("parent_ul").style.display = "none";
 		document.getElementById("topay").value = 0;
 		modeflg =1;
+		showDues();
 		}
 		
 	document.getElementById("part0").style.display = "none";
@@ -498,7 +500,12 @@ $(function () {
 	
 	document.getElementById("trans").innerHTML = '<i class="fa fa-spinner fa-spin" style="font-size:16px;color:black;"></i> Loading...';
 	var vid = $("#vendor").children(":selected").attr("id");
-	getData("q=SELECT topay,dt,mode,desc1 from d_exp_tbl where (vid='" + vid + "' or vid=0) and did='"+did+"' order by id desc LIMIT 5  ;",0,"dataTbl.php",showTDetails,function(){});
+	//getData("q=SELECT topay,dt,mode,desc1 from d_exp_tbl where (vid='" + vid + "' or vid=0) and did='"+did+"' order by id desc LIMIT 5  ;",0,"dataTbl.php",showTDetails,function(){});
+	
+	if(modeflg==0)
+		getData("q=SELECT topay,dt,mode,desc1 from d_exp_tbl where (vid='" + vid + "' ) and did='"+did+"' order by id desc LIMIT 5  ;",0,"dataTbl.php",showTDetails,function(){});
+	else
+		getData("q=SELECT topay,dt,mode,desc1 from d_exp_tbl where (vid='" + 0 + "' ) and did='"+did+"' order by id desc LIMIT 5  ;",0,"dataTbl.php",showTDetails,function(){});
  }
  function pmtcancel(){
 	document.getElementById("pmtip").style.display ="none";
