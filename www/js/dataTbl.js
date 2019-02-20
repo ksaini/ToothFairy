@@ -324,8 +324,8 @@ function fillTMT(t){
 				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + d[0] + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ d[1] +"</span></li>";
 			else // for deleted treatements make display=none
 				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;display:none;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + d[0] + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ d[1] +"</span></li>";
-		document.getElementById("seltreat").value = "";
-	
+				
+			document.getElementById("seltreat").value = "";
 		}
 		
 		mid++;
@@ -334,6 +334,8 @@ function fillTMT(t){
 	if(t.length >0){ // if treatement is empty
 		document.getElementById("total").innerHTML = t[t.length-1][1];
 		total = t[t.length-1][1];
+		prev_total = parseInt(total);
+		
 	}
 }
 function fillMED(t){
@@ -591,4 +593,16 @@ function onsmsE(){
 	document.getElementById("sms2").style.display = "block";
 	document.getElementById("sms1").style.display = "none";
 	$("#sms2").html("Unable to send sms. Please check network and try later.");
+}
+function getMonday(d) {
+  d = new Date(d);
+  var day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -6:1); // adjust when day is sunday
+  return new Date(d.setDate(diff)).toDateString();
+}
+function lastDayOfWeek(d){
+	var d = new Date(d);
+	var last = d.getDate()+6;
+	var lastday = new Date(d.setDate(last)).toDateString();
+	return lastday;
 }

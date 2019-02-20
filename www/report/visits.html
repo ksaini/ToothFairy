@@ -156,10 +156,10 @@ height:80px;color:white;font-size:16px;line-height:80px;
 					<p class = ' text-warning' style='font-size:10px;margin-top:0px;margin-bottom:0px;letter-spacing: 1px;'></p>
 				</ul>
 				<div id="toolbar1 " class="row " style="border-bottom: 1px solid #ccc;">
-					<div class="content col-md-4 col-xs-4 toolbar oc" id="tb1" onclick="reportdaily(this)" style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-4 col-xs-4 toolbar oc" id="tb1" onclick="getDailyR()" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext ">Today</p>
 					</div>
-					<div class="content col-md-4 col-xs-4 toolbar" id="tb2" onclick='reportweek(this)' style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-4 col-xs-4 toolbar" id="tb2" onclick='getWeekR();' style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext ">Week</p>
 					</div>
 					<div class="content col-md-4 col-xs-4 toolbar" id="tb3" onclick='' style="text-align:center;border-right:1px solid #E0E0E0;">
@@ -180,7 +180,7 @@ height:80px;color:white;font-size:16px;line-height:80px;
 					<div class="col-md-8 col-xs-8" >NEW PATIENTS</div><div class="col-md-4 col-xs-4" style="font-size:26px;text-align:center;">3</div>		
 				</ul>
 				<ul class="chat rvisit rmz"  style="" >
-					<div class="col-md-8 col-xs-8" >NEW BILLING</div><div class="col-md-4 col-xs-4" style="font-size:26px;text-align:center;">5</div>		
+					<div class="col-md-8 col-xs-8" >NEW BILLING</div><div class="col-md-4 col-xs-4" style="font-size:26px;text-align:center;" id='bill'><i class="fa fa-spinner fa-spin" style="font-size:24px"></i></div>		
 				</ul>
 				</div>
 				<div id="weekly" style="display:none;"><br>
@@ -200,6 +200,45 @@ height:80px;color:white;font-size:16px;line-height:80px;
  <script src="../assets/js/chartist.min.js"></script>
 <script>
 
+init(1,new Date());
+
+function init(d,s_dt){
+//show sipnner
+$("#bill").html('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>');
+// highlight tab
+if(d==1){
+	document.getElementById("tb2").classList.remove("oc");
+	document.getElementById("tb1").classList.add("oc");
+}
+else if(d==7){
+	document.getElementById("tb1").classList.remove("oc");
+	document.getElementById("tb2").classList.add("oc");
+}	
+
+var e_dt = new Date();
+e_dt.setDate(s_dt.getDate()+d);
+var q = "s_dt="+formateDt(s_dt)+"&e_dt="+formateDt(e_dt)+"&did=" + localStorage.did ;
+getData(q,0,"getVisit.php",showRpt,function(){});	
+}
+
+function getWeekR(){
+	
+		var tmpdt = new Date();
+		var first = getMonday(new Date(tmpdt.getFullYear(),tmpdt.getMonth(),tmpdt.getDate()));
+		init(7,new Date(first));
+}
+
+function getDailyR(){
+	var tmpdt = new Date();
+	init(1,tmpdt);
+}
+
+function showRpt(data){
+try{	
+	var d = JSON.parse(data);
+	$("#bill").html(d["delta"]);
+	}catch (e){ $("#bill").html("Can't fetch Data.");}
+}
 
 function reportweek(e){
 	document.getElementById("daily").style.display = "none";
@@ -240,5 +279,18 @@ function drawMonthTotal(id,cls){
 	];		
 	Chartist.Bar(id, data, options, resOps);
 	//Chartist.Bar('#rnew', data, options, resOps);
+}
+function formateDt(dt){
+   var date = new Date(dt);
+	var day = date.getDate();
+  var monthIndex = date.getMonth() + 1;
+  var year = date.getFullYear();
+  
+  if(monthIndex < 10)
+	monthIndex = "0" + monthIndex;
+  if(day < 10)
+	day = "0" + day;		
+  
+  return year+"-"+monthIndex+"-"+day;
 }
 </script>	

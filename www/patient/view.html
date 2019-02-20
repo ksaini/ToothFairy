@@ -744,6 +744,8 @@ button:focus {
 				cid = getParameterByName("cid");
 				// Fetch other details and fill them	
 		}
+		var prev_total = 0; // record prev total for calculating new billing reports.
+		var delta = 0;
 		
 		displayBasicInfo();
 		displayCaseHistory();
@@ -939,6 +941,11 @@ button:focus {
 				t.push(tmp);
 			}
 			t.push(["Total",document.getElementById("total").innerHTML]);
+			// calculate delta here. i.e. new billing applicable for this save.
+			var currtot = parseInt(document.getElementById("total").innerHTML);
+			if(isNaN(currtot))
+				currtot = 0;
+			delta = currtot - parseInt(prev_total);
 			// Medecines
 			var m = [];
 			ul = document.getElementById("yy");
@@ -959,6 +966,7 @@ button:focus {
 			casedetails["flag_e"] = intelliSave(e1,"exm");
 			casedetails["flag_t"] = intelliSave(t,"tmt");
 			casedetails["flag_m"] = intelliSave(m,"med"); // flags to update exm,tmt and med
+			casedetails["delta"] = delta;
 			examination(6);
 			
 			fillSummary();
