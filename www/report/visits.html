@@ -116,9 +116,9 @@ a{
 .rvisit {
 height:80px;color:white;font-size:16px;line-height:80px;
 }
-.ppl {background: #8159bb;}
-.grn { background: #5aaa78;}
-.rmz {background-color:#db0a5b;}
+.ppl {background: #16a085;}
+.grn { background: #2980b9;}
+.rmz {background-color:#9b59b6;}
 .ct-series-a .ct-bar {
 	stroke:#8159bb;
 }
@@ -139,22 +139,22 @@ height:80px;color:white;font-size:16px;line-height:80px;
   </div>
 </nav>
 <div class="container">
-    <div class="row">
+    <div class="row" style="">
         <div class="col-sm-5" style="padding-right:0px;padding-left:0px;">
             <div class="panel panel-primary">
                 <div class="panel-body" id="p0"> 
 				<div class="sticky">
-				<ul class="chat"  style="margin-top:10px;" id="chist">
+				<ul class="chat"  style="margin-top:10px;border-bottom:none;" id="chist">
 					<p class = ' text-warning' style='font-size:10px;margin-top:0px;margin-bottom:0px;letter-spacing: 1px;'></p>
 				</ul>
-				<div id="toolbar1 " class="row " style="border-bottom: 1px solid #ccc;">
+				<div id="toolbar1 " class="row " style="border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">
 					<div class="content col-md-4 col-xs-4 toolbar oc" id="tb1" onclick="getDailyR()" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext ">Daily</p>
 					</div>
 					<div class="content col-md-4 col-xs-4 toolbar" id="tb2" onclick='getWeekR();' style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext ">Weekly</p>
 					</div>
-					<div class="content col-md-4 col-xs-4 toolbar" id="tb3" onclick='' style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-4 col-xs-4 toolbar" id="tb3" onclick='getMonthR();' style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext ">Monthly</p>
 					</div>
 					
@@ -178,7 +178,7 @@ height:80px;color:white;font-size:16px;line-height:80px;
 				</ul>
 				<div id="daily">
 				<ul class="chat "  style="" ></ul>
-				<ul class="chat rvisit ppl"  style="" >
+				<ul class="chat rvisit ppl "  style="" >
 					<div class="col-md-8 col-xs-8" >TOTAL VISITS</div><div class="col-md-4 col-xs-4" style="font-size:26px;text-align:center;" id='visit'><i class="fa fa-spinner fa-spin" style="font-size:16px"></i></div>		
 				</ul>
 				
@@ -229,17 +229,24 @@ $("#visit").html('<i class="fa fa-spinner fa-spin" style="font-size:16px"></i>')
 $("#rev").html('<i class="fa fa-spinner fa-spin" style="font-size:16px"></i>');
 // highlight tab
 if(d==1){
+	document.getElementById("tb3").classList.remove("oc");
 	document.getElementById("tb2").classList.remove("oc");
 	document.getElementById("tb1").classList.add("oc");
 }
 else if(d==7){
+	document.getElementById("tb3").classList.remove("oc");
 	document.getElementById("tb1").classList.remove("oc");
 	document.getElementById("tb2").classList.add("oc");
+}
+else if(d>7){
+	document.getElementById("tb1").classList.remove("oc");
+	document.getElementById("tb2").classList.remove("oc");
+	document.getElementById("tb3").classList.add("oc");
 }	
 
 var e_dt = new Date();
 e_dt.setDate(s_dt.getDate()+d);
-var q = "s_dt="+formateDt(s_dt)+"&e_dt="+formateDt(e_dt)+"&did=" + localStorage.did ;
+var q = "s_dt="+formateDt(s_dt)+"&e_dt="+formateDt(e_dt)+"&did=" + localStorage.did+"&flg=1" ;
 getData(q,0,"getVisit.php",showRpt,function(){});	
 }
 
@@ -254,6 +261,14 @@ function getDailyR(){
 
 	var tmpdt = new Date($('#datetimepicker1').data('DateTimePicker').date());
 	init(1,tmpdt);
+}
+
+function getMonthR(){
+	var tmpdt = new Date($('#datetimepicker1').data('DateTimePicker').date());
+	var x = firstDayMonth(tmpdt);
+	var first = x[0];
+	var days = x[1];
+	init(days,new Date(first));
 }
 
 function showRpt(data){

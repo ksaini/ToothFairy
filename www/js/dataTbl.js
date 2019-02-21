@@ -606,3 +606,7 @@ function lastDayOfWeek(d){
 	var lastday = new Date(d.setDate(last)).toDateString();
 	return lastday;
 }
+function firstDayMonth(d){
+	d = new Date(d.getFullYear(),d.getMonth(),1);
+	return [d,new Date(d.getFullYear(),d.getMonth()+1, 0).getDate()];	
+}
