@@ -320,8 +320,15 @@ function fillTMT(t){
 	for(var i=0; i < t.length; i++){
 		var d = t[i];
 		if(d[0] != "Total"){
-			if(d[0].trim().length>0)
-				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + d[0] + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ d[1] +"</span></li>";
+			if(d[0].trim().length>0){
+				var bill = " Bill+";
+				try{
+				if(parseInt(d[1])>0)
+					bill = " Bill-";	
+				}catch (e){}
+				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + d[0] + "</span><span class='pull-right btn-sm' id='bill_"+mid+"' val='"+d[1]+"' onclick='doBilling(this,"+mid+")'>"+bill+"</span><span id='prid_"+mid+"' contenteditable=true style='width:50px;text-align:left;padding-left:10px;' class='pull-right'>"+ d[1] +"</span></li>";
+				
+			}
 			else // for deleted treatements make display=none
 				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;display:none;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + d[0] + "</span><span id='prid_"+mid+"' contenteditable=true style='width:50px' class='pull-right'>"+ d[1] +"</span></li>";
 				
@@ -395,7 +402,8 @@ function showBilling(data){
 	var did = d[0]["did"];
 	var txt = "";
 	for(var i=0; i < details.length-1;i++){
-		txt += "<div class='valtext'>" + details[i][0] + "</div>";
+		if(parseInt(details[i][1]) > 0)
+			txt += "<div class='valtext'>" + details[i][0] + "</div>";
 	}
 	document.getElementById("billing").innerHTML += txt;
 	document.getElementById("btotal").innerHTML = details[details.length-1][0] + " : " + details[details.length-1][1] ;

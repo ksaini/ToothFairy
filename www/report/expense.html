@@ -305,11 +305,13 @@ button:focus {
 .bdr {
 border-right: 1px solid #ddd;
     padding: 5px;
+	font-size:12px;
 }
 .brd1{
 	padding-left:15px;
 	padding-right:15px;
 	border-left: 1px solid #ddd;
+	
 }
 .stmtr{
 margin-right: 0px;
@@ -380,7 +382,7 @@ font-weight:600;
 					
 					
 					<ul class="chat" id="x1" style="display: flex;padding-top:3px;padding-bottom:3px;justify-content: center;width:100%">
-						<button class="btn " style="font-size:14px;width:40%;margin-right:30px" onclick="pmtcancel();">Cancel</button>
+						<button class="btn " style="font-size:14px;width:40%;margin-right:30px" onclick="window.history.back();">Back</button>
 						<button class="btn btn-success" style="font-weight:600;font-size:14px;width:40%" onclick="getStmt();">Expenses</button>
                     </ul>
 										
@@ -427,14 +429,14 @@ $(function () {
 </script>
 <script>
  var did = localStorage.did;
- 
+ var vendor;
   
  function getStmt(){
 	
 	var s_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
 	var e_dt =formateDt($('#datetimepicker2').data('DateTimePicker').date());
 	var vid = $("#vendor").children(":selected").attr("id");
-	var q = "s_dt="+s_dt+"&e_dt="+e_dt+"&did=" + localStorage.did+"&flg=2";
+	var q = "s_dt="+s_dt+"&e_dt="+e_dt+"&did=" + localStorage.did+"&flg=3";
 	getData(q,0,"getVisit.php",showStmt,function(){});			
 		
  }
@@ -452,14 +454,15 @@ $(function () {
  var rcpt = 0;
 	try{
 			var d = JSON.parse(data);
-			
+			vendor = d["vndr"];
+			var d = d["rev"];
 			for (var i = 0; i < d.length; i++){
 				txt += "<div class='row stmtr'>";
-				txt += "<div class='col-xs-4 bdr brd1'>"+formatDate(d[i]["udate"])+"</div>";
-				txt += "<div class='col-xs-4 bdr'>"+d[i]["pname"]+"</div>";
+				txt += "<div class='col-xs-4 bdr brd1'>"+formatDate(d[i]["dt"])+"</div>";
+				txt += "<div class='col-xs-4 bdr'>"+d[i]["desc1"]+ getVendor(d[i]['vid']) +"</div>";
 				txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i]["mode"]+"</div>";
-				txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i]["amount"]+"</div>";
-				rcpt = parseInt(rcpt) + parseInt(d[i]["amount"]);				
+				txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i]["topay"]+"</div>";
+				rcpt = parseInt(rcpt) + parseInt(d[i]["topay"]);				
 				txt += "</div>";
 			}
 			// sum
@@ -478,6 +481,16 @@ $(function () {
 	$("#close").html("Closing bal.<br>"+ close);
  }
  
+ function getVendor(vid){
+	try{
+		var v = vendor;
+		for(var i=0;i< v.length; i++){
+			if(v[i]["vid"] == vid)
+				return "<br><p style='font-size:10px;margin:0px;color:#609'>"+ v[i]["name"] + "</p>";
+		}
+	}  catch (e) {return "";}
+		return "";
+ }
   
  function _ddCallBack(){}
  function formateDt(dt){

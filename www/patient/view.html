@@ -806,7 +806,7 @@ button:focus {
 			
 				
 			if(t.trim().length > 0){
-				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + t0 + "</span><span id='prid_"+mid+"'  style='width:50px' class='pull-right'>"+ t1 +"</span></li>";
+				document.getElementById("xx").innerHTML += "<li style='color: darkslateblue;' onclick='showDiscountTB("+mid+");'><span name='tname'>" + t0 + "</span><span class='pull-right btn-sm' id='bill_"+mid+"' val='"+t1+"' onclick='doBilling(this,"+mid+")'> Bill-</span><span id='prid_"+mid+"'  style='width:50px;text-align:center;padding-right:10px;' class='pull-right'>"+ t1 +"</span></li>";
 				document.getElementById("seltreat").value = "";
 				if(isNaN(parseInt(total)))
 					total =0;
@@ -814,6 +814,23 @@ button:focus {
 				document.getElementById("total").innerHTML = total;
 				mid++;
 			}
+		}
+		function doBilling(e,m){
+			var v = parseInt($("#prid_"+m).html());
+			if(isNaN(v)) v=0;
+			// if v>0 unbill it else bill it
+			if(v > 0){
+				$("#prid_"+m).html(0);
+				e.innerHTML = " Bill+";
+				document.getElementById("total").innerHTML = parseInt(document.getElementById("total").innerHTML) - parseInt(e.getAttribute("val")) ;
+				}
+			else if(v==0){ //get list of all treatement  And check for attribute price
+				$("#prid_"+m).html(e.getAttribute("val"));
+				e.innerHTML = " Bill-";	
+				document.getElementById("total").innerHTML = parseInt(document.getElementById("total").innerHTML) + parseInt(e.getAttribute("val")) ;
+			}	
+			// update total
+			
 		}
 		function addmed(){
 			// if case is a revisit set mid from current list of medecine
@@ -900,6 +917,12 @@ button:focus {
 			//Now update element
 			o.innerHTML = f.innerHTML;
 			
+			//Update Bill span
+			if(selectedPrice > 0){
+				var bill = document.getElementById("bill_"+selectedPrice);
+				bill.setAttribute('val',o.innerHTML);
+			}
+			
 			//Update total
 			document.getElementById("total").innerHTML = total;
 			
@@ -937,7 +960,7 @@ button:focus {
 			var ul = document.getElementById("xx");
 			var list = ul.getElementsByTagName("li"); 
 			for (i = 0; i < list.length; i++) {
-				var tmp = [list[i].childNodes[0].innerHTML,list[i].childNodes[1].innerHTML];
+				var tmp = [list[i].childNodes[0].innerHTML,list[i].childNodes[2].innerHTML];
 				t.push(tmp);
 			}
 			t.push(["Total",document.getElementById("total").innerHTML]);

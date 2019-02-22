@@ -339,7 +339,7 @@ font-weight:600;
 <nav class="navbar navbar-custom navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" style="width:100%;text-align:center;" href="../dashboard.html"><i style="position: absolute;left:5px;;" class="fa fa-home" aria-hidden="true"></i> <span style="font-size:14px;">View Statement</span></a>
+      <a class="navbar-brand" style="width:100%;text-align:center;" href="../dashboard.html"><i style="position: absolute;left:5px;;" class="fa fa-home" aria-hidden="true"></i> <span style="font-size:14px;">Fee Record</span></a>
     </div>
    
   </div>
@@ -378,31 +378,18 @@ font-weight:600;
 						
 						</div>
 					</ul>
-					<ul class="chat" id="chat2" style="display: flex;padding-top:3px;padding-bottom:3px;">
-						<p style="padding-top:7px;width:70px;">Vendor </p>
-						<select class="form-control pmt" data-error="please select mode" style="width:70%;font-size:14px;letter-spacing:1px;padding-right:0px;padding-left:1px;" id="vendor" onchange='showDues();'   >
-						<option> Loading...</option>
-						</select>
-						
-                    </ul>
+					
 					
 					<ul class="chat" id="x1" style="display: flex;padding-top:3px;padding-bottom:3px;justify-content: center;width:100%">
 						<button class="btn " style="font-size:14px;width:40%;margin-right:30px" onclick="window.history.back();">Back</button>
-						<button class="btn btn-success" style="font-weight:600;font-size:14px;width:40%" onclick="getStmt();">Statement</button>
+						<button class="btn btn-success" style="font-weight:600;font-size:14px;width:40%" onclick="getStmt();">Report</button>
                     </ul>
 										
 				</div>
 				</ul>
-				<ul class='chat' style="letter-spacing:2px;"><b>Statement</b></ul>
+				<ul class='chat' style="letter-spacing:2px;"><b>Fee Report</b></ul>
 				<div id="stmt" class="" style="height:100%;border-top:1px solid #E0E0E0;border-bottom: 1px solid #ddd;"></div>
 			
-				
-				
-				<div id="parent_tr"  class="row trbody" style="display:none;height:100%;border-top:1px solid #E0E0E0;margin-top:40px" >
-					<ul class='chat' style="letter-spacing:2px;"><b>Prevoius Expenses</b> (last 5)</ul>
-					<div id="trans"><i class="fa fa-spinner fa-spin" style="font-size:16px;color:black;"></i></div>
-					
-				</div>
 				</div>
 		</div>
 	</div>
@@ -434,8 +421,6 @@ $(function () {
 </script>
 <script>
  var did = localStorage.did;
- var q = "SELECT vid,name,due,rcvd from d_vendor_tbl where  did='"+did+"' order by vid desc ;";
- getDropDownData('vendor',q); 
  
   
  function getStmt(){
@@ -443,50 +428,43 @@ $(function () {
 	var s_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
 	var e_dt =formateDt($('#datetimepicker2').data('DateTimePicker').date());
 	var vid = $("#vendor").children(":selected").attr("id");
-	var q = "s_dt="+s_dt+"&vid="+vid+"&e_dt="+e_dt+"&did=" + localStorage.did;
-	getData(q,0,"getStmt.php",showStmt,function(){});			
+	var q = "s_dt="+s_dt+"&e_dt="+e_dt+"&did=" + localStorage.did+"&flg=2";
+	getData(q,0,"getVisit.php",showStmt,function(){});			
 		
  }
  
  function showStmt(data){
- var open = 0;
- var close = 0;
+ 
  var s_dt =formateDt($('#datetimepicker1').data('DateTimePicker').date());
  var e_dt =formateDt($('#datetimepicker2').data('DateTimePicker').date());
  var txt = "<div class='row stmtr r1' style='background-color: rgb(252, 248, 225);text-align:center'>";
- txt += "<div class='col-xs-4 bdr brd1 ' id='open' style='border-right:none;font-size:12px;' ></div>";
- txt += "<div class='col-xs-4 bdr brd1 ' style='font-size:10px;font-weight:400' ><i>("+s_dt + " - " + e_dt +")</i></div>";
- txt += "<div class='col-xs-4 bdr brd1 ' id='close' style='border-left:none;font-size:12px;' ></div>";
+ txt += "<div class='col-xs-12 bdr brd1 ' style='font-size:10px;font-weight:400' ><i>"+formatDate(s_dt) + " - " + formatDate(e_dt) +"  </i></div>";
  txt +="</div>";
  
- txt += "<div class='row stmtr r1' style='font-size:11px;'><div class='col-xs-4 bdr brd1 '>Date</div><div class='col-xs-4 bdr'>Description</div><div class='col-xs-2 bdr'>Bills/<br>Receipts</div><div class='col-xs-2 bdr'>Amount Paid</div></div>";
- var deposit = 0;
+ txt += "<div class='row stmtr r1' style='font-size:11px;'><div class='col-xs-4 bdr brd1 '>Date</div><div class='col-xs-4 bdr'>Description</div><div class='col-xs-2 bdr'>Mode</div><div class='col-xs-2 bdr'>Amount</div></div>";
+ 
  var rcpt = 0;
 	try{
 			var d = JSON.parse(data);
-			open= d["open"];
-			close = d["close"];
-			d= d["data"];
+			
 			for (var i = 0; i < d.length; i++){
 				txt += "<div class='row stmtr'>";
-				txt += "<div class='col-xs-4 bdr brd1'>"+formatDate(d[i][0])+"</div>";
-				txt += "<div class='col-xs-4 bdr'>"+showDscr(d[i][2])+"</div>";
-				if(d[i][3]=="debt"){
-					txt += "<div class='col-xs-2 bdr' style='text-align:center'>-</div>";
-					txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+parseInt(d[i][1])+"</div>";
-					rcpt = parseInt(rcpt)+parseInt(d[i][1]);
-				}
-				else{
-					txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+parseInt(d[i][1])+"</div>";
-					txt += "<div class='col-xs-2 bdr' style='text-align:center'>-</div>";
-					deposit = parseInt(deposit)+parseInt(d[i][1]);
-				}
+				txt += "<div class='col-xs-4 bdr brd1'>"+formatDate(d[i]["udate"])+"</div>";
+				txt += "<div class='col-xs-4 bdr'>"+d[i]["pname"]+"</div>";
+				txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i]["mode"]+"</div>";
+				txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+d[i]["amount"]+"</div>";
+				rcpt = parseInt(rcpt) + parseInt(d[i]["amount"]);				
 				txt += "</div>";
 			}
 			// sum
-			txt += "<div class='row stmtr' style='border-top: 1px solid #ddd;font-weight:600'><div class='col-xs-4 bdr brd1'></div><div class='col-xs-4 bdr'></div>";
-			txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+deposit+"</div>";
-			txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+rcpt+"</div>";
+			txt += "<div class='row stmtr' style='border-top: 1px solid #ddd;font-weight:600'>";
+			txt += "<div class='col-xs-10 bdr' style='text-align:center;border-left: 1px solid #ddd;'><b>Total</b></div>";
+			txt += "<div class='col-xs-2 bdr' style='text-align:center'>"+rcpt+"</div></div>";
+			if(d.length>=50){
+				txt += "<div class='row stmtr' style='border-top: 1px solid #ddd;font-weight:600'>";
+				txt += "<div class='col-xs-10 bdr' style='text-align:center;border-left: 1px solid #ddd;font-size:10px;font-weight:400''>(Max 50 records. For more records filter search.)</div>";
+				txt += "</div>";
+			}
 			
 		} catch (e){$("#stmt").html(txt);}
     $("#stmt").html(txt);
@@ -494,23 +472,7 @@ $(function () {
 	$("#close").html("Closing bal.<br>"+ close);
  }
  
- function showDscr(data){
-	try{
-		var d = JSON.parse('[' + data + ']');
-		var txt="Vendor Bill";
-		var trail = "";
-		var maxl = d.length;
-		if(maxl>3){
-			maxl =3;
-			trail = "<p style='font-size:10px;margin:0px;color:#609'>......</p>";
-			}
-		for (var i = 0; i < maxl; i++){
-			txt+= "<p style='font-size:8px;margin:0px;color:#609'>" +d[i]["item"]+ " x " + d[i]["qty"]+"</p>"; 
-		}
-		return txt+trail;
-	}catch (e){ return data;}
- }
- 
+  
  function _ddCallBack(){}
  function formateDt(dt){
    var date = new Date(dt);
