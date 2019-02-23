@@ -393,7 +393,8 @@ button:focus {
 	if(profile==0){	
 		$('span:first', t).html("-");
 		var txt = "<li></li>";
-		txt += "<li>Name : " + localStorage.dname + "</li>"; 
+		txt += "<li>Name : " + localStorage.dname + "</li>";
+		txt += "<li><a href='../userreg.html' style='color:blue'>Edit   </a></li>";	
 		t.innerHTML += txt;
 		profile = 1;
 	}else{

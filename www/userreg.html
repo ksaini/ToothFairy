@@ -34,7 +34,7 @@ body {
 {
     list-style: none;
     margin: 0;
-    padding-top: 20px;
+    padding-top: 15px;
 	padding-left:3px;
 	padding-right:3px;
 }
@@ -120,9 +120,9 @@ a{
 	font-family: 'open_sans','Open Sans',sans-serif;
     text-align: center;
     
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 300;
-	color: #636972;
+	color: #8159bb;
 	contenteditable = true;
 	box-shadow: none;
 	border-bottom: 1px solid #B3A9A9;
@@ -167,31 +167,18 @@ a{
 .slots{
  background-color:#eee;
 }
-.slots:focus {outline:0;}
 
-.slots1{
- font-size:16px;
- width:27%;
- margin-bottom:10px;
- font-weight: 500;
- line-height: 1.5;
- text-align: center;
- color: #616161;
- margin-bottom: 16px;
- height: 46px;
- border-radius: 4px;
- background-color: #fff;
- border: 1px solid #bdbdbd;
- margin-left:8px;  
+.single{
+	display:flex;
 }
-.slotsunavailable{
-	color:#e0e0e0!important;
+.single > ul {
+	padding-left:15px;
+	min-width:70px;
+	text-align:left;
 }
-.slotselected{
-	border:1.5px solid #8159bb;
-	background-color:#f2eff7;
+.single:first-child {
+	flex: 0 0 230px;
 }
-
 </style>
      
    </head>
@@ -214,21 +201,32 @@ a{
 						<p class="regtext">Name Please!</p>
                     </ul>
 					<ul class="chat" id="chat">
-						<input type="text" class="form-control valtext" placeholder="Enter Name"></input>
+						<input id='name' type="text" class="form-control valtext" placeholder="Enter Name"></input>
                     </ul>
 					<ul class="chat" id="chat">
 						<p class="regtext">Mobile</p>
                     </ul>
 					<ul class="chat" id="chat">
-						<input type="text" id='mobile' class="form-control valtext" placeholder="XXX-XXX-XXX" onclick="clearErr('mobileerr')" onblur="verifyMobile()"></input>
+						<input type="text" id='cn1' class="form-control valtext" placeholder="XXX-XXX-XXX" onclick="clearErr('mobileerr')" onblur="verifyMobile()"></input>
 						<p id="mobileerr" class="errtext" style="display:none;">Please enter 10 digit number</p>
+						<input type="text" id='cn2' class="form-control valtext" placeholder="optional" ></input>
                     </ul>
+					<div class="single">
+					<ul class="chat" id="chat">
+						<p class="regtext">Age</p>
+                    </ul>
+					<ul class="chat" id="chat">
+						<input type="number" class="form-control valtext" style="font-size:18px;letter-spacing: -1px;" id='age' ></input>
+                    </ul>
+					</div>
+					<div class="single">
 					<ul class="chat" id="chat">
 						<p class="regtext">Email</p>
                     </ul>
 					<ul class="chat" id="chat">
-						<input type="text" class="form-control valtext" style="font-size:18px;letter-spacing: -1px;" placeholder="XXX@gmail.com"></input>
+						<input id='eml' type="text" class="form-control valtext" style="font-size:18px;letter-spacing: -1px;" placeholder="XXX@gmail.com"></input>
                     </ul>
+					</div>
 					<ul class="chat" id="chat"><br>
 						<p class="regtext" style="color:#8159bb;font-weight:600;font-size:14px;" onclick="showScreen(2);">FEW MORE DETAILS &nbsp;&nbsp; &gt;</p>
                     </ul>
@@ -236,102 +234,63 @@ a{
 				
 				<div class="panel-body" id="p2">
                     <ul class="chat" id="chat">
-						<p class="regtext">Add Clinic/Hospital</p>
-						<p id="workplaceinfo" class="infotext" >You can add upto 4 workplaces</p>
+						<p class="regtext">Primary Clinic/Hospital & Address</p>
                     </ul>
 					<ul class="chat" id="chat"><small>
-						<input id="c1" type="text" class="form-control valtext smallf" placeholder="Clinic1*"></input>
-						<input id="c2" type="text" class="form-control valtext smallf" placeholder="Clinic2"></input>
-						<input id="c3" type="text" class="form-control valtext smallf" placeholder="Clinic3"></input>
-						<input id="c4" type="text" class="form-control valtext smallf" placeholder="Clinic4"></input>
-						</small>
-                    </ul>
+						<input id="clinic" type="text" class="form-control valtext smallf" placeholder="Clinic Name*"></input>
+						<input id="addr" type="text" class="form-control valtext smallf" placeholder="Address"></input>
+					</ul>
 					
+					<ul class="chat" id="chat">
+						<p class="regtext">ZIP/CITY/STATE</p>
+                    </ul>
+					<ul class="chat" id="chat"><small>
+						<input id="z1" type="text" class="form-control valtext smallf" placeholder="ZIP"></input>
+						<input id="c1" type="text" class="form-control valtext smallf" placeholder="CITY"></input>
+						<input id="s1" type="text" class="form-control valtext smallf" placeholder="STATE"></input>
+					</ul>
+					<button class="btn " style="color:#8159bb;margin-top:30px;width:100%" onclick='saveusr()'>DONE</button>
+					
+					<!----
 					<ul class="chat" id="chat"><br>
 						<span>
 							<p class="regtext" style="color:#8159bb;font-weight:600;font-size:14px;" onclick="showScreen(3);">ALMOST THERE &nbsp;&nbsp; &gt; </p>
 							<p class="regtext" style="color:#8159bb;font-weight:600;font-size:14px;" onclick="showScreen(1);">&lt;&nbsp;&nbsp;BACK</p>
 						</span>	
                     </ul>
-                </div>
-				
-				<div class="panel-body" id="p3">
-                    <ul class="chat" id="chat">
-						<p class="regtext">Year of Experience</p>
-						
-                    </ul>
-					<ul class="chat" id="chat">
-						<input type="text" class="form-control valtext" placeholder="Enter Name"></input>
-                    </ul>
-					
+					------>
 					<ul class="chat" id="chat"><br>
-						<p class="regtext" style="color:#8159bb;font-weight:600;font-size:14px;">I AM DONE </p>
-						<p class="regtext" style="color:#8159bb;font-weight:600;font-size:14px;" onclick="showScreen(2);">&lt;&nbsp;&nbsp;BACK</p>
+						<p class="regtext" style="color:#8159bb;font-weight:600;font-size:14px;" onclick="showScreen(1);">Back &nbsp;&nbsp; </p>
                     </ul>
                 </div>
 				
-				<div class="panel-body" id="p4">
-                    <ul style="margin-left: -35px;margin-right: 35px;" id="chat">
-						<p class="regtext smallf2">SELECT DATE</p>
-						<div class='input-group date' id='datetimepicker1'>
-								<input type='text' class="form-control" style="font-size:12px;" ></input>
-								<span class="input-group-addon">
-									<i id='users' class="fa fa-x fa-calendar"></i>
-								</span>
-						</div>
-					</ul>
-
-					<ul class="chat" id="chat">
-						<p class="regtext smallf2">DURATION OF APPOINTMENT</p>
-					</ul>
-					<ul class="chat" id="chat">
-						<span>
-						<button id="est15" class="btn slots " onclick="est(this);">15 MIN</button>
-						<button id="est30" class="btn slots" onclick="est(this);">30 MIN</button>
-						<button id="est60" class="btn slots" onclick="est(this);">1 HR</button>
-						<button id="est120" class="btn slots" onclick="est(this);">2 HR</button>
-						</span>
-					</ul>		
-					
-					<ul class="chat" id="chat">
-						<p class="regtext smallf2">SELECT A SLOT</p>
-					</ul>
-					<ul class="chat" id="chat">
-						<span>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">8 - 9 am</button>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">9-10 am</button>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">10-11 am</button>
-						<br>
-						<button name="sslot" class="btn slots1 slotsunavailable" onclick="slot(this);">11-12 am</button>
-						<button name="sslot" class="btn slots1 slotsunavailable" onclick="slot(this);">12-1 pm</button>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">2-3 pm</button>
-						<br>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">3-4 pm</button>
-						<button name="sslot" class="btn slots1 slotsunavailable" onclick="slot(this);">4-5 pm</button>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">5-6 pm</button>
-						<br>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">6-7 pm</button>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">7-8 pm</button>
-						<button name="sslot" class="btn slots1" onclick="slot(this);">8-9 pm</button>
-						
-						</span>
-						<button class="btn slot" style="color:#8159bb;">DONE</button>
-					</ul>	
-				</div>
-				<script type="text/javascript">
-				$(function () {
-					var dateNow = new Date();
-					$('#datetimepicker1').datetimepicker({
-						locale: 'en',
-						format: 'DD/MM/YYYY',
-						defaultDate:dateNow,
-						widgetPositioning: {
-						vertical: 'bottom',
-						horizontal: 'left'
-						}
-					});
-					
-				});
+				
+            </div>
+        </div>
+    </div>
+</div>
+   </body>
+   <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript" src="./js/dataTbl.js"></script>
+   <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript">
+				var q = "q=SELECT name,cn1,cn2,eml,age,clinic,address,zip,city,state from d_dr_tbl where did='" + localStorage.did+"';";
+				getData(q,0,"dataTbl.php",showRecord,function(){});	
+				
+				function showRecord(data){
+					var d = JSON.parse(data);
+					d = d[0];
+					$("#name").val(d["name"]);
+					$("#cn1").val(d["cn1"]);
+					$("#cn2").val(d["cn2"]);
+					$("#eml").val(d["eml"]);
+					$("#clinic").val(d["clinic"]);
+					$("#addr").val(d["address"]);
+					$("#age").val(d["age"]);
+					$("#z1").val(d["zip"]);
+					$("#c1").val(d["city"]);
+					$("#s1").val(d["state"]);
+				}
 				
 				function est(t){
 					document.getElementById("est15").classList.remove("slotselected");
@@ -352,17 +311,23 @@ a{
 				{
 					alert("here");
 				}
+				function saveusr(){
+					var name = $("#name").val();
+					var cn1 = $("#cn1").val();
+					var cn2 = $("#cn2").val();
+					var age = $("#age").val();
+					var eml = $("#eml").val();
+					
+					var clinic = $("#clinic").val();
+					var addr = $("#addr").val();
+					var z1 = $("#z1").val();
+					var c1 = $("#c1").val();
+					var s1 = $("#s1").val();
+					
+					var q = "1&did="+ localStorage.did +"&name="+name+"&cn1="+cn1+"&cn2="+cn2+"&age="+age+"&eml="+eml+"&clinic="+clinic+"&addr="+addr+"&z1="+z1+"&c1="+c1+"&s1="+s1;
+					getData(q,1,"saveDr.php",function(){location.reload();},function(){});			
+				}
 				</script>
-               
-            </div>
-        </div>
-    </div>
-</div>
-   </body>
-   <script type="text/javascript" src="cordova.js"></script>
-  
-   <script type="text/javascript" src="js/index.js"></script>
-  
    <script>
    document.getElementById("p1").style.display = "block"; 
 	document.getElementById("p2").style.display = "none"; 
@@ -385,7 +350,7 @@ a{
 	function showScreen(s){
 		document.getElementById("p1").style.display = "none"; 
 		document.getElementById("p2").style.display = "none"; 
-		document.getElementById("p3").style.display = "none"; 
+		
 		document.getElementById("p"+s).style.display = "block"; 
 	}
    </script>
