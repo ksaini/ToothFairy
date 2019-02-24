@@ -194,6 +194,10 @@ button:focus {
 						</div>
 						<div id='wrnmsg' style="font-size:12px;background-color: #fcf8e3;color:red;text-align:center;"></div>
                 </div>
+			<ul class="chat desc" style="color: #4F545B;" >
+				<li id="subend" style="font-size:12px;border-bottom:none;"> </li>
+				<li style="font-size:12px;border-bottom:none;"><span id='sms' ></span><span class="pull-right" id='smsused'></span></li>
+			</ul>	
 				
 			</div>
 			<ul class="chat desc" >
@@ -286,7 +290,9 @@ button:focus {
 	
 	loadJS(fn);
 	
-	
+	$("#subend").html("Subscription End Date : " +formatDate(localStorage.subend));
+	$("#sms").html("Alloted SMS : " + localStorage.sms);
+	$("#smsused").html("Used SMS : " + localStorage.smsused);
 		
 	function manageExm(t){
 		$('ul > li').hide();

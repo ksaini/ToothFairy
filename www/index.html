@@ -131,6 +131,9 @@ var branch="";
 
 <script async defer type="text/javascript">
 //app.initialize();
+// initilize base url
+localStorage.base_url = "http://greyboxerp.in/dentalappx/";
+
 if(localStorage.did != null && localStorage.did.length>2)
 	window.location.href="dashboard.html";
 function verify(){
@@ -153,9 +156,14 @@ function postLogin(data){
 }
 function errLogin(){}
 function setup(data){
-	//var d = JSON.stringify(data);
+	//var d = JSON.stringify(data);alert(d);
 	localStorage.dname = data[0]["name"];
 	localStorage.did = data[0]["did"];
+	localStorage.sms = data[0]["sms"];
+	localStorage.smsused = data[0]["smsused"];
+	localStorage.substart = data[0]["sub_start"];
+	localStorage.subend = data[0]["sub_end"];
+	localStorage.base_url = data[0]["base_url"];
 	
 	window.location.href="dashboard.html";
 }

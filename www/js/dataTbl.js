@@ -1,9 +1,11 @@
 var dataArray=new Array();
- var gender = "f";
+var gender = "f";
 var teeth = []; // array to store patient's examined teeth
 var total =0; // variable to store total treatement cost at new case
 var base_url = "http://greyboxerp.in/dentalappx/";
 
+if((localStorage.base_url).length > 15);
+	base_url = localStorage.base_url;
 
 function getData(q,type,f,dSuccess,dError) {
 	 
@@ -583,6 +585,7 @@ function smsPayment(p,amt){
 	getData(q,0,"sendSMS.php",onsmsS,onsmsE);
 }
 function onsmsS(data){
+	localStorage.smsused = parseInt(localStorage.smsused) + 1;
 	$("#summary_action").removeClass("disabledbutton");
 	if(data ==1){
 		document.getElementById("sms1").style.display = "block";

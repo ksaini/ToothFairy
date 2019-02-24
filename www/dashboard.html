@@ -336,6 +336,7 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 			</div>
 			<div class="row" style="margin-top:300px;">	
 				<div class="alert-warning" id="sms2" style="display:none;text-align:center;font-size:12px;margin-top:5px;">Your SMS count is low.</div>
+				<div class="alert-danger" id="sms3" style="display:none;text-align:center;font-size:12px;margin-top:5px;">Your Subscription is expiring soon. Please go to Manage Profile for more info.</div>
 			</div>	
 			 </div>
 			 
@@ -363,6 +364,23 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
    // Log out if  not logged index
    if(localStorage.did == null || localStorage.did.length <=2)
 		window.location.href="index.html";
+	
+   // SMS low alert 	
+   if( ( localStorage.sms - localStorage.smsused ) < 20 )
+		document.getElementById("sms2").style.display = "block";
+		
+	// Subscription alert	
+	if(getdatediff() < 30)	
+		document.getElementById("sms3").style.display = "block";
+		
+	function getdatediff(){	
+	try{	
+	var now = new Date();
+	var sub_end = new Date(localStorage.subend);
+	var diff = Math.floor((sub_end - now)/(1000*60*60*24));
+	return diff;
+	} catch (e){return 100;}
+	}
 		
    document.getElementById("drname").innerHTML = "Dr. " + localStorage.dname;
    var did= localStorage.did;
@@ -500,4 +518,5 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 		var dt =  day + "/" + month + "/" + year;
 		window.location.href = "./appointment/view1.html?dt="+dt;
 	}
+	
 	</script></div></body></html>
