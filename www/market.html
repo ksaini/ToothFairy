@@ -116,12 +116,6 @@ body {
 	padding: 1px 5px;
 }
 
-::-webkit-scrollbar-track
-{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    background-color: #F5F5F5;
-}
-
 .navbar-custom{
 	background-color: #8159bb;
 }
@@ -136,25 +130,6 @@ body {
 	
 }
 
-
-.errtext {
-	font-family: 'open_sans','Open Sans',sans-serif;
-    text-align: center;
-    margin-top: -10px;
-    font-size: 12px;
-    font-weight: 300;
-	color: red;
-	
-}
-.infotext {
-	font-family: 'open_sans','Open Sans',sans-serif;
-    text-align: center;
-    margin-top: -10px;
-    font-size: 12px;
-    font-weight: 300;
-	color: blue;
-	
-}
 .smallf {
 	font-size:18px;
 }
@@ -175,33 +150,7 @@ body {
 	font-weight: 500;
 	margin-bottom:5px;
 }
-.slots{
- background-color:#eee;
-}
-.slots:focus {outline:0;}
 
-.slots1{
- font-size:16px;
- width:27%;
- margin-bottom:10px;
- font-weight: 500;
- line-height: 1.5;
- text-align: center;
- color: #616161;
- margin-bottom: 16px;
- height: 46px;
- border-radius: 4px;
- background-color: #fff;
- border: 1px solid #bdbdbd;
- margin-left:8px;  
-}
-.slotsunavailable{
-	color:#e0e0e0!important;
-}
-.slotselected{
-	border:1.5px solid #8159bb;
-	background-color:#f2eff7;
-}
 .btn1 {
 	display: inline-block;
     margin-bottom: 0;
@@ -224,28 +173,49 @@ body {
 a{
 	color:#aa8fd1;
 }
-.gender {
+div.scrollmenu {
+ color:#aa8fd1;
+  overflow: auto;
+  white-space: nowrap;
+  margin-left: -15px;
+  margin-right: -15px;
+  padding-bottom : 0px;
+  border-bottom:1px solid #E0E0E0;
+  
+}
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color:#424242;
+  font-weight: 500;
+  font-family: 'open_sans','Open Sans',sans-serif;
+  transition: color .4s ease;
+  text-align: center;
+  padding-left: 14px;
+  padding-right: 14px;
+  text-decoration: none;
+  padding-top:7px;
+  padding-bottom:7px;
+  
+}
+div.scrollmenu div{
+	padding-left: 20px;
+  padding-right: 20px;
+}
+.cat {
+	font-size:14px;
+	text-transform: uppercase;
+	padding-left:5px;
+	
+	letter-spacing: 1px;
 	font-family: 'open_sans','Open Sans',sans-serif;
-    text-align: center;
-    font-size: 22px;
-    font-weight: 300;
-	border-radius: 4px;
-	border-top: 0px;
-	border-left: 0px;
-	border-right: 0px;
+	color:#8159bb;
+	font-weight: 600;
 	margin-bottom:0px;
-	padding-top:2px;
-	padding-bottom:2px;
-	letter-spacing: 3px;
-}
-.selectedF {
-	border: 1px solid #F7A7C8;
-}
-.selectedM {
-	border: 1px solid #1DC7EA;
-}
-.rowsearch {
-margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:0px;
 }
 </style>
      
@@ -255,8 +225,9 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 <nav class="navbar navbar-custom navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header" style="display:flex">
-	  <img src="./img/tf3.png" width="45px" height="45px" style="padding-top:7px;padding-left:10px;"></img>
-      <a class="navbar-brand" style="width:100%;text-align:center;color:white;" href="dashboard.html"> <span style="color:white;font-size:14px;" id="drname"></span></a>
+	  <img href="dashboard.html" src="./img/tf3.png" width="45px" height="45px" style="padding-top:7px;padding-left:10px;"></img>
+	  <a class="navbar-brand" style="width:30%;text-align:center;color:white;font-size:12px;" href="dashboard.html">HOME</a>
+      <a class="navbar-brand" style="width:100%;text-align:center;color:white;" href="dashboard.html"> <span style="color:white;font-size:14px;" id="drname"></a>
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar" ></span>
         <span class="icon-bar"></span>
@@ -266,9 +237,9 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
        
-        <li class="dropdown">
-		  <a href="index.html" onclick="localStorage.clear();document.location='index.html'" style="color:white;">&nbsp;&nbsp;Logout</a>
-        </li>
+     
+		  <p style="color:white;">&nbsp;&nbsp;Product List</p>
+      
        
       </ul>
       
@@ -286,7 +257,18 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 						<span class="input-group-addon" onclick="searchclient();"><i class="fa fa-search"></i></span>
 					</div>
 					<div id="p11" style="text-align:center;padding:5px;"></div>
-										   
+						<div class="scrollmenu">
+							<a href="#general">General Dentistry</a>
+							<a href="#equip">Equipments</a>
+							<a href="#endo">Endodontics</a>
+							<a href="#ortho">Orthodontics</a>
+							<a href="#pro">Prosthodontics</a>
+							<a href="#oral">Oral Care</a>
+							<a href="#period">Periodontics</a>
+							<a href="#instru">Instruments</a>
+							<a href="#equip">Equipments</a>
+							<a href="#lab">Lab</a>
+						</div>				   
                     </ul>
 					<ul id="p2" style="display: none;">
 					<div id="p21"></div>
@@ -297,50 +279,82 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 						
 					</div>	
 					</ul>
+				<div  id="p20" style="margin-top:25px;">
+				<ul class='cat'>Special Offers</ul>
+					<div style='display:flex;align-items:center;'>	<div>&lt;</div>			
+					<div class="scrollmenu" style='border-bottom:none;display:flex;margin-top:10px;'>
+						
+						<div class="content " style="height:72px;"><center>
+							
+							<i class="fa fa-user-plus" style="font-size:28px"></i>
+							<h5>Patient</h5></a></center>
+						</div>
+						<div class="content " style="height:72px;"><center>
+							
+							<i class="fa fa-pencil-square" style="font-size:28px"></i>
+							<h5>Patient</h5></a></center>
+						</div>
+						<div class="content " style="height:72px;"><center>
+							
+							<i class="fa fa-calendar-check-o" style="font-size:28px"></i>
+							<h5>Patient</h5></a></center>
+						</div>
+						<div class="content " style="height:72px;"><center>
+							
+							<i class="fa fa-calendar-check-o" style="font-size:28px"></i>
+							<h5>Patient</h5></a></center>
+						</div>
+						<div class="content " style="height:72px;"><center>
+							
+							<i class="fa fa-user-plus" style="font-size:28px"></i>
+							<h5>Patient</h5></a></center>
+						</div>
+						<div class="content " style="height:72px;"><center>
+							
+							<i class="fa fa-user-plus" style="font-size:28px"></i>
+							<h5>Patient</h5></a></center>
+						</div>
+					</div>	
+					<div>&gt;</div>
+					</div>
+				</div>	
 				
 				<div class="row" id="p25" style="height:52px;margin-top:35px;">
-				<div class="content col-md-3 col-xs-6" style="height:82px;"><center>
-					<a href="./patient/add.html">
+				<ul class='cat'>Special Offers</ul>
+				<div class="content col-md-6 col-xs-6" style="height:82px;"><center>
+					
 					<i class="fa fa-user-plus" style="font-size:28px"></i>
 					<h5>Patient</h5></a></center>
 				</div>
 				
-				<div class="content col-md-3 col-xs-6" style="height:82px;"><center>
-					<a onclick='seeappointment()'>
+				<div class="content col-md-6 col-xs-6" style="height:82px;"><center>
+				
 					<i class="fa fa-calendar-check-o" style="font-size:28px"></i>
 					<h5>View Appointment</h5></a></center>
 				</div>
-				<div class="content col-md-3 col-xs-6" style="height:82px;"><center>
-					<a href="./report/index.html">
+				<div class="content col-md-6 col-xs-6" style="height:82px;"><center>
+					
 					<i class="fa fa-pencil-square" style="font-size:28px"></i>
 					<h5>Daily Reports</h5></a></center>
 				</div>
-				<div class="content col-md-3 col-xs-6" style="height:82px;"><center>
-					<a href="./profile/profile.html">
+				<div class="content col-md-6 col-xs-6" style="height:82px;"><center>
+					
 					<i class="fa fa-cogs" style="font-size:28px"></i>
 					<h5>Manage Profile</h5></a></center>
 				</div>
-				<div class="content col-md-3 col-xs-6" style="height:82px;"><center>
-					<a href="./vendor/vendor.html">
+				<div class="content col-md-6 col-xs-6" style="height:82px;"><center>
+					
 					<i class="fa fa-barcode" style="font-size:28px"></i>
 					<h5>Vendor Billing</h5></a></center>
 				</div>
-				<div class="content col-md-3 col-xs-6" style="height:82px;"><center>
-					<a href="./expense.html">
+				<div class="content col-md-6 col-xs-6" style="height:82px;"><center>
+				
 					<i class="fa fa-rupee" style="font-size:28px"></i>
 					<h5>Expenses</h5></a></center>
-				</div>
-				<div class="content col-md-3 col-xs-6" style="height:82px;"><center>
-					<a href="./market.html">
-					<i class="fa fa-cart-plus" style="font-size:28px;"></i>
-					<h5>Marketplace</h5></a></center>
-				</div>	
+				</div>				
 				
 			</div>
-			<div class="row" style="margin-top:300px;">	
-				<div class="alert-warning" id="sms2" style="display:none;text-align:center;font-size:12px;margin-top:5px;">Your SMS count is low.</div>
-				<div class="alert-danger" id="sms3" style="display:none;text-align:center;font-size:12px;margin-top:5px;">Your Subscription is expiring soon. Please go to Manage Profile for more info.</div>
-			</div>	
+				
 			 </div>
 			 
         </div>
@@ -368,23 +382,7 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
    if(localStorage.did == null || localStorage.did.length <=2)
 		window.location.href="index.html";
 	
-   // SMS low alert 	
-   if( ( localStorage.sms - localStorage.smsused ) < 20 )
-		document.getElementById("sms2").style.display = "block";
-		
-	// Subscription alert	
-	if(getdatediff() < 30)	
-		document.getElementById("sms3").style.display = "block";
-		
-	function getdatediff(){	
-	try{	
-	var now = new Date();
-	var sub_end = new Date(localStorage.subend);
-	var diff = Math.floor((sub_end - now)/(1000*60*60*24));
-	return diff;
-	} catch (e){return 100;}
-	}
-		
+   		
    document.getElementById("drname").innerHTML = "Dr. " + localStorage.dname;
    var did= localStorage.did;
    var gender = "f";
