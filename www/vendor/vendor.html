@@ -267,7 +267,7 @@ button:focus {
 				
 				<ul class="chat"  style="margin-top:1px;" id="chist">
 				
-					<p class = ' text-warning' style='font-size:10px;margin-top:10px;margin-bottom:10px;letter-spacing: 1px;'>No vendor is registered. Add a new vendor.</p>
+					<p id='wrng' class = 'text-warning' style='font-size:10px;margin-top:10px;margin-bottom:10px;letter-spacing: 1px;'><i class="fa fa-spinner fa-spin" style="font-size:16px;color:black;"></i></p>
 				</ul>
 			</div>
 		</div>	
@@ -315,6 +315,9 @@ function showVendor(data){
 	var d = JSON.parse(jsonEscape(data));  //jsonEscape to handel new line
 	var txt = "";
 	var tmp =0;
+	if(d.length ==0)
+		$("#wrng").html("No vendor is registered. Add a new vendor.");
+	
 	for (i = 0; i < d.length; i++) {
 		var name = d[i]["name"];
 		var contact = d[i]["contact"];
@@ -331,7 +334,7 @@ function showVendor(data){
 	}
 			
 	document.getElementById("chist").innerHTML = txt;
-	} catch(e) { console.log("Exception::-"+e.toString());}
+	} catch(e) { $("#wrng").html("No vendor is registered. Add a new vendor.");console.log("Exception::-"+e.toString());}
 }
 function vendorDetail(d){
 	location.href='../vendor/details.html?vid='+d;
