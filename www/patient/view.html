@@ -313,8 +313,11 @@ button:focus {
      
 <nav class="navbar navbar-custom navbar-fixed-top">
   <div class="container-fluid">
-    <div class="navbar-header">
+    <div class="navbar-header" style="display:flex;">
       <a class="navbar-brand" style="width:100%;text-align:center;" href="../dashboard.html"><i style="position: absolute;left:5px;;" class="fa fa-home" aria-hidden="true"></i> <span>View Patient</span></a>
+	  <div class="pull-right" style="display:flex">
+			<img src="../img/tf3.png" width="45px" height="45px" style="padding-top:7px;padding-right:15px;"></img>
+	  <div>
     </div>
    
   </div>
@@ -689,8 +692,8 @@ button:focus {
 						<div class="content valtext col-md-3 col-xs-3" id='r62' style="margin-top: -10px;margin-bottom: -15px;border-right:1px solid #E0E0E0;" onclick='smsSummary()'>
 							<p style="padding-top: 10px;padding-left:10px;height:100%" >SMS</p>
 						</div>
-						<div class="content valtext col-md-3 col-xs-3" id='r62' style="margin-top: -10px;margin-bottom: -15px;border-right:1px solid #E0E0E0;">
-							<p style="padding-top: 10px;padding-left:10px;height:100%" >Print</p>
+						<div class="content valtext col-md-3 col-xs-3" id='r62' style="margin-top: -10px;margin-bottom: -15px;border-right:1px solid #E0E0E0;" onclick='prnt()'>
+							<p style="padding-top: 10px;padding-left:10px;height:100%" id='prnt' >Print</p>
 						</div>
 						
 					</div>
@@ -1147,10 +1150,17 @@ button:focus {
 	}
 	var fileContent = '<html>Phonegap Print Plugin</html>';
 	function prnt(){
-	window.open('http://www.kidzout.com', '_system'); return false;
-//cordova.plugins.printer.print(page, 'Document.html');
-		
-//window.PrintPlugin.print(fileContent,function(){console.log('success')},function(){console.log('fail')},"",type,title);
+		var q = "did=" + (localStorage.did).substring(0,11) + "&pid=" + getParameterByName('pid') + "&cid=" +getParameterByName('cid'); 
+		//show spinner
+		$("#prnt").html('<i class="fa fa-spinner fa-spin" style="font-size:14px"></i> Print')
+		getData(q,0,"prnt.php",goToPrnt,function(){});	
+	
+	//window.open(burl, '_system'); return false;
+	}
+	function goToPrnt(data){
+		$("#prnt").html("Print");
+		var burl = base_url.replace("dentalappx","toothfairyprint");
+		window.open(burl + data, '_system'); return false;
 	}
 	</script>
 

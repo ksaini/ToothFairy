@@ -584,6 +584,11 @@ function smsPayment(p,amt){
 	var q = "did=" + did + "&pid=" + pid + "&cid=" +cid + "&code=4&amt="+amt; //code=4 for patient payment
 	getData(q,0,"sendSMS.php",onsmsS,onsmsE);
 }
+function smsVendorPay(vid,amt,dt){
+	var did = localStorage.did;
+	var q = "did=" + did + "&vid=" + vid + "&code=5&amt="+amt+"&dt="+dt; //code=5 for vendor payment
+	getData(q,0,"sendSMS.php",onsmsS,onsmsE);
+}
 function onsmsS(data){
 	localStorage.smsused = parseInt(localStorage.smsused) + 1;
 	$("#summary_action").removeClass("disabledbutton");

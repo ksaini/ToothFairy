@@ -310,8 +310,11 @@ button:focus {
      
 <nav class="navbar navbar-custom navbar-fixed-top">
   <div class="container-fluid">
-    <div class="navbar-header">
+    <div class="navbar-header" style="display:flex;">
       <a class="navbar-brand" style="width:100%;text-align:center;" href="./dashboard.html"><i style="position: absolute;left:5px;;" class="fa fa-home" aria-hidden="true"></i> <span style="font-size:14px;">Add Expenses</span></a>
+	  <div class="pull-right" style="display:flex">
+			<img src="./img/tf3.png" width="45px" height="45px" style="padding-top:7px;padding-right:15px;"></img>
+	</div>
     </div>
    
   </div>
@@ -411,6 +414,7 @@ button:focus {
 				<div id="parent_tr"  class="row trbody" style="display:none;height:100%;border-top:1px solid #E0E0E0;margin-top:40px" >
 					<ul class='chat' style="letter-spacing:2px;"><b>Prevoius Expenses</b> (last 5)</ul>
 					<div id="trans"><i class="fa fa-spinner fa-spin" style="font-size:16px;color:black;"></i></div>
+					<div id="sms1" class='bg-success'></div><div id="sms2" class='bg-danger'></div>
 					
 				</div>
 				</div>
@@ -468,11 +472,12 @@ $(function () {
 		txt = "";
 		document.getElementById("trans").innerHTML = "";
 		var d = JSON.parse(jsonEscape(data));  //jsonEscape to handel new line
+		var vid = $("#vendor").children(":selected").attr("id");
 		
 		for (var i = 0; i < d.length; i++) {
 			txt += "<div class='row' style='margin-right:20px;height:100%'>";
 			var bdate = formatDate(d[i]["dt"]);
-			txt += "<div class='col-xs-8'>Paid Rs.<b>"+d[i]["topay"]+"</b> against "+d[i]["desc1"]+" </div><div class='col-xs-4' >" + bdate + "</div>";
+			txt += "<div class='col-xs-8'>Paid Rs.<b>"+d[i]["topay"]+"</b> against "+d[i]["desc1"]+"<span onclick='smsVendorPay("+vid+","+d[i]["topay"]+",`"+ bdate +"`)'> <i class='fa fa-envelope' style='padding-left:10px;'></i></span></div><div class='col-xs-4' >" + bdate + "</div>";
 			txt +="</div>";
 			document.getElementById("trans").innerHTML = txt;
 		}
