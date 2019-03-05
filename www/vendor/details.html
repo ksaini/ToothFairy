@@ -400,7 +400,7 @@ text-align:center;
 </div>
  <script type="text/javascript" src="../js/dataTbl.js"></script>
  <script type="text/javascript" src="../js/treatement.js"></script>
- <script type="text/javascript" src="../js/billitem.js"></script>
+ <!------<script type="text/javascript" src="../js/billitem.js"></script>----->
  <script>
 $(function () {
 					var dateNow = new Date();
@@ -419,8 +419,10 @@ $(function () {
 <script>
 	var did = localStorage.did;
 	var vid = getParameterByName("vid");
-	//var item = ["Cappol 350mg","Cappol 250mg","Dolo 500mg","Dolo -S 500mg","Dolo 600mg","Glycodine 100ug - S","Medicine x1 200","Acypser 300 DX","Acypser 300 SX"];
-	autocomplete(document.getElementById("seltreat"), item,0);	
+	var itm = localStorage.billitem;
+	itm = itm.split(",");
+	
+	autocomplete(document.getElementById("seltreat"), itm,0);	
 	getData("q=SELECT name,contact,cn,addr from d_vendor_tbl where vid='" + vid + "' and did='"+did+"' order by vid desc ;",0,"dataTbl.php",showVDetails,function(){});
 		function showVDetails(data){
 		try{

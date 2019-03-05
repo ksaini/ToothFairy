@@ -303,7 +303,9 @@ button:focus {
 	pointer-events: none;
     opacity: 0.4;
 }
-
+.bb {
+	border-bottom: 1px solid #ccc;
+}
 </style>
      
    </head>
@@ -539,21 +541,40 @@ button:focus {
 					
 				</ul>
 				<!---- tool bar 2----->
-				<div id="toolbar2" class="row tb2" style="border: 1px solid #ccc;display:none;">
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('1-o-o')" style="">
+				<div id="toolbar2" class="row tb2" style="border: 1px solid #ccc;display:none;display: flex;flex-wrap: wrap;">
+					<div class="content col-md-2 col-xs-2 toolbar2 bb" id="tb1" onclick="updateF('1-o-o')" >
+						<p class="valtext " style="font-size:10px;padding-top:12px;font-weight:bold;color:#2c3e85;">Frequency</p>
+					</div>
+					<div class="content col-md-2 col-xs-2 toolbar2 bb" id="tb1" onclick="updateF('1-o-o')" >
 						<p class="valtext " style="font-size:10px;padding-top:12px;font-weight:bold;color:#2c3e85;">1-o-o</p>
 					</div>
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('1-o-1')" style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-2 col-xs-2 toolbar2 bb" id="tb1" onclick="updateF('1-o-1')" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;">1-o-1</p>
 					</div>
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('1-1-1')" style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-2 col-xs-2 toolbar2 bb" id="tb1" onclick="updateF('1-1-1')" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;">1-1-1</p>
 					</div>
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('o-o-1')" style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-2 col-xs-2 toolbar2 bb" id="tb1" onclick="updateF('o-o-1')" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;">o-o-1</p>
 					</div>
-					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('SOS')" style="text-align:center;border-right:1px solid #E0E0E0;">
+					<div class="content col-md-2 col-xs-2 toolbar2 bb" id="tb1" onclick="updateF('SOS')" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;">SOS</p>
+					</div>
+					<!-------------------------->
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" >
+						<p class="valtext " style="font-size:10px;padding-top:12px;font-weight:bold;color:#2c3e85;">Dosage</p>
+					</div>
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('3 ml')" style="text-align:center;border-right:1px solid #E0E0E0;">
+						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;">3 ml</p>
+					</div>
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('5 ml')" style="text-align:center;border-right:1px solid #E0E0E0;">
+						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;">5 ml</p>
+					</div>
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('10 ml')" style="text-align:center;border-right:1px solid #E0E0E0;">
+						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;">10 ml</p>
+					</div>
+					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick="updateF('15 ml')" style="text-align:center;border-right:1px solid #E0E0E0;">
+						<p class="valtext " style="font-size:10px;padding-top:10px;font-weight:bold;color:#2c3e85;">15 ml</p>
 					</div>
 					
 					<div class="content col-md-2 col-xs-2 toolbar2" id="tb1" onclick='tb1(1)' style="text-align:center;border-right:1px solid #E0E0E0;background-color:#5aaa78"><i class="fa fa-check" style="color:white;font-size:16px;padding-top:10px;" aria-hidden="true"></i>
@@ -875,7 +896,11 @@ button:focus {
 			document.getElementById("price_f").innerHTML = document.getElementById("prid_"+m).innerHTML;
 		}		
 		function updateF(s){
-			document.getElementById("fid_"+ selectedMed).innerHTML = s;
+		    if(s.includes("ml")){
+				document.getElementById("fid_"+ selectedMed).innerHTML = document.getElementById("fid_"+ selectedMed).innerHTML + "(" + s + ")";
+			}
+			else
+				document.getElementById("fid_"+ selectedMed).innerHTML = s;
 		}
 		function updateT(s){
 			document.getElementById("tid_"+ selectedMed).innerHTML = s;

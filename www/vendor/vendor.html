@@ -276,7 +276,9 @@ button:focus {
 </div>
  <script type="text/javascript" src="../js/dataTbl.js"></script>
 <script>
-	 
+var fn = base_url + "/json/billitem.js";
+loadJS(fn);	 
+
 getData("q=SELECT * from d_vendor_tbl where did='" + localStorage.did + "' order by vid desc ;",0,"dataTbl.php",showVendor,eVendor);
 	
 function addVendor(){
@@ -334,6 +336,8 @@ function showVendor(data){
 	}
 			
 	document.getElementById("chist").innerHTML = txt;
+	// assign item to localStorage
+	localStorage.billitem = item;
 	} catch(e) { $("#wrng").html("No vendor is registered. Add a new vendor.");console.log("Exception::-"+e.toString());}
 }
 function vendorDetail(d){
