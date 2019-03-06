@@ -231,11 +231,14 @@ button:focus {
             <div class="panel panel-primary">
                 <div class="panel-body" id="p0"> 
 				<div class="sticky">
-					
+				
+				<!----- hidden input to save vid in case of update------>
+				<input id='hvid' hidden></input>
+				
 				<div id="toolbar1" class="row " style="border-bottom: 1px solid #ccc;padding-top:10px;padding-bottom:5px;">
 					<div class="content col-md-12 col-xs-12 toolbar" id="tb1" onclick="addVendor()" style="text-align:center;border-right:1px solid #E0E0E0;">
 						<p class="valtext "><i class="fa fa-plus " ></i> Add Vendor</p>
-					    <p class="valtext " style="font-size:10px;font-weight:300">(Tap on vendor to add bill)</p>
+					    <p class="valtext " style="font-size:10px;font-weight:300">(Tap on vendor name to add bill)</p>
 					</div>
 				</div>
 				<div class="row trbody" style="height:100%;padding-top:15px;border-bottom:1px solid #E0E0E0;display:none;" id="vndr">
@@ -261,7 +264,8 @@ button:focus {
                     </ul>
 					<ul class="chat valtext" id="chat" style="display: flex;">
 						<button class="btn " style="font-size:14px;width:100%;margin-right:30px" onclick="vcancel();">Cancel</button>
-						<button class="btn " id='addbtn' style="font-weight:600;font-size:14px;width:100%" onclick="vadd();">Add</button>
+						<button class="btn " id='addbtn' style="font-weight:600;font-size:14px;width:100%" onclick="vadd(0);">Add</button>
+						<button class="btn " id='updatebtn' style="font-weight:600;font-size:14px;width:100%" onclick="vadd(1);">Update</button>
                     </ul>
 					<div id="errmsg" style="font-size:10px;color:red;"></div>
 					
@@ -286,18 +290,29 @@ getData("q=SELECT * from d_vendor_tbl where did='" + localStorage.did + "' order
 	
 function addVendor(){
 	$("#vndr").css("display", "block");
+	$("#updatebtn").css("display", "none");
+	$("#addbtn").css("display", "block");
+	$("#vname").val("");
+	$("#vcontact").val("");
+	$("#vcn").val("");
+	$("#vaddr").val("");
 }	
 function vcancel(){
 	$("#vndr").css("display", "none");
 }
-function vadd(){
+function vadd(n){
   $("#errmsg").html("");	
   var vname = $("#vname").val();
   var vcontact = $("#vcontact").val();
   var vcn = $("#vcn").val();
   var vaddr = $("#vaddr").val();
-  var q = "vname="+vname+"&vcontact="+vcontact+"&vcn="+vcn+"&vaddr="+vaddr+ "&did="+localStorage.did+"&vid=0";
-  
+  var q = "";
+  if(n==0)
+     q = "vname="+vname+"&vcontact="+vcontact+"&vcn="+vcn+"&vaddr="+vaddr+ "&did="+localStorage.did+"&id=0";
+  else{
+		q = "vname="+vname+"&vcontact="+vcontact+"&vcn="+vcn+"&vaddr="+vaddr+ "&did="+localStorage.did+"&id="+ $("#hvid").val();
+  }
+    
   if(vname.trim().length >2 &&  vcontact.trim().length > 2){
 	$("addbtn").prop('disabled', true);
 	getData(q,0,"saveVendor.php",sVendor,eVendor);
@@ -305,6 +320,7 @@ function vadd(){
   else
 	$("#errmsg").html("Fill Name and Contacts first");
 }
+
 function sVendor(){
 	$("addbtn").prop('disabled', false);
 	$("#vndr").css("display", "none");
@@ -314,7 +330,7 @@ function eVendor(){
 	$("#vndr").css("display", "none");
 }		
 		
-		
+var t = [];		
 function showVendor(data){
 	try{
 	var d = JSON.parse(jsonEscape(data));  //jsonEscape to handel new line
@@ -328,12 +344,13 @@ function showVendor(data){
 		var contact = d[i]["contact"];
 		var cn = d[i]["cn"];
 				
-		txt += "<li class='chat' style='margin-left:-30px;margin-right: -30px;height:55px;' onclick=vendorDetail("+d[i]["vid"]+") >";
-		txt += "<div class='row desc'>";
-		txt += "<div class='col-xs-12' style='padding-right:0px;letter-spacing:2px'>" + name   +"</div>";
+		txt += "<li class='chat' style='margin-left:-30px;margin-right: -30px;height:55px;  >";
+		txt += "<div class='row desc' >";
+		txt += "<div class='col-xs-12' style='padding-left:0px;letter-spacing:2px' onclick=vendorDetail("+d[i]["vid"]+")>" + name   +"</div>";
 		txt += "</div><div class='row desc'>"
-		txt += "<div class='col-xs-6' style='color: darkslateblue;font-size:12px;'>" + contact   +"</div>";
-		txt += "<div class='col-xs-6' >" +cn  + "</div>";
+		txt += "<div class='col-xs-5' style='color: darkslateblue;font-size:12px;' onclick=vendorDetail("+d[i]["vid"]+")>" + contact   +"</div>";
+		txt += "<div class='col-xs-5' >" +cn  + "</div>";
+		txt += "<div class='col-xs-2' onclick=editVendor("+i+")><i class='fa fa-edit' style='padding-right:10px;'></i></div>";
 		txt += "</div></li>";
 				
 	}
@@ -341,10 +358,24 @@ function showVendor(data){
 	document.getElementById("chist").innerHTML = txt;
 	// assign item to localStorage
 	localStorage.billitem = item;
-	} catch(e) { $("#wrng").html("No vendor is registered. Add a new vendor.");console.log("Exception::-"+e.toString());}
+	t=d;
+	} catch(e) { $("#wrng").html("No vendor is registered. Add a new vendor.");console.log("Exception::-"+e.toString());t=d;}
 }
 function vendorDetail(d){
 	location.href='../vendor/details.html?vid='+d;
 }		
+
+function editVendor(i){
+    
+	$("#vndr").css("display", "block");
+	$("#addbtn").css("display", "none");
+	$("#updatebtn").css("display", "block");
+	
+	$("#hvid").val(t[i]["vid"]);
+	$("#vname").val(t[i]["name"]);
+	$("#vcontact").val(t[i]["contact"]);
+	$("#vcn").val(t[i]["cn"]);
+	$("#vaddr").val(t[i]["addr"]);
 		
+}		
 </script>	

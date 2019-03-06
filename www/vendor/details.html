@@ -426,7 +426,7 @@ $(function () {
 	itm = itm.split(",");
 	
 	autocomplete(document.getElementById("seltreat"), itm,0);	
-	getData("q=SELECT name,contact,cn,addr from d_vendor_tbl where vid='" + vid + "' and did='"+did+"' order by vid desc ;",0,"dataTbl.php",showVDetails,function(){});
+	getData("q=SELECT vid,name,contact,cn,addr from d_vendor_tbl where vid='" + vid + "' and did='"+did+"' order by vid desc ;",0,"dataTbl.php",showVDetails,function(){});
 		function showVDetails(data){
 		try{
 			var d = JSON.parse(jsonEscape(data));  //jsonEscape to handel new line

@@ -265,7 +265,9 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 	</div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-       
+       <li class="dropdown">
+		  <a href="" onclick="gotohelp()" style="color:white;">&nbsp;&nbsp;Help</a>
+        </li>
         <li class="dropdown">
 		  <a href="index.html" onclick="localStorage.clear();document.location='index.html'" style="color:white;">&nbsp;&nbsp;Logout</a>
         </li>
@@ -521,5 +523,8 @@ margin-left:-35px;margin-right:15px;border-bottom:1px dotted #B3A9A9;margin-top:
 		var dt =  day + "/" + month + "/" + year;
 		window.location.href = "./appointment/view1.html?dt="+dt;
 	}
-	
+	function gotohelp(){
+		var burl = base_url.replace("dentalappx","toothfairyprint");
+		window.open(burl + "help.html", '_system'); return false;
+	}
 	</script></div></body></html>
