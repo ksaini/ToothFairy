@@ -170,7 +170,11 @@ function setup(data){
 	localStorage.subend = data[0]["sub_end"];
 	localStorage.base_url = data[0]["base_url"];
 	
-	window.location.href="dashboard.html";
+	// post login first time send user to register page to complete registration
+	/**if(localStorage.isreg == 1)
+		window.location.href="dashboard.html";
+	else**/
+		window.location.href="userreg.html";
 }
 </script>
 

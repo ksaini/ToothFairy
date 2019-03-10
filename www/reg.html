@@ -218,7 +218,7 @@ a{
 					<ul class="chat" id="chat">
 						<p class="regtext" style="color:#8159bb;">That's all we need!</p>
                     </ul>
-					<button class="btn " style="color:#8159bb;margin-top:30px;width:100%" onclick='saveusr()'>DONE</button>
+					<button class="btn " id='done' style="color:#8159bb;margin-top:30px;width:100%" onclick='saveusr()'>DONE</button>
 				</div>	
 				<ul class="chat" id="p2" style="display:none;">
 						<p class="regtext" style="color:#8159bb;">We have already received your request! You will soon get your username and password over SMS.<br><a href="index.html" style="color:#8159bb;"><u>Back</u></a></p>
@@ -241,6 +241,8 @@ a{
 				function saveusr(){
 					var name = $("#name").val();
 					var cn1 = $("#cn1").val();
+					
+					document.getElementById("done").disabled = true;
 				
 					var q = "1&name="+name+"&cn1="+cn1;
 					getData(q,1,"saveReg.php",postReg,regFail);			
@@ -272,6 +274,7 @@ a{
 		document.getElementById(n).style.display = "none";
 	}
 	function postReg(data){
+	document.getElementById("done").disabled = false;
 		if(data==1){
 			localStorage.register =1;
 			 document.getElementById("p1").style.display = "none"; 

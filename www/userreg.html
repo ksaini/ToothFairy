@@ -328,7 +328,7 @@ a{
 					var s1 = $("#s1").val();
 					
 					var q = "1&did="+ localStorage.did +"&name="+name+"&cn1="+cn1+"&cn2="+cn2+"&age="+age+"&eml="+eml+"&clinic="+clinic+"&addr="+addr+"&z1="+z1+"&c1="+c1+"&s1="+s1;
-					getData(q,1,"saveDr.php",function(){location.reload();},function(){});			
+					getData(q,1,"saveDr.php",function(){window.location.href="dashboard.html";},function(){});			
 				}
 				</script>
    <script>
